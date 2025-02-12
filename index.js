@@ -23,7 +23,7 @@ function getCurrentDate() {
       password: process.env["ACTUAL_PW"],
     });
     await api.downloadBudget(process.env["ACTUAL_BUDGET_ID"]);
-    app.listen(3000, () => {
+    app.listen(3000, "127.0.0.1", () => {
       console.log("Server läuft unter http://localhost:3000");
     });
   } catch (error) {

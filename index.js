@@ -1,9 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
-import env from "dotenv";
 import api from "@actual-app/api";
 import fetch from "node-fetch";
-env.config({ path: ".env" });
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));

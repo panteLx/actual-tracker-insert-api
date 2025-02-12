@@ -17,11 +17,11 @@ function getCurrentDate() {
 (async () => {
   try {
     await api.init({
-      dataDir: process.env.ACTUAL_DATA_DIR,
-      serverURL: process.env.ACTUAL_URL,
-      password: process.env.ACTUAL_PW,
+      dataDir: context.env.ACTUAL_DATA_DIR,
+      serverURL: context.env.ACTUAL_URL,
+      password: context.env.ACTUAL_PW,
     });
-    await api.downloadBudget(process.env.ACTUAL_BUDGET_ID);
+    await api.downloadBudget(context.env.ACTUAL_BUDGET_ID);
     app.listen(3000, () => {
       console.log("Server läuft unter http://localhost:3000");
     });
@@ -250,13 +250,13 @@ app.post("/", async (req, res) => {
     ];
 
     let result = await api.importTransactions(
-      process.env.ACTUAL_ACCOUNT_ID,
+      context.env.ACTUAL_ACCOUNT_ID,
       transaction
     );
     console.log("Import-Ergebnis:", result);
 
     // Discord Webhook senden, falls eine URL definiert ist
-    const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
+    const discordWebhookUrl = context.env.DISCORD_WEBHOOK_URL;
     if (discordWebhookUrl) {
       await fetch(discordWebhookUrl, {
         method: "POST",

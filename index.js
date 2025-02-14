@@ -59,6 +59,7 @@ const cssPath = path.join(__dirname, "public/css/style.css");
 const jsVersion = getFileVersion(jsPath);
 const cssVersion = getFileVersion(cssPath);
 const isDebugMode = process.env.DEBUG === "true";
+const isDiscordDebugMode = process.env.DISCORD_DEBUG === "true";
 
 // Initialisiere die Actual API und starte den Server
 (async () => {
@@ -144,7 +145,9 @@ app.post("/", async (req, res) => {
     );
     console.log("Import-Ergebnis:", result);
     const debugMessage = JSON.stringify(result);
-    const debugDiscordMsg = isDebugMode ? debugMessage : "DEBUG DISABLED";
+    const debugDiscordMsg = isDiscordDebugMode
+      ? debugMessage
+      : "DEBUG DISABLED";
     const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (discordWebhookUrl) {
       const embed = {
@@ -160,7 +163,7 @@ app.post("/", async (req, res) => {
         ],
         timestamp: new Date(),
         footer: {
-          text: "Kaffee Tracker",
+          text: "Kaffee Tracker - " + process.env.NODE_ENV,
         },
       };
 

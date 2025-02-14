@@ -58,6 +58,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 
    ```env
    DEBUG=true|false
+   DISCORD_DEBUG=true|false
    HOST=host
    PORT=port_number
    ACTUAL_DATA_DIR=your_actual_data_directory

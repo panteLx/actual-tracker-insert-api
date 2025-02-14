@@ -4,7 +4,7 @@ import api from "@actual-app/api";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: ".env.local" });
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,6 +53,11 @@ app.get("/", async (req, res) => {
       ? "<p class='success'>Transaktion erfolgreich importiert!</p>"
       : "";
 
+    let debugMessage = req.query.debug
+      ? `<p class='debug'>Debug: ${req.query.debug}</p>`
+      : "";
+
+    // HTML-Code
     let html = `
       <!DOCTYPE html>
       <html lang="de">
@@ -81,6 +86,7 @@ app.get("/", async (req, res) => {
           label { display: block; margin-bottom: 10px; font-weight: bold; }
           /* Kennzeichnung von Pflichtfeldern */
           .required { color: red; margin-left: 4px; }
+          .info {font-weight: normal; }
           input[type="date"],
           input[type="number"],
           input[type="text"],
@@ -179,7 +185,7 @@ app.get("/", async (req, res) => {
             <label>Datum <span class="required">*</span>:
               <input type="date" name="date" value="${getCurrentDate()}" required />
             </label>
-            <label>Betrag <span class="required">*</span>:</label>
+            <label>Betrag <span class="required">*</span>:<br><span class="info"> -1.00€ = Ausgaben, 1.00€ = Einnahmen</span></label>
             <div class="input-group">
               <input type="number" name="amount" step="0.01" placeholder="0.00" required />
             </div>
@@ -203,6 +209,7 @@ app.get("/", async (req, res) => {
             </div>
             <button type="submit">Eintrag hinzufügen</button>
           </form>
+          ${debugMessage}
           <script>
             const payeeSelect = document.getElementById('payeeSelect');
             const newPayeeDiv = document.getElementById('newPayeeDiv');
@@ -255,6 +262,7 @@ app.post("/", async (req, res) => {
       transaction
     );
     console.log("Import-Ergebnis:", result);
+    let debugMessage = JSON.stringify(result);
 
     // Discord Webhook senden, falls eine URL definiert ist
     const discordWebhookUrl = process.env["DISCORD_WEBHOOK_URL"];
@@ -270,7 +278,7 @@ app.post("/", async (req, res) => {
       });
     }
 
-    res.redirect("/?success=1");
+    res.redirect("/?success=1&debug=" + encodeURIComponent(debugMessage));
   } catch (error) {
     res
       .status(500)

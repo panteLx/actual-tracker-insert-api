@@ -49,7 +49,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 
    ```bash
    npm install
-   ```
+```
 
 3. **Configure Environment Variables:**
 

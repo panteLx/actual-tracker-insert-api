@@ -25,7 +25,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 │ │ └── style.css # Main CSS file with modern, responsive styling
 │ └── js
 │ └── main.js # JavaScript file for client-side interactivity and cache busting
-└── .env # Environment configuration file
+└── .env.production # Environment configuration file
 
 ````
 
@@ -53,9 +53,11 @@ A simple Node.js application that integrates with the Actual API to manage trans
 
 3. **Configure Environment Variables:**
 
-   Create a `.env` file in the project root and set the following variables:
+   Create a `.env.production` or `.env.development` file in the project root and set the following variables:
 
    ```env
+   HOST=host
+   PORT=port_number
    ACTUAL_DATA_DIR=your_actual_data_directory
    ACTUAL_URL=https://your-actual-api-url
    ACTUAL_PW=your_actual_password
@@ -66,10 +68,16 @@ A simple Node.js application that integrates with the Actual API to manage trans
 
 ## Running the Application
 
-Start the server by running:
+Start the production server by running:
 
 ```bash
-node index.js
+npm run prod
+```
+
+Start the development server by running:
+
+```bash
+npm run dev
 ```
 
 Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.

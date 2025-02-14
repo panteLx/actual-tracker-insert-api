@@ -7,10 +7,13 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
-dotenv.config({ path: ".env" });
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const envFile = `.env.${process.env.NODE_ENV || "development"}`;
+
+// Laden Sie die Umgebungsvariablen aus der spezifischen .env-Datei
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 const app = express();
 
@@ -65,9 +68,19 @@ const cssVersion = getFileVersion(cssPath);
       password: process.env.ACTUAL_PW,
     });
     await api.downloadBudget(process.env.ACTUAL_BUDGET_ID);
-    app.listen(3000, "127.0.0.1", () => {
-      console.log("Server läuft unter http://localhost:3000");
-    });
+    app.listen(
+      process.env.PORT || 3000,
+      process.env.HOST || "127.0.0.1",
+      () => {
+        console.log(
+          process.env.NODE_ENV +
+            " - Server läuft unter http://" +
+            process.env.HOST +
+            ":" +
+            process.env.PORT
+        );
+      }
+    );
   } catch (error) {
     console.error("Fehler beim Initialisieren der Actual API:", error);
     process.exit(1);

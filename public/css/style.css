@@ -1,0 +1,170 @@
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CSS Variablen für Theme und Farben */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --background-color: #f0f0f0;
+  --container-bg: #fff;
+  --text-color: #333;
+  --input-border: #ccc;
+  --success-bg: #d4edda;
+  --success-text: #155724;
+  --debug-bg: #e2e3e5;
+  --debug-text: #383d41;
+  --transition-speed: 0.3s;
+  font-size: 16px;
+}
+
+/* Mobile-first Basis */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  padding: 20px;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  background-color: var(--container-bg);
+  padding: 20px;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Form-Gruppen */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.required {
+  color: red;
+}
+
+.info {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  font-weight: normal;
+}
+
+/* Formularelemente */
+input[type="date"],
+input[type="number"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border var(--transition-speed);
+}
+
+input[type="date"]:focus,
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Input-Group */
+.input-group {
+  display: flex;
+}
+
+.input-group input {
+  flex: 1;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Alerts */
+.alert {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+}
+
+.debug {
+  background-color: var(--debug-bg);
+  color: var(--debug-text);
+}
+
+/* Verstecke "Neuer Teilnehmer" zunächst */
+#newPayeeDiv {
+  display: none;
+}
+
+/* Responsive Anpassung für größere Bildschirme */
+@media (min-width: 600px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+/* Darkmode-Unterstützung */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #0a84ff;
+    --primary-hover: #0066cc;
+    --background-color: #121212;
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --input-border: #555;
+  }
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  input[type="date"],
+  input[type="number"],
+  input[type="text"],
+  select {
+    background-color: #333;
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+  }
+}

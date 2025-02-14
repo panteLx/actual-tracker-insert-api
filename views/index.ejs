@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Neuen Eintrag hinzufügen</title>
+    <link rel="stylesheet" href="/css/style.css?<%= cssVersion %>" />
+  </head>
+  <body>
+    <main class="container">
+      <h2>Neuen Eintrag hinzufügen</h2>
+      <% if (success) { %>
+      <div class="alert success">Transaktion erfolgreich importiert!</div>
+      <% } %>
+      <form action="/" method="POST" id="transactionForm">
+        <!-- Formularfelder -->
+        <div class="form-group">
+          <label for="date">Datum <span class="required">*</span></label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value="<%= currentDate %>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="amount">
+            Betrag <span class="required">*</span>
+            <span class="info">(-1.00€ = Ausgaben, 1.00€ = Einnahmen)</span>
+          </label>
+          <div class="input-group">
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              step="0.01"
+              placeholder="0.00"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="category"
+            >Kategorie <span class="required">*</span></label
+          >
+          <select id="category" name="category" required>
+            <% categories.forEach(function(cat) { %>
+            <option value="<%= cat.id %>"><%= cat.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="notes">Notizen</label>
+          <input type="text" id="notes" name="notes" />
+        </div>
+        <div class="form-group">
+          <label for="payeeSelect"
+            >Transaktionsteilnehmer <span class="required">*</span></label
+          >
+          <select id="payeeSelect" name="payee_id" required>
+            <% payees.forEach(function(payee) { %>
+            <option value="<%= payee.id %>"><%= payee.name %></option>
+            <% }); %>
+            <option value="new">Neuen Teilnehmer hinzufügen</option>
+          </select>
+        </div>
+        <div class="form-group" id="newPayeeDiv">
+          <label for="new_payee">Neuer Teilnehmer</label>
+          <input
+            type="text"
+            id="new_payee"
+            name="new_payee"
+            placeholder="Neuen Teilnehmer eingeben"
+          />
+        </div>
+        <button type="submit">Eintrag hinzufügen</button>
+      </form>
+      <% if (debug) { %>
+      <div class="alert debug"><%= debug %></div>
+      <% } %>
+    </main>
+    <script src="/js/main.js?<%= jsVersion %>"></script>
+  </body>
+</html>

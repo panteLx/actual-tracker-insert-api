@@ -3,22 +3,58 @@ import api from "@actual-app/api";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 import helmet from "helmet";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
 dotenv.config({ path: ".env.local" });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-app.use(express.static("public"));
+
+// Statische Dateien aus dem public-Ordner bereitstellen
+app.use(express.static(path.join(__dirname, "public")));
 
 // Sicherheits-Middleware
 app.use(helmet());
 
-// Express hat seit Version 4.16 eigene Parser-Middleware
+// Express-eigene Parser-Middleware
 app.use(express.urlencoded({ extended: true }));
 
+// EJS als Template-Engine konfigurieren
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 // Hilfsfunktion: aktuelles Datum im Format YYYY-MM-DD
-function getCurrentDate() {
-  return new Date().toISOString().split("T")[0];
+const getCurrentDate = () => new Date().toISOString().split("T")[0];
+
+// Helper-Funktion: Ermittelt den letzten Änderungszeitpunkt der Datei und formatiert ihn als Version
+function getFileVersion(filePath) {
+  try {
+    const stats = fs.statSync(filePath);
+    // Formatierung: JahrMonatTag-StundenMinutenSekunden (z.B. v20250214-153045)
+    const mtime = new Date(stats.mtime);
+    const version =
+      "v" +
+      mtime.getFullYear() +
+      ("0" + (mtime.getMonth() + 1)).slice(-2) +
+      ("0" + mtime.getDate()).slice(-2) +
+      "-" +
+      ("0" + mtime.getHours()).slice(-2) +
+      ("0" + mtime.getMinutes()).slice(-2) +
+      ("0" + mtime.getSeconds()).slice(-2);
+    return version;
+  } catch (err) {
+    return "v1.0";
+  }
 }
+
+const jsPath = path.join(__dirname, "public/js/main.js");
+const cssPath = path.join(__dirname, "public/css/style.css");
+const jsVersion = getFileVersion(jsPath);
+const cssVersion = getFileVersion(cssPath);
 
 // Initialisiere die Actual API und starte den Server
 (async () => {
@@ -38,182 +74,21 @@ function getCurrentDate() {
   }
 })();
 
-// GET-Route: Formularanzeige mit verbesserter UX
+// GET-Route: Formularanzeige mit verbesserter UX und Versionierung der Assets
 app.get("/", async (req, res) => {
   try {
     const payees = await api.getPayees();
     const categories = await api.getCategories();
 
-    // Erstelle Payee-Dropdown: existierende Teilnehmer + Option "Neuen Teilnehmer hinzufügen"
-    const payeeOptions =
-      payees.map((p) => `<option value="${p.id}">${p.name}</option>`).join("") +
-      `<option value="new">Neuen Teilnehmer hinzufügen</option>`;
-
-    // Erstelle Categories-Dropdown
-    const categoryOptions = categories
-      .map((c) => `<option value="${c.id}">${c.name}</option>`)
-      .join("");
-
-    // Erfolgsmeldung und Debug-Informationen (aus Query-Parametern)
-    const successMessage = req.query.success
-      ? `<p class="success">Transaktion erfolgreich importiert!</p>`
-      : "";
-    const debugMessage = req.query.debug
-      ? `<p class="debug">Debug: ${req.query.debug}</p>`
-      : "";
-
-    // HTML-Code (Für komplexere Layouts empfiehlt sich ein Template-Engine)
-    const html = `
-      <!DOCTYPE html>
-      <html lang="de">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Neuen Eintrag hinzufügen</title>
-        <style>
-          /* Basis CSS: Reset, responsives Layout und Darkmode-Unterstützung */
-          * { box-sizing: border-box; margin: 0; padding: 0; }
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            padding: 20px;
-            background-color: #f0f0f0;
-            color: #333;
-          }
-          .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-          }
-          h2 { margin-bottom: 20px; text-align: center; }
-          label { display: block; margin-bottom: 10px; font-weight: bold; }
-          .required { color: red; margin-left: 4px; }
-          .info { font-weight: normal; }
-          input[type="date"],
-          input[type="number"],
-          input[type="text"],
-          select {
-            width: 100%;
-            padding: 8px 12px;
-            margin-top: 4px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-          }
-          .input-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-          }
-          .input-group span {
-            padding: 8px 12px;
-            background: #eee;
-            border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 4px 0 0 4px;
-            font-size: 16px;
-          }
-          .input-group input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 0 4px 4px 0;
-            font-size: 16px;
-          }
-          button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007BFF;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-          }
-          button:hover { background-color: #0056b3; }
-          .success {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            text-align: center;
-          }
-          .debug {
-            background-color: #d4edda;
-            color:rgb(41, 41, 41);
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 4px;
-            text-align: center;
-          }
-          /* Darkmode-Unterstützung */
-          @media (prefers-color-scheme: dark) {
-            body { background-color: #121212; color: #e0e0e0; }
-            .container { background-color: #1e1e1e; box-shadow: 0 2px 6px rgba(0,0,0,0.5); }
-            input[type="date"],
-            input[type="number"],
-            input[type="text"],
-            select,
-            .input-group span,
-            .input-group input {
-              background-color: #333;
-              border: 1px solid #555;
-              color: #e0e0e0;
-            }
-            .input-group span { background: #444; }
-            button { background-color: #0a84ff; }
-            button:hover { background-color: #0066cc; }
-            .success { background-color: #155724; color: #d4edda; }
-            .debug { background-color: rgb(41, 41, 41); color: #d4edda; }
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h2>Neuen Eintrag hinzufügen</h2>
-          ${successMessage}
-          <form action="/" method="POST" id="transactionForm">
-            <label>Datum <span class="required">*</span>:
-              <input type="date" name="date" value="${getCurrentDate()}" required />
-            </label>
-            <label>Betrag <span class="required">*</span>:<br>
-              <span class="info"> -1.00€ = Ausgaben, 1.00€ = Einnahmen</span>
-              <div class="input-group">
-                <input type="number" name="amount" step="0.01" placeholder="0.00" required />
-              </div>
-            </label>
-            <label>Kategorie <span class="required">*</span>:
-              <select name="category" required>
-                ${categoryOptions}
-              </select>
-            </label>
-            <label>Notizen:
-              <input type="text" name="notes" />
-            </label>
-            <label>Transaktionsteilnehmer <span class="required">*</span>:
-              <select name="payee_id" id="payeeSelect" required>
-                ${payeeOptions}
-              </select>
-            </label>
-            <div id="newPayeeDiv" style="display:none;">
-              <label>Neuer Teilnehmer:
-                <input type="text" name="new_payee" placeholder="Neuen Teilnehmer eingeben" />
-              </label>
-            </div>
-            <button type="submit">Eintrag hinzufügen</button>
-          </form>
-          ${debugMessage}
-        </div>
-        <script src="main.js?v=1.0"></script>
-
-      </body>
-      </html>
-    `;
-    res.send(html);
+    res.render("index", {
+      currentDate: getCurrentDate(),
+      payees,
+      categories,
+      success: req.query.success,
+      debug: req.query.debug,
+      jsVersion,
+      cssVersion,
+    });
   } catch (error) {
     res.status(500).send("Fehler beim Abrufen der Daten: " + error.message);
   }
@@ -225,7 +100,6 @@ app.post("/", async (req, res) => {
     const { date, amount, category, notes, payee_id, new_payee } = req.body;
     let payeeName = "";
 
-    // Bestimme den Namen des Teilnehmers
     if (payee_id === "new" && new_payee && new_payee.trim()) {
       payeeName = new_payee.trim();
     } else {
@@ -234,11 +108,9 @@ app.post("/", async (req, res) => {
       payeeName = selected ? selected.name : "Unbekannt";
     }
 
-    // Umrechnung von Euro in Cent
     const euroBetrag = parseFloat(amount);
     const centBetrag = Math.round(euroBetrag * 100);
 
-    // Erstelle die Transaktionsdaten
     const transaction = [
       {
         date,
@@ -258,7 +130,6 @@ app.post("/", async (req, res) => {
     console.log("Import-Ergebnis:", result);
     const debugMessage = JSON.stringify(result);
 
-    // Discord Webhook senden, falls konfiguriert
     const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (discordWebhookUrl) {
       await fetch(discordWebhookUrl, {
@@ -283,7 +154,7 @@ Notizen: ${notes}`,
   }
 });
 
-// Sauberes Herunterfahren bei SIGINT (z. B. Strg+C)
+// Sauberes Herunterfahren bei SIGINT (z. B. Strg+C)
 process.on("SIGINT", async () => {
   await api.shutdown();
   process.exit();

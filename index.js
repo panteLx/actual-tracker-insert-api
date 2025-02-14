@@ -1,64 +1,69 @@
 import express from "express";
-import bodyParser from "body-parser";
 import api from "@actual-app/api";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import helmet from "helmet";
 
 dotenv.config({ path: ".env.local" });
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static("public"));
 
-// Hilfsfunktion, um das aktuelle Datum im Format YYYY-MM-DD zu erhalten
+// Sicherheits-Middleware
+app.use(helmet());
+
+// Express hat seit Version 4.16 eigene Parser-Middleware
+app.use(express.urlencoded({ extended: true }));
+
+// Hilfsfunktion: aktuelles Datum im Format YYYY-MM-DD
 function getCurrentDate() {
   return new Date().toISOString().split("T")[0];
 }
 
-// Initialisiere die Actual API und lade dein Budget
+// Initialisiere die Actual API und starte den Server
 (async () => {
   try {
     await api.init({
-      dataDir: process.env["ACTUAL_DATA_DIR"],
-      serverURL: process.env["ACTUAL_URL"],
-      password: process.env["ACTUAL_PW"],
+      dataDir: process.env.ACTUAL_DATA_DIR,
+      serverURL: process.env.ACTUAL_URL,
+      password: process.env.ACTUAL_PW,
     });
-    await api.downloadBudget(process.env["ACTUAL_BUDGET_ID"]);
+    await api.downloadBudget(process.env.ACTUAL_BUDGET_ID);
     app.listen(3000, "127.0.0.1", () => {
       console.log("Server läuft unter http://localhost:3000");
     });
   } catch (error) {
     console.error("Fehler beim Initialisieren der Actual API:", error);
+    process.exit(1);
   }
 })();
 
-// GET-Route: Formular anzeigen – modern, responsiv, mobile-first mit Darkmode
+// GET-Route: Formularanzeige mit verbesserter UX
 app.get("/", async (req, res) => {
   try {
-    let payees = await api.getPayees();
-    let categories = await api.getCategories();
+    const payees = await api.getPayees();
+    const categories = await api.getCategories();
 
-    // Payee-Dropdown mit vorhandenen Payees und Option "Neuen Payee hinzufügen"
-    let payeeOptions = payees
-      .map((p) => `<option value="${p.id}">${p.name}</option>`)
-      .join("");
-    payeeOptions += `<option value="new">Neuen Teilnehmer hinzufügen</option>`;
+    // Erstelle Payee-Dropdown: existierende Teilnehmer + Option "Neuen Teilnehmer hinzufügen"
+    const payeeOptions =
+      payees.map((p) => `<option value="${p.id}">${p.name}</option>`).join("") +
+      `<option value="new">Neuen Teilnehmer hinzufügen</option>`;
 
-    // Categories-Dropdown
-    let categoryOptions = categories
+    // Erstelle Categories-Dropdown
+    const categoryOptions = categories
       .map((c) => `<option value="${c.id}">${c.name}</option>`)
       .join("");
 
-    // Anzeige einer Erfolgsmeldung (falls per Redirect gesendet)
-    let successMessage = req.query.success
-      ? "<p class='success'>Transaktion erfolgreich importiert!</p>"
+    // Erfolgsmeldung und Debug-Informationen (aus Query-Parametern)
+    const successMessage = req.query.success
+      ? `<p class="success">Transaktion erfolgreich importiert!</p>`
+      : "";
+    const debugMessage = req.query.debug
+      ? `<p class="debug">Debug: ${req.query.debug}</p>`
       : "";
 
-    let debugMessage = req.query.debug
-      ? `<p class='debug'>Debug: ${req.query.debug}</p>`
-      : "";
-
-    // HTML-Code
-    let html = `
+    // HTML-Code (Für komplexere Layouts empfiehlt sich ein Template-Engine)
+    const html = `
       <!DOCTYPE html>
       <html lang="de">
       <head>
@@ -66,7 +71,7 @@ app.get("/", async (req, res) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Neuen Eintrag hinzufügen</title>
         <style>
-          /* Reset und mobile-first Basis */
+          /* Basis CSS: Reset, responsives Layout und Darkmode-Unterstützung */
           * { box-sizing: border-box; margin: 0; padding: 0; }
           body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -84,9 +89,8 @@ app.get("/", async (req, res) => {
           }
           h2 { margin-bottom: 20px; text-align: center; }
           label { display: block; margin-bottom: 10px; font-weight: bold; }
-          /* Kennzeichnung von Pflichtfeldern */
           .required { color: red; margin-left: 4px; }
-          .info {font-weight: normal; }
+          .info { font-weight: normal; }
           input[type="date"],
           input[type="number"],
           input[type="text"],
@@ -99,7 +103,6 @@ app.get("/", async (req, res) => {
             border-radius: 4px;
             font-size: 16px;
           }
-          /* Eingabegruppe für den Betrag */
           .input-group {
             display: flex;
             align-items: center;
@@ -130,9 +133,7 @@ app.get("/", async (req, res) => {
             font-size: 16px;
             cursor: pointer;
           }
-          button:hover {
-            background-color: #0056b3;
-          }
+          button:hover { background-color: #0056b3; }
           .success {
             background-color: #d4edda;
             color: #155724;
@@ -141,16 +142,18 @@ app.get("/", async (req, res) => {
             border-radius: 4px;
             text-align: center;
           }
+          .debug {
+            background-color: #d4edda;
+            color:rgb(41, 41, 41);
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 4px;
+            text-align: center;
+          }
           /* Darkmode-Unterstützung */
           @media (prefers-color-scheme: dark) {
-            body {
-              background-color: #121212;
-              color: #e0e0e0;
-            }
-            .container {
-              background-color: #1e1e1e;
-              box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-            }
+            body { background-color: #121212; color: #e0e0e0; }
+            .container { background-color: #1e1e1e; box-shadow: 0 2px 6px rgba(0,0,0,0.5); }
             input[type="date"],
             input[type="number"],
             input[type="text"],
@@ -161,19 +164,11 @@ app.get("/", async (req, res) => {
               border: 1px solid #555;
               color: #e0e0e0;
             }
-            .input-group span {
-              background: #444;
-            }
-            button {
-              background-color: #0a84ff;
-            }
-            button:hover {
-              background-color: #0066cc;
-            }
-            .success {
-              background-color: #155724;
-              color: #d4edda;
-            }
+            .input-group span { background: #444; }
+            button { background-color: #0a84ff; }
+            button:hover { background-color: #0066cc; }
+            .success { background-color: #155724; color: #d4edda; }
+            .debug { background-color: rgb(41, 41, 41); color: #d4edda; }
           }
         </style>
       </head>
@@ -181,14 +176,16 @@ app.get("/", async (req, res) => {
         <div class="container">
           <h2>Neuen Eintrag hinzufügen</h2>
           ${successMessage}
-          <form action="/" method="POST">
+          <form action="/" method="POST" id="transactionForm">
             <label>Datum <span class="required">*</span>:
               <input type="date" name="date" value="${getCurrentDate()}" required />
             </label>
-            <label>Betrag <span class="required">*</span>:<br><span class="info"> -1.00€ = Ausgaben, 1.00€ = Einnahmen</span></label>
-            <div class="input-group">
-              <input type="number" name="amount" step="0.01" placeholder="0.00" required />
-            </div>
+            <label>Betrag <span class="required">*</span>:<br>
+              <span class="info"> -1.00€ = Ausgaben, 1.00€ = Einnahmen</span>
+              <div class="input-group">
+                <input type="number" name="amount" step="0.01" placeholder="0.00" required />
+              </div>
+            </label>
             <label>Kategorie <span class="required">*</span>:
               <select name="category" required>
                 ${categoryOptions}
@@ -210,14 +207,9 @@ app.get("/", async (req, res) => {
             <button type="submit">Eintrag hinzufügen</button>
           </form>
           ${debugMessage}
-          <script>
-            const payeeSelect = document.getElementById('payeeSelect');
-            const newPayeeDiv = document.getElementById('newPayeeDiv');
-            payeeSelect.addEventListener('change', function() {
-              newPayeeDiv.style.display = (this.value === 'new') ? 'block' : 'none';
-            });
-          </script>
         </div>
+        <script src="main.js?v=1.0"></script>
+
       </body>
       </html>
     `;
@@ -227,53 +219,58 @@ app.get("/", async (req, res) => {
   }
 });
 
-// POST-Route: Formularverarbeitung, Transaktion importieren und Discord-Benachrichtigung senden
+// POST-Route: Transaktionsverarbeitung, API-Import und Discord-Benachrichtigung
 app.post("/", async (req, res) => {
   try {
-    let { date, amount, category, notes, payee_id, new_payee } = req.body;
+    const { date, amount, category, notes, payee_id, new_payee } = req.body;
     let payeeName = "";
 
-    if (payee_id === "new" && new_payee && new_payee.trim() !== "") {
+    // Bestimme den Namen des Teilnehmers
+    if (payee_id === "new" && new_payee && new_payee.trim()) {
       payeeName = new_payee.trim();
     } else {
-      let payees = await api.getPayees();
-      let selected = payees.find((p) => p.id === payee_id);
+      const payees = await api.getPayees();
+      const selected = payees.find((p) => p.id === payee_id);
       payeeName = selected ? selected.name : "Unbekannt";
     }
 
-    // Betrag wird als Euro eingegeben – umrechnen in Cent (Ganzzahl)
-    let euroBetrag = parseFloat(amount);
-    let centBetrag = Math.round(euroBetrag * 100);
+    // Umrechnung von Euro in Cent
+    const euroBetrag = parseFloat(amount);
+    const centBetrag = Math.round(euroBetrag * 100);
 
-    let transaction = [
+    // Erstelle die Transaktionsdaten
+    const transaction = [
       {
-        date: date,
+        date,
         amount: centBetrag,
-        category: category,
-        notes: notes,
+        category,
+        notes,
         payee_name: payeeName,
         imported_id: Math.random().toString(36).slice(2, 7),
-        cleared: false,
+        cleared: true,
       },
     ];
 
-    let result = await api.importTransactions(
-      process.env["ACTUAL_ACCOUNT_ID"],
+    const result = await api.importTransactions(
+      process.env.ACTUAL_ACCOUNT_ID,
       transaction
     );
     console.log("Import-Ergebnis:", result);
-    let debugMessage = JSON.stringify(result);
+    const debugMessage = JSON.stringify(result);
 
-    // Discord Webhook senden, falls eine URL definiert ist
-    const discordWebhookUrl = process.env["DISCORD_WEBHOOK_URL"];
+    // Discord Webhook senden, falls konfiguriert
+    const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (discordWebhookUrl) {
       await fetch(discordWebhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: `Neue Transaktion hinzugefügt:\nDatum: ${date}\nBetrag: €${euroBetrag.toFixed(
-            2
-          )}\nKategorie: ${category}\nPayee: ${payeeName}\nNotizen: ${notes}`,
+          content: `Neue Transaktion hinzugefügt:
+Datum: ${date}
+Betrag: €${euroBetrag.toFixed(2)}
+Kategorie: ${category}
+Payee: ${payeeName}
+Notizen: ${notes}`,
         }),
       });
     }
@@ -286,7 +283,7 @@ app.post("/", async (req, res) => {
   }
 });
 
-// Sauberes Herunterfahren bei SIGINT (z. B. Strg+C)
+// Sauberes Herunterfahren bei SIGINT (z. B. Strg+C)
 process.on("SIGINT", async () => {
   await api.shutdown();
   process.exit();

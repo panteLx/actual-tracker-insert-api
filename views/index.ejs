@@ -86,6 +86,8 @@
         <label for="debug">Debug:</label>
         <%= debug %>
       </div>
+      <% } %> <% if (isDebugMode) { %>
+      <div id="debug"></div>
       <% } %>
     </main>
     <script src="/js/main.js?<%= jsVersion %>"></script>

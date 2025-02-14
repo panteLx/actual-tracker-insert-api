@@ -120,6 +120,7 @@ button:disabled {
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 16px;
+  margin-top: 16px;
   text-align: center;
 }
 

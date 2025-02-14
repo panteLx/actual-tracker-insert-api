@@ -1,5 +1,4 @@
-
-# Actual Transaction Manager
+# Actual Budget New Transaction API
 
 A simple Node.js application that integrates with the Actual API to manage transactions. It features a modern, responsive, and mobile-first user interface, complete with automatic cache busting for JavaScript and CSS assets.
 
@@ -103,5 +102,3 @@ Contributions are welcome! If you find any bugs or have ideas for improvements, 
 ## License
 
 [MIT License](LICENSE)
-
-```

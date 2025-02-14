@@ -43,13 +43,13 @@ A simple Node.js application that integrates with the Actual API to manage trans
    ```bash
    git clone https://github.com/pantelx/actual-tracker-insert-api.git
    cd actual-tracker-insert-api
-```
+   ```
 
 2. **Install Dependencies:**
 
    ```bash
    npm install
-```
+   ```
 
 3. **Configure Environment Variables:**
 

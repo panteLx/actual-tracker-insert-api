@@ -12,6 +12,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - **User Feedback:** Displays success and debug messages that disappear after 10 seconds, with the URL automatically cleaned up.
 - **Discord Notifications:** Sends a Discord webhook notification when a new transaction is added.
 - **Security:** Uses Helmet for basic security enhancements.
+- **DEBUG:** Gives out debug messages to the user via frontend and discord webhook
 
 ## Folder Structure
 ```
@@ -56,6 +57,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
    Create a `.env.production` or `.env.development` file in the project root and set the following variables:
 
    ```env
+   DEBUG=true|false
    HOST=host
    PORT=port_number
    ACTUAL_DATA_DIR=your_actual_data_directory

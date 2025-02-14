@@ -15,6 +15,8 @@
   --input-border: #ccc;
   --success-bg: #d4edda;
   --success-text: #155724;
+  --debug-warning-bg: #ee0808;
+  --debug-warning-text: #ffffff;
   --debug-bg: #e2e3e5;
   --debug-text: #383d41;
   --transition-speed: 0.3s;
@@ -127,6 +129,11 @@ button:disabled {
 .success {
   background-color: var(--success-bg);
   color: var(--success-text);
+}
+
+.debug-warning {
+  background-color: var(--debug-warning-bg);
+  color: var(--debug-warning-text);
 }
 
 .debug {

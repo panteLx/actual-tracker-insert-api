@@ -58,6 +58,7 @@ const jsPath = path.join(__dirname, "public/js/main.js");
 const cssPath = path.join(__dirname, "public/css/style.css");
 const jsVersion = getFileVersion(jsPath);
 const cssVersion = getFileVersion(cssPath);
+const isDebugMode = process.env.DEBUG === "true";
 
 // Initialisiere die Actual API und starte den Server
 (async () => {
@@ -99,6 +100,7 @@ app.get("/", async (req, res) => {
       categories,
       success: req.query.success,
       debug: req.query.debug,
+      isDebugMode,
       jsVersion,
       cssVersion,
     });
@@ -142,24 +144,40 @@ app.post("/", async (req, res) => {
     );
     console.log("Import-Ergebnis:", result);
     const debugMessage = JSON.stringify(result);
-
+    const debugDiscordMsg = isDebugMode ? debugMessage : "DEBUG DISABLED";
     const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (discordWebhookUrl) {
+      const embed = {
+        title: "Neue Transaktion hinzugefügt",
+        color: 0x00ff00, // Grün
+        fields: [
+          { name: "Datum", value: date, inline: true },
+          { name: "Betrag", value: `€${euroBetrag.toFixed(2)}`, inline: true },
+          { name: "Kategorie", value: category, inline: true },
+          { name: "Payee", value: payeeName, inline: true },
+          { name: "Notizen", value: notes || "Keine", inline: false },
+          { name: "Debug", value: debugDiscordMsg, inline: false },
+        ],
+        timestamp: new Date(),
+        footer: {
+          text: "Kaffee Tracker",
+        },
+      };
+
       await fetch(discordWebhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: `Neue Transaktion hinzugefügt:
-Datum: ${date}
-Betrag: €${euroBetrag.toFixed(2)}
-Kategorie: ${category}
-Payee: ${payeeName}
-Notizen: ${notes}`,
+          embeds: [embed],
         }),
       });
     }
 
-    res.redirect("/?success=1&debug=" + encodeURIComponent(debugMessage));
+    const successRedirectUrl = isDebugMode
+      ? `/?success=1&debug=${encodeURIComponent(debugMessage)}`
+      : "/?success=1";
+
+    res.redirect(successRedirectUrl);
   } catch (error) {
     res
       .status(500)

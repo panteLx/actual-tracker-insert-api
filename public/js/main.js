@@ -17,21 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  const isDebugMode = document.getElementById("debug");
+  if (!isDebugMode) {
+    // Nach 5 Sekunden Alert-Nachrichten ausblenden und URL zurücksetzen
+    setTimeout(() => {
+      // Alert-Elemente (Success & Debug) verstecken
+      const alerts = document.querySelectorAll(".alert");
+      alerts.forEach((alert) => (alert.style.display = "none"));
 
-  // Nach 10 Sekunden Alert-Nachrichten ausblenden und URL zurücksetzen
-  setTimeout(() => {
-    // Alert-Elemente (Success & Debug) verstecken
-    const alerts = document.querySelectorAll(".alert");
-    alerts.forEach((alert) => (alert.style.display = "none"));
-
-    // URL ohne Query-Parameter setzen
-    if (window.history && window.history.replaceState) {
-      const cleanUrl =
-        window.location.protocol +
-        "//" +
-        window.location.host +
-        window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  }, 10000);
+      // URL ohne Query-Parameter setzen
+      if (window.history && window.history.replaceState) {
+        const cleanUrl =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+    }, 5000);
+  }
 });

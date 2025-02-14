@@ -9,7 +9,12 @@
   <body>
     <main class="container">
       <h2>Neuen Eintrag hinzufügen</h2>
-      <% if (success) { %>
+      <% if (isDebugMode) { %>
+      <div class="alert debug-warning">
+        DEBUG MODE ENABLED - Automatisches Neuladen der Seite deaktiviert!
+      </div>
+
+      <% } %> <% if (success) { %>
       <div class="alert success">Transaktion erfolgreich importiert!</div>
       <% } %>
       <form action="/" method="POST" id="transactionForm">
@@ -76,8 +81,11 @@
         </div>
         <button type="submit">Eintrag hinzufügen</button>
       </form>
-      <% if (debug) { %>
-      <div class="alert debug"><%= debug %></div>
+      <% if (debug && isDebugMode) { %>
+      <div class="alert debug" id="debug">
+        <label for="debug">Debug:</label>
+        <%= debug %>
+      </div>
       <% } %>
     </main>
     <script src="/js/main.js?<%= jsVersion %>"></script>

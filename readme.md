@@ -1,5 +1,4 @@
-```markdown
-# Actual Transaction Manager
+# Actual Budget New Transaction API
 
 A simple Node.js application that integrates with the Actual API to manage transactions. It features a modern, responsive, and mobile-first user interface, complete with automatic cache busting for JavaScript and CSS assets.
 
@@ -44,7 +43,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
    ```bash
    git clone https://github.com/pantelx/actual-tracker-insert-api.git
    cd actual-tracker-insert-api
-````
+   ```
 
 2. **Install Dependencies:**
 
@@ -103,8 +102,3 @@ Contributions are welcome! If you find any bugs or have ideas for improvements, 
 ## License
 
 [MIT License](LICENSE)
-
-```
-
-This README provides an overview of your project's features, structure, and setup instructions, ensuring that other developers can quickly understand and work with your code.
-```

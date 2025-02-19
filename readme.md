@@ -1,19 +1,21 @@
-# Actual Budget New Transaction API
+# Actual Budget Transaction API
 
 A simple Node.js application that integrates with the Actual API to manage transactions. It features a modern, responsive, and mobile-first user interface, complete with automatic cache busting for JavaScript and CSS assets.
 
 ## Features
 
-- **Transaction Management:** Easily add new transactions with date, amount, category, and notes.
-- **Actual API Integration:** Initializes the Actual API, downloads budget data, and imports transactions.
+- **Transaction Management:** Easily add new transactions with date, amount, category, and notes into two seperate budgets.
+- **Actual API Integration:** Initializes the Actual API, downloads budget data, and imports transactions of both budgets.
 - **Responsive UI:** Uses a mobile-first design with modern CSS (including dark mode support) and a clean layout.
 - **Dynamic Asset Versioning:** Automatically appends a version query parameter based on each asset's last modified timestamp to ensure users always receive the latest updates.
 - **User Feedback:** Displays success and debug messages that disappear after 10 seconds, with the URL automatically cleaned up.
 - **Discord Notifications:** Sends a Discord webhook notification when a new transaction is added.
 - **Security:** Uses Helmet for basic security enhancements.
 - **DEBUG:** Gives out debug messages to the user via frontend and discord webhook
+- **Currently the tracker insert types are hardcoded into the tracker code. I'll change that in a later release**
 
 ## Folder Structure
+
 ```
 
 /project-root
@@ -27,7 +29,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 │ └── main.js # JavaScript file for client-side interactivity and cache busting
 └── .env.production # Environment configuration file
 
-````
+```
 
 ## Getting Started
 
@@ -53,20 +55,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 
 3. **Configure Environment Variables:**
 
-   Create a `.env.production` or `.env.development` file in the project root and set the following variables:
-
-   ```env
-   DEBUG=true|false
-   DISCORD_DEBUG=true|false
-   HOST=host
-   PORT=port_number
-   ACTUAL_DATA_DIR=your_actual_data_directory
-   ACTUAL_URL=https://your-actual-api-url
-   ACTUAL_PW=your_actual_password
-   ACTUAL_BUDGET_ID=your_budget_id
-   ACTUAL_ACCOUNT_ID=your_account_id
-   DISCORD_WEBHOOK_URL=your_discord_webhook_url
-   ```
+   Change the existing variables provided in the `.env.example` file to your desired values.
 
 ## Running the Application
 

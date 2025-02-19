@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transaction Tracker</title>
+    <title>Transaktionstracker</title>
     <link rel="stylesheet" href="/css/style.css?v=<%= cssVersion %>" />
   </head>
   <body data-debug-mode="<%= isDebugMode %>">
-    <h1>Transaction Tracker</h1>
+    <h1>Transaktionstracker</h1>
 
     <% if (isDebugMode) { %>
-    <div class="alert debug">Debug mode is enabled</div>
+    <div class="alert debug">
+      Debug Mode ist eingeschaltet! Auto refresh ausgeschaltet!
+    </div>
     <% } %> <% if (successMessage) { %>
     <div class="alert success"><%= successMessage %></div>
     <% } %> <% if (errorMessage) { %>
@@ -21,12 +23,12 @@
       <a
         href="/?tracker=coffee"
         class="<%= trackerType === 'coffee' ? 'active' : '' %>"
-        >Coffee Tracker</a
+        >Kaffee-Tracker</a
       >
       <a
         href="/?tracker=money"
         class="<%= trackerType === 'money' ? 'active' : '' %>"
-        >Money Tracker</a
+        >Geld-Tracker</a
       >
     </div>
 

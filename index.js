@@ -35,7 +35,23 @@ const getCurrentDate = () => new Date().toISOString().split("T")[0];
 
 // Helper function: Determine the last modification time of the file and format it as a version
 function getFileVersion(filePath) {
-  // ... (keep existing implementation)
+  try {
+    const stats = fs.statSync(filePath);
+    // Formatierung: JahrMonatTag-StundenMinutenSekunden (z.B. v20250214-153045)
+    const mtime = new Date(stats.mtime);
+    const version =
+      "v" +
+      mtime.getFullYear() +
+      ("0" + (mtime.getMonth() + 1)).slice(-2) +
+      ("0" + mtime.getDate()).slice(-2) +
+      "-" +
+      ("0" + mtime.getHours()).slice(-2) +
+      ("0" + mtime.getMinutes()).slice(-2) +
+      ("0" + mtime.getSeconds()).slice(-2);
+    return version;
+  } catch (err) {
+    return "v1.0";
+  }
 }
 
 const jsPath = path.join(__dirname, "public/js/main.js");
@@ -110,7 +126,7 @@ app.get("/", async (req, res) => {
       cssVersion,
       trackerType,
       successMessage: req.query.success
-        ? "Transaction added successfully!"
+        ? "Transaktion erfolgreich hinzugefügt!"
         : null,
       errorMessage: req.query.error
         ? "An error occurred while processing your request."

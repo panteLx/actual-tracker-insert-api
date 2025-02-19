@@ -19,7 +19,7 @@ class DiscordService {
         { name: "Date", value: transaction.date, inline: true },
         {
           name: "Amount",
-          value: `€${transaction.amount.toFixed(2)}`,
+          value: `€${transaction.amount}`,
           inline: true,
         },
         { name: "Payee", value: transaction.payee_name, inline: false },

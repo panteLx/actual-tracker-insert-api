@@ -74,31 +74,35 @@ router.post("/", async (req, res) => {
     const {
       date,
       amount: rawAmount,
-      payee,
-      newPayee,
+      payee_id,
+      new_payee,
       category,
       notes,
     } = req.body;
 
-    // Format amount properly
-    const amount = parseFloat(rawAmount.replace(",", "."));
-
-    // Determine the correct budget and account IDs
+    // Get budget ID and initialize
     const budgetId =
       trackerType === "coffee"
         ? config.actual.coffeeBudgetId
         : config.actual.moneyBudgetId;
-    const accountId =
-      trackerType === "coffee"
-        ? config.actual.coffeeAccountId
-        : config.actual.moneyAccountId;
+
+    await actualService.initializeWithBudget(budgetId);
+
+    // Get payees to find the payee name
+    const payees = await actualService.getPayees();
+    const selectedPayee = payees.find((p) => p.id === payee_id);
+
+    // Format amount properly: convert to cents as integer
+    const normalizedAmount = rawAmount.toString().trim().replace(",", ".");
+    const amountInCents = Math.round(parseFloat(normalizedAmount) * 100);
 
     // Create transaction object
     const transaction = {
       date,
-      amount: -Math.abs(amount), // Ensure negative amount for expenses
-      payee_name: payee === "new" ? sanitizeString(newPayee) : payee,
-      category_id: category,
+      amount: amountInCents,
+      payee_name:
+        payee_id === "new" ? sanitizeString(new_payee) : selectedPayee?.name,
+      category,
       notes: sanitizeString(notes),
       imported_id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
@@ -110,13 +114,20 @@ router.post("/", async (req, res) => {
     }
 
     // Initialize budget and import transaction
-    await actualService.initializeWithBudget(budgetId);
+    const accountId =
+      trackerType === "coffee"
+        ? config.actual.coffeeAccountId
+        : config.actual.moneyAccountId;
+
     await actualService.importTransaction(accountId, transaction);
+
+    // For Discord notification, convert amount back to decimal for display
+    const displayAmount = (amountInCents / 100).toFixed(2);
 
     // Create debug message
     const debugMessage = JSON.stringify(
       {
-        transaction,
+        transaction: { ...transaction, amount: displayAmount },
         budgetId,
         accountId,
         env: process.env.NODE_ENV,
@@ -125,18 +136,16 @@ router.post("/", async (req, res) => {
       2
     );
 
-    // Send Discord notification
+    // Send Discord notification with formatted amount
     await discordService.sendTransactionNotification(
-      transaction,
+      { ...transaction, amount: displayAmount },
       trackerType,
       req.userEmail,
       debugMessage
     );
 
     // Redirect with success message
-    const successMessage = `Transaktion über ${amount.toFixed(
-      2
-    )}€ wurde erfolgreich hinzugefügt.`;
+    const successMessage = `Transaktion über ${displayAmount}€ wurde erfolgreich hinzugefügt.`;
     res.redirect(
       `/?tracker=${trackerType}&success=${encodeURIComponent(successMessage)}`
     );

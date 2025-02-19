@@ -29,19 +29,6 @@ export const getFileVersion = async (filepath) => {
 };
 
 /**
- * Formats a number as currency
- * @param {number} amount - The amount to format
- * @param {string} [currency='EUR'] - The currency code
- * @returns {string} Formatted currency string
- */
-export const formatCurrency = (amount, currency = "EUR") => {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: currency,
-  }).format(amount);
-};
-
-/**
  * Sanitizes a string for safe use
  * @param {string} str - String to sanitize
  * @returns {string} Sanitized string
@@ -66,8 +53,8 @@ export const validateTransaction = (transaction) => {
     return { isValid: false, error: "Date is required" };
   }
 
-  if (!amount || isNaN(amount) || amount <= 0) {
-    return { isValid: false, error: "Valid amount is required" };
+  if (amount === null || amount === undefined || amount === "") {
+    return { isValid: false, error: "Amount is required" };
   }
 
   if (!payee_name || payee_name.trim().length === 0) {

@@ -1,198 +1,201 @@
-/* CSS Reset */
+/* Modern CSS Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* CSS Variablen für Theme und Farben */
 :root {
-  --primary-color: #007bff;
-  --primary-hover: #0056b3;
-  --background-color: #f0f0f0;
-  --container-bg: #fff;
-  --text-color: #333;
-  --input-border: #ccc;
-  --success-bg: #d4edda;
-  --success-text: #155724;
-  --debug-warning-bg: #ee0808;
-  --debug-warning-text: #ffffff;
-  --debug-bg: #e2e3e5;
-  --debug-text: #383d41;
-  --transition-speed: 0.3s;
-  font-size: 16px;
+  /* Colors - shadcn inspired */
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #18181b;
+  --radius: 0.5rem;
 }
 
-/* Mobile-first Basis */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #09090b;
+    --foreground: #fafafa;
+    --card: #09090b;
+    --card-foreground: #fafafa;
+    --popover: #09090b;
+    --popover-foreground: #fafafa;
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+    --secondary: #27272a;
+    --secondary-foreground: #fafafa;
+    --muted: #27272a;
+    --muted-foreground: #a1a1aa;
+    --accent: #27272a;
+    --accent-foreground: #fafafa;
+    --destructive: #7f1d1d;
+    --destructive-foreground: #fafafa;
+    --border: #27272a;
+    --input: #27272a;
+    --ring: #fafafa;
+  }
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter",
+    sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
   line-height: 1.5;
-  padding: 20px;
 }
 
-/* Container */
 .container {
-  width: 100%;
-  background-color: var(--container-bg);
-  padding: 20px;
-  margin: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
 }
 
-/* Form-Gruppen */
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
+h1 {
+  font-size: 1.875rem;
   font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
-.required {
-  color: red;
+.form-group {
+  margin-bottom: 1.25rem;
 }
 
-.info {
-  font-size: 0.9rem;
-  color: var(--text-color);
-  font-weight: normal;
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--foreground);
 }
 
-/* Formularelemente */
 input[type="date"],
 input[type="number"],
 input[type="text"],
 select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #fff;
-  transition: border var(--transition-speed);
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input[type="date"]:focus,
-input[type="number"]:focus,
-input[type="text"]:focus,
+input:focus,
 select:focus {
-  border-color: var(--primary-color);
   outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px var(--ring-opacity);
 }
 
-/* Input-Group */
-.input-group {
-  display: flex;
-}
-
-.input-group input {
-  flex: 1;
-}
-
-/* Button */
 button {
   width: 100%;
-  padding: 12px;
-  background-color: var(--primary-color);
-  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color var(--transition-speed);
+  transition: opacity 0.2s;
 }
 
 button:hover {
-  background-color: var(--primary-hover);
+  opacity: 0.9;
 }
 
 button:disabled {
-  background-color: #aaa;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Alerts */
 .alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
 }
 
 .alert.success {
-  background-color: #d1e7dd;
-  border: 1px solid #badbcc;
-  color: #0f5132;
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
 }
 
 .alert.error {
-  background-color: #f8d7da;
-  border: 1px solid #f5c2c7;
-  color: #842029;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
 }
 
 .alert.debug {
-  background-color: #fff3cd;
-  border: 1px solid #ffecb5;
-  color: #664d03;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  word-wrap: break-word; /* Breaks long words to prevent overflow */
+  overflow-wrap: break-word; /* Modern version of word-wrap */
+  max-width: 100%; /* Ensures content doesn't overflow container */
+  margin-top: 1rem;
 }
 
-/* Verstecke "Neuer Teilnehmer" zunächst */
+.alert.debug pre {
+  white-space: pre-wrap; /* Preserves whitespace and wraps text */
+}
+
+.tracker-switch {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.tracker-switch a {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--muted-foreground);
+  background-color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tracker-switch a.active {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
 #newPayeeDiv {
   display: none;
 }
 
-/* Responsive Anpassung für größere Bildschirme */
-@media (min-width: 600px) {
-  .container {
-    max-width: 600px;
-  }
+.info {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin-left: 0.5rem;
 }
 
-.tracker-switch {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.tracker-switch a {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 0 10px;
-  text-decoration: none;
-  color: #333;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-}
-
-.tracker-switch a.active {
-  background-color: #007bff;
-  color: white;
-}
-/* Darkmode-Unterstützung */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary-color: #0a84ff;
-    --primary-hover: #0066cc;
-    --background-color: #121212;
-    --container-bg: #1e1e1e;
-    --text-color: #e0e0e0;
-    --input-border: #555;
-  }
-  body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-  input[type="date"],
-  input[type="number"],
-  input[type="text"],
-  select {
-    background-color: #333;
-    border: 1px solid var(--input-border);
-    color: var(--text-color);
-  }
+.required {
+  color: var(--destructive);
+  margin-left: 0.25rem;
 }

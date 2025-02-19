@@ -78,9 +78,10 @@
           >Transaktionsteilnehmer <span class="required">*</span></label
         >
         <select id="payeeSelect" name="payee_id" required>
-          <% payees.forEach(function(payee) { %>
+          <% payees.forEach(function(payee) { %> <% if (payee.name !== 'Geld' &&
+          payee.name !== 'Kaffee') { %>
           <option value="<%= payee.id %>"><%= payee.name %></option>
-          <% }); %>
+          <% } %> <% }); %>
           <option value="new">Neuen Teilnehmer hinzufügen</option>
         </select>
       </div>

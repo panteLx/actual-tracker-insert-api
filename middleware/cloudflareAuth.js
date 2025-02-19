@@ -1,5 +1,5 @@
 const getCloudflareUser = (req, res, next) => {
-  const userEmail = req.headers["cf-access-authenticated-user-email"];
+  const userEmail = req.headers["Cf-Access-Authenticated-User-Email"];
   req.userEmail = userEmail || null;
   next();
 };

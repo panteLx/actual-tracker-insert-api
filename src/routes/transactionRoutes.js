@@ -70,7 +70,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const trackerType = req.query.tracker || "coffee";
+    const trackerType = req.body.trackerType || "coffee";
     const {
       date,
       amount: rawAmount,
@@ -103,7 +103,7 @@ router.post("/", async (req, res) => {
       payee_name:
         payee_id === "new" ? sanitizeString(new_payee) : selectedPayee?.name,
       category,
-      notes: sanitizeString(notes),
+      notes: `${sanitizeString(notes)} (${req.userEmail})`,
       imported_id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
 
@@ -146,9 +146,16 @@ router.post("/", async (req, res) => {
 
     // Redirect with success message
     const successMessage = `Transaktion über ${displayAmount}€ wurde erfolgreich hinzugefügt.`;
-    res.redirect(
-      `/?tracker=${trackerType}&success=${encodeURIComponent(successMessage)}`
-    );
+    if (config.debug) {
+      const redirectUrl = `/?tracker=${trackerType}&success=${encodeURIComponent(
+        successMessage
+      )}&debug=${encodeURIComponent(debugMessage)}`;
+      res.redirect(redirectUrl);
+    } else {
+      res.redirect(
+        `/?tracker=${trackerType}&success=${encodeURIComponent(successMessage)}`
+      );
+    }
   } catch (error) {
     console.error("Error in POST route:", error);
     const errorMessage =

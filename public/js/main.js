@@ -19,24 +19,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const alerts = document.querySelectorAll(".alert.success, .alert.debug");
+  const alerts = document.querySelectorAll(".alert.success, .alert.error");
+  const debugAlerts = document.querySelectorAll(".alert.debug");
 
   function clearAlertsAndURL() {
     alerts.forEach((alert) => {
-      alert.style.display = "none";
+      if (!isDebugMode) {
+        alert.style.display = "none";
+      }
     });
 
-    if (window.history && window.history.replaceState) {
+    if (!isDebugMode && window.history && window.history.replaceState) {
+      const currentUrl = new URL(window.location.href);
+      const trackerType = currentUrl.searchParams.get("tracker");
       const cleanUrl =
         window.location.protocol +
         "//" +
         window.location.host +
         window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
+      const finalUrl = trackerType
+        ? `${cleanUrl}?tracker=${trackerType}`
+        : cleanUrl;
+      window.history.replaceState({}, document.title, finalUrl);
     }
   }
 
-  if (!isDebugMode && alerts.length > 0) {
-    setTimeout(clearAlertsAndURL, 5000); // Clear alerts after 5 seconds in non-debug mode
+  if (!isDebugMode) {
+    setTimeout(clearAlertsAndURL, 5000);
   }
 });

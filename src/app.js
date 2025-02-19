@@ -13,8 +13,8 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Trust proxy - required for Cloudflare headers
-app.set("trust proxy", true);
+// Trust only Cloudflare IPs
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 
 app.use(helmet());
 app.use(express.static(path.join(__dirname, "../public")));

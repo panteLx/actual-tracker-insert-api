@@ -5,3 +5,4 @@ data/*
 !data/.gitkeep 
 package-lock.json
 pnpm-lock.yaml
+logs/*

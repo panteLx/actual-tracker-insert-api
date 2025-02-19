@@ -2,6 +2,7 @@ import express from "express";
 import { actualService } from "../services/actualService.js";
 import { discordService } from "../services/discordService.js";
 import { config } from "../config/config.js";
+import { transactionLimiter } from "../middleware/rateLimiter.js";
 import {
   getCurrentDate,
   getFileVersion,
@@ -68,7 +69,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", transactionLimiter, async (req, res) => {
   try {
     const trackerType = req.body.trackerType || "coffee";
     const {

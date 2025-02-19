@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const alerts = document.querySelectorAll(".alert.success, .alert.error");
-  const debugAlerts = document.querySelectorAll(".alert.debug");
+  const alerts = document.querySelectorAll(".alert.success");
 
   function clearAlertsAndURL() {
     alerts.forEach((alert) => {

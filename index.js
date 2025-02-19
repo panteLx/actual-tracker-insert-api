@@ -6,7 +6,7 @@ import helmet from "helmet";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-
+import getCloudflareUser from "./middleware/cloudflareAuth.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -22,6 +22,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Security middleware
 app.use(helmet());
+
+// Middleware to get the user email from Cloudflare headers
+app.use(getCloudflareUser);
 
 // Express's own parser middleware
 app.use(express.urlencoded({ extended: true }));

@@ -2,94 +2,104 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Neuen Eintrag hinzufügen</title>
-    <link rel="stylesheet" href="/css/style.css?<%= cssVersion %>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Tracker</title>
+    <link rel="stylesheet" href="/css/style.css?v=<%= cssVersion %>" />
   </head>
-  <body>
-    <main class="container">
-      <h2>Neuen Eintrag hinzufügen</h2>
-      <% if (isDebugMode) { %>
-      <div class="alert debug-warning">
-        DEBUG MODE ENABLED - Automatisches Neuladen der Seite deaktiviert!
-      </div>
+  <body data-debug-mode="<%= isDebugMode %>">
+    <h1>Transaction Tracker</h1>
 
-      <% } %> <% if (success) { %>
-      <div class="alert success">Transaktion erfolgreich importiert!</div>
-      <% } %>
-      <form action="/" method="POST" id="transactionForm">
-        <!-- Formularfelder -->
-        <div class="form-group">
-          <label for="date">Datum <span class="required">*</span></label>
+    <% if (isDebugMode) { %>
+    <div class="alert debug">Debug mode is enabled</div>
+    <% } %> <% if (successMessage) { %>
+    <div class="alert success"><%= successMessage %></div>
+    <% } %> <% if (errorMessage) { %>
+    <div class="alert error"><%= errorMessage %></div>
+    <% } %>
+
+    <div class="tracker-switch">
+      <a
+        href="/?tracker=coffee"
+        class="<%= trackerType === 'coffee' ? 'active' : '' %>"
+        >Coffee Tracker</a
+      >
+      <a
+        href="/?tracker=money"
+        class="<%= trackerType === 'money' ? 'active' : '' %>"
+        >Money Tracker</a
+      >
+    </div>
+
+    <form action="/" method="POST" id="transactionForm">
+      <input type="hidden" name="trackerType" value="<%= trackerType %>" />
+      <!-- Formularfelder -->
+      <div class="form-group">
+        <label for="date">Datum <span class="required">*</span></label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value="<%= currentDate %>"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="amount">
+          Betrag <span class="required">*</span>
+          <span class="info">(-1.00€ = Ausgaben, 1.00€ = Einnahmen)</span>
+        </label>
+        <div class="input-group">
           <input
-            type="date"
-            id="date"
-            name="date"
-            value="<%= currentDate %>"
+            type="number"
+            id="amount"
+            name="amount"
+            step="0.01"
+            placeholder="0.00"
             required
           />
         </div>
-        <div class="form-group">
-          <label for="amount">
-            Betrag <span class="required">*</span>
-            <span class="info">(-1.00€ = Ausgaben, 1.00€ = Einnahmen)</span>
-          </label>
-          <div class="input-group">
-            <input
-              type="number"
-              id="amount"
-              name="amount"
-              step="0.01"
-              placeholder="0.00"
-              required
-            />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="category"
-            >Kategorie <span class="required">*</span></label
-          >
-          <select id="category" name="category" required>
-            <% categories.forEach(function(cat) { %>
-            <option value="<%= cat.id %>"><%= cat.name %></option>
-            <% }); %>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="notes">Notizen</label>
-          <input type="text" id="notes" name="notes" />
-        </div>
-        <div class="form-group">
-          <label for="payeeSelect"
-            >Transaktionsteilnehmer <span class="required">*</span></label
-          >
-          <select id="payeeSelect" name="payee_id" required>
-            <% payees.forEach(function(payee) { %>
-            <option value="<%= payee.id %>"><%= payee.name %></option>
-            <% }); %>
-            <option value="new">Neuen Teilnehmer hinzufügen</option>
-          </select>
-        </div>
-        <div class="form-group" id="newPayeeDiv">
-          <label for="new_payee">Neuer Teilnehmer</label>
-          <input
-            type="text"
-            id="new_payee"
-            name="new_payee"
-            placeholder="Neuen Teilnehmer eingeben"
-          />
-        </div>
-        <button type="submit">Eintrag hinzufügen</button>
-      </form>
-      <% if (debug && isDebugMode) { %>
-      <div class="alert debug" id="debug">
-        <label for="debug">Debug:</label>
-        <%= debug %>
       </div>
-      <% } %> <% if (isDebugMode) { %>
-      <div id="debug"></div>
-      <% } %>
-    </main>
-    <script src="/js/main.js?<%= jsVersion %>"></script>
+      <div class="form-group">
+        <label for="category">Kategorie <span class="required">*</span></label>
+        <select id="category" name="category" required>
+          <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>"><%= cat.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notizen</label>
+        <input type="text" id="notes" name="notes" />
+      </div>
+      <div class="form-group">
+        <label for="payeeSelect"
+          >Transaktionsteilnehmer <span class="required">*</span></label
+        >
+        <select id="payeeSelect" name="payee_id" required>
+          <% payees.forEach(function(payee) { %>
+          <option value="<%= payee.id %>"><%= payee.name %></option>
+          <% }); %>
+          <option value="new">Neuen Teilnehmer hinzufügen</option>
+        </select>
+      </div>
+      <div class="form-group" id="newPayeeDiv">
+        <label for="new_payee">Neuer Teilnehmer</label>
+        <input
+          type="text"
+          id="new_payee"
+          name="new_payee"
+          placeholder="Neuen Teilnehmer eingeben"
+        />
+      </div>
+      <button type="submit">Eintrag hinzufügen</button>
+    </form>
+    <% if (debug && isDebugMode) { %>
+    <div class="alert debug" id="debug">
+      <label for="debug">Debug:</label>
+      <%= debug %>
+    </div>
+    <% } %>
+
+    <script src="/js/main.js?v=<%= jsVersion %>"></script>
   </body>
 </html>

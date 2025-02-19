@@ -120,25 +120,26 @@ button:disabled {
 /* Alerts */
 .alert {
   padding: 10px;
+  margin-bottom: 15px;
   border-radius: 4px;
-  margin-bottom: 16px;
-  margin-top: 16px;
-  text-align: center;
 }
 
-.success {
-  background-color: var(--success-bg);
-  color: var(--success-text);
+.alert.success {
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+  color: #0f5132;
 }
 
-.debug-warning {
-  background-color: var(--debug-warning-bg);
-  color: var(--debug-warning-text);
+.alert.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
 }
 
-.debug {
-  background-color: var(--debug-bg);
-  color: var(--debug-text);
+.alert.debug {
+  background-color: #fff3cd;
+  border: 1px solid #ffecb5;
+  color: #664d03;
 }
 
 /* Verstecke "Neuer Teilnehmer" zunächst */
@@ -153,6 +154,25 @@ button:disabled {
   }
 }
 
+.tracker-switch {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tracker-switch a {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.tracker-switch a.active {
+  background-color: #007bff;
+  color: white;
+}
 /* Darkmode-Unterstützung */
 @media (prefers-color-scheme: dark) {
   :root {

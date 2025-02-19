@@ -178,7 +178,7 @@ app.post("/", async (req, res) => {
         date,
         amount: centBetrag,
         category,
-        notes: `${notes}${req.userEmail ? ` (by ${req.userEmail})` : ""}`,
+        notes: `${notes}${req.userEmail ? ` (${req.userEmail})` : ""}`,
         payee_name: payeeName,
         imported_id: Math.random().toString(36).slice(2, 7),
         cleared: true,

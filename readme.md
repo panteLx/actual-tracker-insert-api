@@ -91,13 +91,13 @@ When DEBUG=true:
 Start the production server by running:
 
 ```bash
-npm run prod
+pnpm run prod
 ```
 
 Start the development server by running:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.

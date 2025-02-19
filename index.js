@@ -125,6 +125,7 @@ app.get("/", async (req, res) => {
       jsVersion,
       cssVersion,
       trackerType,
+      userEmail: req.userEmail,
       successMessage: req.query.success
         ? "Transaktion erfolgreich hinzugefügt!"
         : null,

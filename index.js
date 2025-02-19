@@ -205,10 +205,10 @@ app.post("/", async (req, res) => {
         fields: [
           { name: "Date", value: date, inline: true },
           { name: "Amount", value: `€${euroBetrag.toFixed(2)}`, inline: true },
-          { name: "Category", value: category, inline: true },
-          { name: "Payee", value: payeeName, inline: true },
+          { name: "Payee", value: payeeName, inline: false },
           { name: "Notes", value: notes || "None", inline: false },
           { name: "Debug", value: debugDiscordMsg, inline: false },
+          { name: "User", value: req.userEmail, inline: false },
         ],
         timestamp: new Date(),
         footer: {

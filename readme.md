@@ -4,30 +4,59 @@ A simple Node.js application that integrates with the Actual API to manage trans
 
 ## Features
 
-- **Transaction Management:** Easily add new transactions with date, amount, category, and notes into two seperate budgets.
-- **Actual API Integration:** Initializes the Actual API, downloads budget data, and imports transactions of both budgets.
-- **Responsive UI:** Uses a mobile-first design with modern CSS (including dark mode support) and a clean layout.
-- **Dynamic Asset Versioning:** Automatically appends a version query parameter based on each asset's last modified timestamp to ensure users always receive the latest updates.
-- **User Feedback:** Displays success and debug messages that disappear after 10 seconds, with the URL automatically cleaned up.
-- **Discord Notifications:** Sends a Discord webhook notification when a new transaction is added.
-- **Security:** Uses Helmet for basic security enhancements.
-- **DEBUG:** Gives out debug messages to the user via frontend and discord webhook
-- **Currently the tracker insert types are hardcoded into the tracker code. I'll change that in a later release**
+- Transaction Management: Easily add new transactions with date, amount, category, and notes into two seperate budgets.
+- Actual API Integration: Initializes the Actual API, downloads budget data, and imports transactions of both budgets.
+- Responsive UI: Uses a mobile-first design with modern CSS (including dark mode support) and a clean layout.
+- Dynamic Asset Versioning: Automatically appends a version query parameter based on each asset's last modified timestamp.
+- User Feedback: Displays success and debug messages that disappear after 5 seconds (unless in debug mode).
+- Discord Notifications: Sends a Discord webhook notification when a new transaction is added, including user attribution.
+- Security: Uses Helmet for basic security enhancements and Cloudflare Access authentication.
+- DEBUG Mode: Provides detailed debug information via frontend and Discord webhook when enabled.
+- User Attribution: All transactions are tagged with the user's email for accountability.
+
+## Security
+
+This application uses:
+
+- Helmet for basic security headers
+- Cloudflare Access for authentication
+- Input sanitization for all user inputs
+- Environment-based configuration
+
+## Debug Mode
+
+When DEBUG=true:
+
+- Success messages and debug information persist on screen
+- Detailed transaction information is shown in the UI
+- Extended debug information is sent to Discord (if DISCORD_DEBUG=true)
 
 ## Folder Structure
 
 ```
 
 /project-root
-├── index.js # Main server file (Express & API integration)
-├── views
-│ └── index.ejs # EJS template for the main UI
-├── public
-│ ├── css
-│ │ └── style.css # Main CSS file with modern, responsive styling
-│ └── js
-│ └── main.js # JavaScript file for client-side interactivity and cache busting
-└── .env.production # Environment configuration file
+├── src/
+│ ├── app.js # Main application entry point
+│ ├── config/
+│ │ └── config.js # Configuration management
+│ ├── middleware/
+│ │ └── cloudflareAuth.js # Authentication middleware
+│ ├── routes/
+│ │ └── transactionRoutes.js # Route handlers
+│ ├── services/
+│ │ ├── actualService.js # Actual API integration
+│ │ └── discordService.js # Discord webhook service
+│ └── utils/
+│ └── helpers.js # Utility functions
+├── views/
+│ └── index.ejs # Main template
+├── public/
+│ ├── css/
+│ │ └── style.css # Styles
+│ └── js/
+│ └── main.js # Client-side JavaScript
+└── .env.example # Environment variables template
 
 ```
 
@@ -36,7 +65,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v12 or higher)
-- npm (comes with Node.js)
+- pnpm
 
 ### Installation
 
@@ -50,7 +79,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 2. **Install Dependencies:**
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Configure Environment Variables:**
@@ -75,14 +104,82 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
 ## How It Works
 
-- **Server Setup:**  
-  The `index.js` file initializes Express, sets up static file serving, configures the EJS template engine, and connects to the Actual API. It also includes routes for rendering the form and handling form submissions.
+1. **Authentication**
 
-- **Dynamic Asset Versioning:**  
-  A helper function in `index.js` calculates the last modified time of `main.js` and `style.css` and appends this as a version parameter to the asset URLs. This ensures that when you update these files, users receive the latest versions rather than cached ones.
+   - Uses Cloudflare Access for user authentication
+   - Development mode uses a mock email for testing
 
-- **User Interface:**  
-  The UI (built in `views/index.ejs` and styled in `public/css/style.css`) is designed to be responsive and modern, following a mobile-first approach. JavaScript in `public/js/main.js` handles UI interactivity, such as toggling additional fields and providing visual feedback during form submission.
+2. **Transaction Flow**
+
+   - User selects tracker type (Coffee or Money)
+   - Fills in transaction details (amount, payee, notes)
+   - System validates input and converts amount to cents
+   - Transaction is tagged with user email for accountability
+   - Data is sent to Actual Budget via API
+
+3. **Budget Management**
+
+   - Maintains separate budgets for coffee and money tracking
+   - Automatically switches between budgets based on tracker type
+   - Uses Actual's API for all budget operations
+
+4. **Notifications**
+
+   - Sends detailed Discord notifications for each transaction
+   - Includes user attribution and debug information when enabled
+   - Configurable debug mode for extended information
+
+5. **Security & Error Handling**
+   - Input sanitization for all user data
+   - Environment-based configuration
+   - Comprehensive error handling with user feedback
+   - Secure authentication via Cloudflare Access
+
+## TODO / Future Enhancements
+
+1. **Dynamic Tracker Types**
+
+   - Move away from hardcoded coffee/money tracker types
+   - Implement configurable tracker types via environment or database
+   - Allow dynamic addition of new tracker types
+
+2. **Enhanced Authentication**
+
+   - Implement full JWT verification for Cloudflare Access
+   - Add role-based access control
+   - Add user preferences and settings
+
+3. **UI Improvements**
+
+   - Add dark/light theme toggle
+   - Implement transaction history view (without beeing able to edit them - otherwise you can just use the actual tracker itself)
+
+4. **Data Management**
+
+   - Add transaction search functionality
+   - Add basic reporting and statistics
+   - Add batch transaction import
+
+5. **System Enhancements**
+
+   - Add request rate limiting
+   - Implement proper error logging system
+   - Add transaction validation rules per tracker type
+
+6. **Integration Improvements**
+
+   - Add support for multiple Discord channels
+   - Add optional email notifications
+   - Add webhook support for other platforms
+
+7. **Performance**
+
+   - Optimize budget switching logic
+   - Add performance monitoring
+
+8. **Security**
+   - Add CSRF protection
+   - Add audit logging for all actions
 
 ## Contributing
 

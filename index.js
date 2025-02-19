@@ -6,8 +6,6 @@ import helmet from "helmet";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import { configureAuth } from "./auth.js";
-import passport from "passport";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -103,11 +101,8 @@ async function initializeApiWithBudget(budgetId) {
   }
 })();
 
-// Add after your existing imports and before route definitions
-const requireAuth = configureAuth(app);
-
 // GET route: Form display with improved UX and asset versioning
-app.get("/", requireAuth, async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const trackerType = req.query.tracker || "coffee"; // Default to coffee tracker
     const budgetId =
@@ -150,7 +145,7 @@ app.get("/", requireAuth, async (req, res) => {
 });
 
 // POST route: Transaction processing, API import, and Discord notification
-app.post("/", requireAuth, async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     const { date, amount, category, notes, payee_id, new_payee, trackerType } =
       req.body;
@@ -239,23 +234,6 @@ app.post("/", requireAuth, async (req, res) => {
     console.error("Error importing the transaction:", error);
     res.redirect(`/?error=1&tracker=${req.body.trackerType}`);
   }
-});
-
-// Add new authentication routes
-app.get("/login", passport.authenticate("oidc"));
-
-app.get(
-  "/auth/callback",
-  passport.authenticate("oidc", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
-);
-
-app.get("/logout", (req, res) => {
-  req.logout(() => {
-    res.redirect("/");
-  });
 });
 
 // Clean shutdown on SIGINT (e.g., Ctrl+C)

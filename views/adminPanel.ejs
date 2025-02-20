@@ -9,15 +9,17 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script defer src="/js/adminPanel.js?v=<%= jsVersion %>"></script>
   </head>
-  <body data-debug-mode="<%= isDebugMode %>">
+  <body>
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+    </div>
     <div class="container">
       <h1>Admin Panel</h1>
 
       <% if (isDebugMode) { %>
-      <div class="alert debug">
-        Debug Mode ist eingeschaltet! Auto refresh ausgeschaltet!
-      </div>
+      <div class="alert debug">Debug Mode ist eingeschaltet!</div>
       <% } %> <% if (userEmail) { %>
       <div class="user-info">
         Eingeloggt als: <%= userEmail %> (<%= userGroups %>)
@@ -33,9 +35,18 @@
       <div class="admin-stats">
         <div class="stat-card">
           <h3>System Status</h3>
-          <p>Debug Mode: <%= isDebugMode ? 'An' : 'Aus' %></p>
+          <p>
+            Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %>
+          </p>
           <p>Environment: <%= process.env.NODE_ENV %></p>
         </div>
+      </div>
+
+      <div class="admin-controls">
+        <button id="toggleDebugMode" class="button">
+          <%= isDebugMode ? 'Debug Mode Auschalten' : 'Debug Mode Einschalten'
+          %>
+        </button>
       </div>
     </div>
   </body>

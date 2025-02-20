@@ -9,8 +9,12 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script defer src="/js/main.js?v=<%= jsVersion %>"></script>
   </head>
   <body data-debug-mode="<%= isDebugMode %>">
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+    </div>
     <div class="container">
       <h1>Transaktionstracker</h1>
 
@@ -18,11 +22,7 @@
       <div class="alert debug">
         Debug Mode ist eingeschaltet! Auto refresh ausgeschaltet!
       </div>
-      <% } %> <% if (successMessage) { %>
-      <div class="alert success"><%= successMessage %></div>
-      <% } %> <% if (errorMessage) { %>
-      <div class="alert error"><%= errorMessage %></div>
-      <% } %> <% if (userEmail) { %>
+      <% } %><% if (userEmail) { %>
       <div class="user-info">
         Eingeloggt als: <%= userEmail %> (<%= userGroups %>)
       </div>
@@ -43,7 +43,11 @@
         <a href="/admin">Admin Panel</a>
         <% } %>
       </div>
-
+      <% if (successMessage) { %>
+      <div class="alert success"><%= successMessage %></div>
+      <% } %> <% if (errorMessage) { %>
+      <div class="alert error"><%= errorMessage %></div>
+      <% } %>
       <form action="/" method="POST" id="transactionForm">
         <input type="hidden" name="trackerType" value="<%= trackerType %>" />
         <!-- Formularfelder -->
@@ -119,7 +123,5 @@
       </div>
       <% } %>
     </div>
-
-    <script src="/js/main.js?v=<%= jsVersion %>"></script>
   </body>
 </html>

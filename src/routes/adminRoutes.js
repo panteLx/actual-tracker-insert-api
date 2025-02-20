@@ -36,13 +36,14 @@ const getAssetVersions = async () => {
 // Admin panel route
 router.get("/admin", cloudflareAuth, checkAdminGroup, async (req, res) => {
   // Get asset versions for cache busting first
-  const { cssVersion } = await getAssetVersions();
+  const { cssVersion, jsVersion } = await getAssetVersions();
 
   res.render("adminPanel", {
     userEmail: req.userEmail,
     userGroups: req.userGroups,
     isDebugMode: config.debug,
     cssVersion,
+    jsVersion,
   });
 });
 
@@ -123,6 +124,19 @@ router.post(
       console.error("Error clearing logs:", error);
       res.status(500).json({ error: "Failed to clear logs" });
     }
+  }
+);
+
+router.post(
+  "/admin/debug/toggle",
+  cloudflareAuth,
+  checkAdminGroup,
+  (req, res) => {
+    const currentMode = config.debug;
+    config.debug = !currentMode; // Toggle the debug mode
+    res
+      .status(200)
+      .json({ message: "Debug mode toggled", debugMode: !currentMode });
   }
 );
 

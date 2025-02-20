@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const loadingSpinner = document.getElementById("loading");
+  loadingSpinner.style.display = "none";
   const searchInput = document.getElementById("logSearch");
   const levelSelect = document.getElementById("logLevel");
   const timeRangeSelect = document.getElementById("timeRange");

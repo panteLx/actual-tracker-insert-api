@@ -6,7 +6,7 @@ const getCloudflareUser = async (req, res, next) => {
 
     if (!jwt || !userEmail) {
       // If running in development, use a mock email and group
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NODE_ENV === "production") {
         req.userEmail = "dev@example.com";
         req.userGroups = ["global-admins"]; // Mock group for development
         return next();

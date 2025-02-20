@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Logs</title>
+    <link rel="stylesheet" href="/css/style.css?v=<%= cssVersion %>" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="/js/adminLogs.js?v=<%= jsVersion %>"></script>
+  </head>
+  <body data-debug-mode="<%= isDebugMode %>">
+    <div class="container">
+      <h1>System Logs</h1>
+
+      <% if (isDebugMode) { %>
+      <div class="alert debug">Debug Mode ist eingeschaltet!</div>
+      <% } %> <% if (userEmail) { %>
+      <div class="user-info">
+        Eingeloggt als: <%= userEmail %> (<%= userGroups %>)
+      </div>
+      <% } %>
+
+      <div class="tracker-switch">
+        <a href="/admin">Admin Dashboard</a>
+        <a href="/admin/logs" class="active">Logs</a>
+        <a href="/">Tracker</a>
+      </div>
+
+      <div class="log-controls">
+        <button class="log-controls-mobile-toggle">
+          Filter & Optionen
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+
+        <div class="log-controls-content">
+          <div class="log-controls-row">
+            <input
+              type="text"
+              id="logSearch"
+              placeholder="Logs durchsuchen..."
+              class="form-input"
+            />
+            <select id="logLevel" class="form-select">
+              <option value="all">Alle Level</option>
+              <option value="error">Error</option>
+              <option value="warn">Warning</option>
+              <option value="info">Info</option>
+              <option value="debug">Debug</option>
+            </select>
+          </div>
+          <div class="log-controls-row">
+            <select id="timeRange" class="form-select">
+              <option value="all">Alle Zeiten</option>
+              <option value="1h">Letzte Stunde</option>
+              <option value="24h">Letzte 24 Stunden</option>
+              <option value="7d">Letzte 7 Tage</option>
+            </select>
+            <select id="sortOrder" class="form-select">
+              <option value="desc">Neueste zuerst</option>
+              <option value="asc">Älteste zuerst</option>
+            </select>
+          </div>
+          <div class="log-controls-row log-controls-row-clear">
+            <button id="clearLogs" class="button destructive">
+              Logs löschen
+            </button>
+            <select id="clearLogLevel" class="form-select">
+              <option value="all">Alle Logs</option>
+              <option value="error">Nur Error</option>
+              <option value="warn">Nur Warning</option>
+              <option value="info">Nur Info</option>
+              <option value="debug">Nur Debug</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="logs-container">
+        <div id="logEntries">
+          <% logs.forEach(function(log) { %> <% try { %> <% const entry =
+          JSON.parse(log); %>
+          <div
+            class="log-entry"
+            data-level="<%= entry.level %>"
+            data-timestamp="<%= entry.timestamp %>"
+          >
+            <div class="log-entry-header">
+              <span class="log-timestamp"
+                ><%= new Date(entry.timestamp).toLocaleString() %></span
+              >
+              <span class="log-level <%= entry.level %>"
+                ><%= entry.level %></span
+              >
+            </div>
+            <div class="log-entry-content">
+              <span class="log-message"><%= entry.message %></span>
+              <div class="log-details">
+                <% if (entry.ip) { %>
+                <span class="log-ip">IP: <%= entry.ip %></span>
+                <% } %> <% if (entry.userEmail) { %>
+                <span class="log-user">User: <%= entry.userEmail %></span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% } catch(e) { %>
+          <div class="log-entry">
+            <span class="log-message"><%= log %></span>
+          </div>
+          <% } %> <% }); %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

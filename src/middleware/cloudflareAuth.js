@@ -4,11 +4,13 @@ const getCloudflareUser = async (req, res, next) => {
   try {
     const jwt = req.headers["cf-access-jwt-assertion"];
     const userEmail = req.headers["cf-access-authenticated-user-email"];
+    const userGroups = req.headers["cf-access-authenticated-user-groups"] || []; // Get user groups
 
     if (!jwt || !userEmail) {
-      // If running in development, use a mock email
+      // If running in development, use a mock email and group
       if (process.env.NODE_ENV === "development") {
         req.userEmail = "dev@example.com";
+        req.userGroups = ["global-admins"]; // Mock group for development
         return next();
       }
       return res
@@ -24,6 +26,7 @@ const getCloudflareUser = async (req, res, next) => {
     // For production, you should verify the JWT token using the public keys from the certs endpoint
 
     req.userEmail = userEmail;
+    req.userGroups = userGroups; // Set user groups in request
     next();
   } catch (error) {
     console.error("Cloudflare Access authentication error:", error);

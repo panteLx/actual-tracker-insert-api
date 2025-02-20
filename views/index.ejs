@@ -23,7 +23,9 @@
       <% } %> <% if (errorMessage) { %>
       <div class="alert error"><%= errorMessage %></div>
       <% } %> <% if (userEmail) { %>
-      <div class="user-info">Eingeloggt als: <%= userEmail %></div>
+      <div class="user-info">
+        Eingeloggt als: <%= userEmail %> (<%= userGroups %>)
+      </div>
       <% } %>
 
       <div class="tracker-switch">
@@ -37,6 +39,9 @@
           class="<%= trackerType === 'money' ? 'active' : '' %>"
           >Geld-Tracker</a
         >
+        <% if (userGroups.includes("global-admins")) { %>
+        <a href="/admin">Admin Panel</a>
+        <% } %>
       </div>
 
       <form action="/" method="POST" id="transactionForm">

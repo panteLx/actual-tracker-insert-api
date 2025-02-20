@@ -24,10 +24,12 @@ if (process.env.NODE_ENV !== "production") {
 // Create middleware function
 export const requestLogger = (req, res, next) => {
   logger.info(`${req.method} ${req.url}`, {
+    message: "Request received",
     method: req.method,
     url: req.url,
     ip: req.ip,
     userEmail: req.userEmail,
+    userGroups: req.userGroups,
   });
   next();
 };

@@ -8,6 +8,7 @@ import transactionRoutes from "./routes/transactionRoutes.js";
 import cloudflareAuth from "./middleware/cloudflareAuth.js";
 import { limiter } from "./middleware/rateLimiter.js";
 import { requestLogger } from "./middleware/logger.js";
+import adminRoutes from "./routes/adminRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(cloudflareAuth);
 app.use(requestLogger);
+app.use(express.json());
 
 // Apply rate limiting to all requests
 app.use(limiter);
@@ -29,6 +31,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
 app.use("/", transactionRoutes);
+app.use("/", adminRoutes);
 
 const startServer = async () => {
   try {

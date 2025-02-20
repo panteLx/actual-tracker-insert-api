@@ -58,6 +58,7 @@ router.get("/", async (req, res) => {
       cssVersion,
       jsVersion,
       userEmail: req.userEmail,
+      userGroups: req.userGroups,
       currentDate: getCurrentDate(),
       debug,
     });

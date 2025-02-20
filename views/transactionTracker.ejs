@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transaktionstracker</title>
-    <link rel="stylesheet" href="/css/style.css?v=<%= cssVersion %>" />
+    <link rel="stylesheet" href="/css/style.min.css?v=<%= cssVersion %>" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <script defer src="/js/main.js?v=<%= jsVersion %>"></script>
+    <script
+      defer
+      src="/js/transactionTracker.min.js?v=<%= jsVersion %>"
+    ></script>
   </head>
   <body data-debug-mode="<%= isDebugMode %>">
     <div id="loading" class="loading">

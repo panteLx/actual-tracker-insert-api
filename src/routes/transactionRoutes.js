@@ -30,8 +30,8 @@ router.get("/", async (req, res) => {
     let cssVersion, jsVersion;
     try {
       [cssVersion, jsVersion] = await Promise.all([
-        getFileVersion("/css/style.css"),
-        getFileVersion("/js/main.js"),
+        getFileVersion("/css/style.min.css"),
+        getFileVersion("/js/transactionTracker.min.js"),
       ]);
     } catch (error) {
       console.error("Error getting file versions:", error);
@@ -48,7 +48,7 @@ router.get("/", async (req, res) => {
       actualService.getCategories(),
     ]);
 
-    res.render("index", {
+    res.render("transactionTracker", {
       trackerType,
       payees,
       categories,

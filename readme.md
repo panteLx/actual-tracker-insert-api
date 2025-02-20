@@ -13,6 +13,8 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - Security: Uses Helmet for basic security enhancements and Cloudflare Access authentication.
 - DEBUG Mode: Provides detailed debug information via frontend and Discord webhook when enabled.
 - User Attribution: All transactions are tagged with the user's email for accountability.
+- Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
+- Admin Panel: A panel to view logs and system settings.
 
 ## Security
 
@@ -22,6 +24,7 @@ This application uses:
 - Cloudflare Access for authentication
 - Input sanitization for all user inputs
 - Environment-based configuration
+- Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 
 ## Debug Mode
 
@@ -30,6 +33,7 @@ When DEBUG=true:
 - Success messages and debug information persist on screen
 - Detailed transaction information is shown in the UI
 - Extended debug information is sent to Discord (if DISCORD_DEBUG=true)
+- Auto refresh is disabled on the transaction tracker page
 
 ## Folder Structure
 
@@ -41,23 +45,33 @@ When DEBUG=true:
 │ ├── config/
 │ │ └── config.js # Configuration management
 │ ├── middleware/
-│ │ └── cloudflareAuth.js # Authentication middleware
+│ │ ├── cloudflareAuth.js # Authentication middleware
+│ │ ├── logger.js # Logging middleware
+│ │ └── rateLimiter.js # Rate limiting middleware
 │ ├── routes/
-│ │ └── transactionRoutes.js # Route handlers
+│ │ ├── adminRoutes.js # Admin panel routes
+│ │ └── transactionRoutes.js # Transaction routes
 │ ├── services/
 │ │ ├── actualService.js # Actual API integration
 │ │ └── discordService.js # Discord webhook service
 │ └── utils/
 │ └── helpers.js # Utility functions
 ├── views/
-│ └── index.ejs # Main template
+│ ├── adminLogs.ejs # Admin logs template
+│ ├── adminPanel.ejs # Admin panel template
+│ └── transactionTracker.ejs # Transaction tracker template
 ├── public/
 │ ├── css/
-│ │ └── style.css # Styles
+│ │ └── style.min.css # Minified styles
 │ └── js/
-│ └── main.js # Client-side JavaScript
+│ ├── adminLogs.min.js # Admin logs JavaScript
+│ ├── adminPanel.min.js # Admin panel JavaScript
+│ └── transactionTracker.min.js # Transaction tracker JavaScript
+├── logs/ # Application logs (auto created on first run)
+├── data/ # Data folder (auto created on first run)
+├── package.json # Dependency file
+├── minify.js # Minification script
 └── .env.example # Environment variables template
-
 ```
 
 ## Getting Started
@@ -91,7 +105,7 @@ When DEBUG=true:
 Start the production server by running:
 
 ```bash
-pnpm run prod
+pnpm run start
 ```
 
 Start the development server by running:
@@ -108,6 +122,8 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
    - Uses Cloudflare Access for user authentication
    - Development mode uses a mock email for testing
+   - Production mode uses the user's actual email
+   - User groups are checked to determine access to the admin panel
 
 2. **Transaction Flow**
 
@@ -130,10 +146,16 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
    - Configurable debug mode for extended information
 
 5. **Security & Error Handling**
+
    - Input sanitization for all user data
    - Environment-based configuration
    - Comprehensive error handling with user feedback
    - Secure authentication via Cloudflare Access
+   - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
+
+6. **Admin Panel (WIP)**
+   - View logs and system settings
+   - Toggle debug mode
 
 ## TODO / Future Enhancements
 
@@ -146,7 +168,7 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 2. **Enhanced Authentication**
 
    - Implement full JWT verification for Cloudflare Access
-   - Add role-based access control
+   - ~~Add role-based access control~~
    - Add user preferences and settings
 
 3. **UI Improvements**
@@ -162,9 +184,9 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
 5. **System Enhancements**
 
-   - Add request rate limiting
+   - ~~Add request rate limiting~~
    - Implement proper error logging system
-   - Add transaction validation rules per tracker type
+   - ~~Add transaction validation rules per tracker type~~
 
 6. **Integration Improvements**
 
@@ -179,7 +201,7 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
 8. **Security**
    - Add CSRF protection
-   - Add audit logging for all actions
+   - ~~Add audit logging for all actions~~
 
 ## Contributing
 

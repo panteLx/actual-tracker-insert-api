@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 const getCloudflareUser = async (req, res, next) => {
   try {
     const jwt = req.headers["cf-access-jwt-assertion"];

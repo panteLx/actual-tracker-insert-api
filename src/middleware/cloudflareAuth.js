@@ -4,7 +4,7 @@ const getCloudflareUser = async (req, res, next) => {
     const userEmail = req.headers["cf-access-authenticated-user-email"];
     const userGroups = req.headers["cf-access-authenticated-user-groups"] || []; // Get user groups
 
-    if (!userEmail) {
+    if (userEmail) {
       // If running in development, use a mock email and group
       if (process.env.NODE_ENV === "production") {
         req.userEmail = "dev@example.com";

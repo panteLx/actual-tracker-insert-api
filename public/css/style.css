@@ -450,3 +450,13 @@ button:disabled {
     transform: rotate(360deg);
   }
 }
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem; /* Add some space above the footer */
+}

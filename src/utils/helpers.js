@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { exec } from "child_process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,4 +72,15 @@ export const validateTransaction = (transaction) => {
  */
 export const createDebugMessage = (data) => {
   return JSON.stringify(data, null, 2);
+};
+
+export const getLatestCommitHash = () => {
+  return new Promise((resolve, reject) => {
+    exec("git rev-parse HEAD", (error, stdout) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(stdout.trim());
+    });
+  });
 };

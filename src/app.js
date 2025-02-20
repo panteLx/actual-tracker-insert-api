@@ -9,6 +9,7 @@ import cloudflareAuth from "./middleware/cloudflareAuth.js";
 import { limiter } from "./middleware/rateLimiter.js";
 import { requestLogger } from "./middleware/logger.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import { getLatestCommitHash } from "./utils/helpers.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -29,6 +30,18 @@ app.use(limiter);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
+
+app.use(async (req, res, next) => {
+  try {
+    const commitHash = await getLatestCommitHash();
+    res.locals.commitHash = commitHash; // Make it available in all views
+    next();
+  } catch (error) {
+    console.error("Error getting commit hash:", error);
+    res.locals.commitHash = "unknown"; // Fallback if there's an error
+    next();
+  }
+});
 
 app.use("/", transactionRoutes);
 app.use("/", adminRoutes);

@@ -22,10 +22,15 @@ const getCloudflareUser = async (req, res, next) => {
     const certsUrl = `${process.env.CF_TEAM_DOMAIN}/cdn-cgi/access/certs`;
     const response = await fetch(certsUrl);
     const certs = await response.json();
+
+    console.log("JWKS Response:", certs);
+
+    // Find the correct public key
     const publicKey = certs.keys[0]; // Assuming you want the first key
+    const pem = `-----BEGIN PUBLIC KEY-----\n${publicKey.x5c[0]}\n-----END PUBLIC KEY-----`;
 
     // Verify the token
-    const decodedToken = jwt.verify(jwtToken, publicKey, {
+    const decodedToken = jwt.verify(jwtToken, pem, {
       algorithms: ["RS256"],
     });
 

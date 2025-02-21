@@ -3,7 +3,7 @@ import logger from "./logger.js";
 
 export const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: process.env.NODE_ENV === "production" ? 10 : 1000, // Limit each IP to 10 requests per minute
+  max: process.env.NODE_ENV === "production" ? 100 : 1000, // Limit each IP to 100 requests per minute
   message: "Zu viele Anfragen. Bitte versuche es später erneut.",
   standardHeaders: true,
   legacyHeaders: false,

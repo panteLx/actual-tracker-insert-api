@@ -25,12 +25,11 @@ const getCloudflareUser = async (req, res, next) => {
 
     console.log("JWKS Response:", certs);
 
-    // Find the correct public key
-    const publicKey = certs.keys[0]; // Assuming you want the first key
-    const pem = `-----BEGIN PUBLIC KEY-----\n${publicKey.x5c[0]}\n-----END PUBLIC KEY-----`;
+    // Use the public_cert for verification
+    const publicCert = certs.public_cert.cert; // Get the PEM certificate
 
     // Verify the token
-    const decodedToken = jwt.verify(jwtToken, pem, {
+    const decodedToken = jwt.verify(jwtToken, publicCert, {
       algorithms: ["RS256"],
     });
 

@@ -86,3 +86,35 @@ export const getLatestCommitHash = () => {
     });
   });
 };
+
+export const getNavigationItems = (currentPage) => {
+  const trackerItems = [
+    { id: "coffee", url: "/?tracker=coffee", label: "Kaffee-Tracker" },
+    { id: "money", url: "/?tracker=money", label: "Geld-Tracker" },
+  ];
+
+  const adminItems = [
+    { id: "panel", url: "/admin", label: "Admin Panel" },
+    { id: "logs", url: "/admin/logs", label: "Logs" },
+  ];
+
+  // Return different navigation items based on the current page
+  switch (currentPage) {
+    case "tracker":
+      return {
+        items: trackerItems,
+        currentSection: "tracker",
+      };
+    case "admin":
+    case "logs":
+      return {
+        items: adminItems,
+        currentSection: "admin",
+      };
+    default:
+      return {
+        items: trackerItems,
+        currentSection: "tracker",
+      };
+  }
+};

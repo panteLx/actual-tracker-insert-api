@@ -1,54 +1,31 @@
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="/css/style.min.css?v=<%= cssVersion %>" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <script defer src="/js/adminPanel.min.js?v=<%= jsVersion %>"></script>
-  </head>
-  <body>
-    <div id="loading" class="loading">
-      <div class="spinner"></div>
-    </div>
-    <div class="container">
-      <h1>Admin Panel</h1>
+<%- include('partials/header', { title: 'Admin Panel', jsFile: 'adminPanel' })
+%>
+<body>
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+  </div>
+  <div class="container">
+    <h1>Admin Panel</h1>
 
-      <% if (isDebugMode) { %>
-      <div class="alert debug">Debug Mode ist eingeschaltet!</div>
-      <% } %> <% if (userEmail) { %>
-      <div class="user-info">
-        Eingeloggt als: <%= userEmail %> (<%= userGroups %>)
-      </div>
-      <% } %>
+    <%- include('partials/alerts') %> <%- include('partials/user-info') %> <%-
+    include('partials/tracker-switch', { navItems: navItems, currentPage:
+    "panel" }) %>
 
-      <div class="tracker-switch">
-        <a href="/admin" class="active">Admin Dashboard</a>
-        <a href="/admin/logs">Logs</a>
-        <a href="/">Tracker</a>
-        <a href="/logout">Logout</a>
-      </div>
-
-      <div class="admin-stats">
-        <div class="stat-card">
-          <h3>System Status</h3>
-          <p>
-            Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %>
-          </p>
-          <p>Environment: <%= process.env.NODE_ENV %></p>
-        </div>
-      </div>
-
-      <div class="admin-controls">
-        <button id="toggleDebugMode" class="button">
-          <%= isDebugMode ? 'Debug Mode Auschalten' : 'Debug Mode Einschalten'
-          %>
-        </button>
+    <div class="admin-stats">
+      <div class="stat-card">
+        <h3>System Status</h3>
+        <p>
+          Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %>
+        </p>
+        <p>Environment: <%= process.env.NODE_ENV %></p>
       </div>
     </div>
-  </body>
-</html>
+
+    <div class="admin-controls">
+      <button id="toggleDebugMode" class="button">
+        <%= isDebugMode ? 'Debug Mode Auschalten' : 'Debug Mode Einschalten' %>
+      </button>
+    </div>
+    <%- include('partials/footer') %>
+  </div>
+</body>

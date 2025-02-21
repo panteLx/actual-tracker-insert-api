@@ -8,6 +8,7 @@ import {
   getFileVersion,
   validateTransaction,
   sanitizeString,
+  getNavigationItems,
 } from "../utils/helpers.js";
 
 const router = express.Router();
@@ -61,6 +62,8 @@ router.get("/", async (req, res) => {
       userGroups: req.userGroups,
       currentDate: getCurrentDate(),
       debug,
+      navItems: getNavigationItems("tracker"),
+      currentPage: trackerType,
     });
   } catch (error) {
     console.error("Error in GET route:", error);

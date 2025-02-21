@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { config } from "../config/config.js";
 import cloudflareAuth from "../middleware/cloudflareAuth.js";
-import { getFileVersion } from "../utils/helpers.js";
+import { getFileVersion, getNavigationItems } from "../utils/helpers.js";
 import { promises as fsPromises } from "fs";
 
 const router = express.Router();
@@ -37,13 +37,20 @@ const getAssetVersions = async () => {
 router.get("/admin", cloudflareAuth, checkAdminGroup, async (req, res) => {
   // Get asset versions for cache busting first
   const { cssVersion, jsVersion } = await getAssetVersions();
-
+  const successMessage = req.query.success;
+  const errorMessage = req.query.error;
+  const debug = req.query.debug || null;
   res.render("adminPanel", {
     userEmail: req.userEmail,
     userGroups: req.userGroups,
     isDebugMode: config.debug,
     cssVersion,
     jsVersion,
+    successMessage,
+    errorMessage,
+    debug,
+    navItems: getNavigationItems("admin"),
+    currentPage: "panel",
   });
 });
 
@@ -51,7 +58,9 @@ router.get("/admin", cloudflareAuth, checkAdminGroup, async (req, res) => {
 router.get("/admin/logs", cloudflareAuth, checkAdminGroup, async (req, res) => {
   const logFilePath = path.join(process.cwd(), "logs/combined.log");
   const { cssVersion, jsVersion } = await getAssetVersions();
-
+  const successMessage = req.query.success;
+  const errorMessage = req.query.error;
+  const debug = req.query.debug || null;
   fs.readFile(logFilePath, "utf8", (err, data) => {
     if (err) {
       console.error("Error reading log file:", err);
@@ -77,6 +86,11 @@ router.get("/admin/logs", cloudflareAuth, checkAdminGroup, async (req, res) => {
       isDebugMode: config.debug,
       cssVersion,
       jsVersion,
+      successMessage,
+      errorMessage,
+      debug,
+      navItems: getNavigationItems("admin"),
+      currentPage: "logs",
     });
   });
 });

@@ -1,0 +1,17 @@
+<div class="tracker-switch">
+  <% if (typeof navItems === 'object' && navItems.items) { %> <%
+  navItems.items.forEach(function(item) { %>
+  <a
+    href="<%= item.url %>"
+    class="<%= currentPage === item.id ? 'active' : '' %>"
+  >
+    <%= item.label %>
+  </a>
+  <% }); %> <% if (navItems.currentSection === 'admin') { %>
+  <a href="/" class="section-link">Tracker</a>
+  <% } %> <% if (navItems.currentSection === 'tracker' &&
+  userGroups.includes('global-admins')) { %>
+  <a href="/admin" class="section-link">Admin Panel</a>
+  <% } %> <% } %>
+  <a href="/logout">Logout</a>
+</div>

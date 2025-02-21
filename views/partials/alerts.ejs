@@ -1,0 +1,12 @@
+<% if (isDebugMode) { %>
+<div class="alert debug">Debug Mode ist eingeschaltet!</div>
+<% } %> <% if (successMessage) { %>
+<div class="alert success"><%= successMessage %></div>
+<% } %> <% if (errorMessage) { %>
+<div class="alert error"><%= errorMessage %></div>
+<% } %> <% if (debug && isDebugMode) { %>
+<div class="alert debug" id="debug">
+  <strong>Debug Nachricht:</strong>
+  <pre><%= debug %></pre>
+</div>
+<% } %>

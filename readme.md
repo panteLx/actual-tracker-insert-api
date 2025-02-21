@@ -50,6 +50,7 @@ When DEBUG=true:
 │ │ └── rateLimiter.js # Rate limiting middleware
 │ ├── routes/
 │ │ ├── adminRoutes.js # Admin panel routes
+│ │ ├── logoutRoutes.js # Logout routes
 │ │ └── transactionRoutes.js # Transaction routes
 │ ├── services/
 │ │ ├── actualService.js # Actual API integration
@@ -120,7 +121,7 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
 1. **Authentication**
 
-   - Uses Cloudflare Access for user authentication
+   - Uses Cloudflare Access for user authentication (verified JWT token)
    - Development mode uses a mock email for testing
    - Production mode uses the user's actual email
    - User groups are checked to determine access to the admin panel
@@ -150,7 +151,7 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
    - Input sanitization for all user data
    - Environment-based configuration
    - Comprehensive error handling with user feedback
-   - Secure authentication via Cloudflare Access
+   - Secure authentication via Cloudflare Access (verified JWT token)
    - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 
 6. **Admin Panel (WIP)**
@@ -167,7 +168,7 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
 2. **Enhanced Authentication**
 
-   - Implement full JWT verification for Cloudflare Access
+   - ~~Implement full JWT verification for Cloudflare Access~~
    - ~~Add role-based access control~~
    - Add user preferences and settings
 

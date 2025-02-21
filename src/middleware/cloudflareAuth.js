@@ -23,8 +23,6 @@ const getCloudflareUser = async (req, res, next) => {
     const response = await fetch(certsUrl);
     const certs = await response.json();
 
-    console.log("JWKS Response:", certs);
-
     // Use the public_cert for verification
     const publicCert = certs.public_cert.cert; // Get the PEM certificate
 

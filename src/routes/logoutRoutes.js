@@ -8,7 +8,7 @@ router.get("/logout", (req, res) => {
   if (process.env.NODE_ENV === "development") {
     res.redirect("/");
   } else {
-    res.clearCookie("CF_AUTHORIZATION");
+    res.clearCookie("CF_Authorization");
     const logoutUrl = `${process.env.CF_TEAM_DOMAIN}/cdn-cgi/access/logout`;
     res.redirect(logoutUrl);
   }

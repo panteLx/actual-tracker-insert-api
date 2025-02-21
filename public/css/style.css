@@ -454,7 +454,7 @@ button:disabled {
 
 .footer {
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 0 0 0;
   position: relative;
   bottom: 0;
   width: 100%;

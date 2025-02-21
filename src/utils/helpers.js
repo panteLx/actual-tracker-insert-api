@@ -80,7 +80,9 @@ export const getLatestCommitHash = () => {
       if (error) {
         return reject(error);
       }
-      resolve(stdout.trim());
+      const fullHash = stdout.trim();
+      const shortHash = fullHash.substring(0, 7); // Get the first 7 characters
+      resolve({ fullHash, shortHash });
     });
   });
 };

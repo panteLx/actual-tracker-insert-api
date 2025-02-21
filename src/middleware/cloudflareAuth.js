@@ -16,10 +16,10 @@ const getCloudflareUser = async (req, res, next) => {
         .status(401)
         .send("Unauthorized - No valid Cloudflare Access credentials");
     }
-
+    console.log(jwtToken);
     // Decode the JWT token
     const decodedToken = jwt.decode(jwtToken);
-
+    console.log(decodedToken);
     // Extract user groups from the decoded token
     const userGroups = decodedToken?.groups || []; // Adjust this based on your JWT structure
 

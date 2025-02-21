@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import fetch from "node-fetch";
 
 const getCloudflareUser = async (req, res, next) => {
   try {
@@ -16,12 +17,20 @@ const getCloudflareUser = async (req, res, next) => {
         .status(401)
         .send("Unauthorized - No valid Cloudflare Access credentials");
     }
-    console.log(jwtToken);
-    // Decode the JWT token
-    const decodedToken = jwt.decode(jwtToken);
-    console.log(decodedToken);
+
+    // Verify the JWT token
+    const certsUrl = `${process.env.CF_TEAM_DOMAIN}/cdn-cgi/access/certs`;
+    const response = await fetch(certsUrl);
+    const certs = await response.json();
+    const publicKey = certs.keys[0]; // Assuming you want the first key
+
+    // Verify the token
+    const decodedToken = jwt.verify(jwtToken, publicKey, {
+      algorithms: ["RS256"],
+    });
+
     // Extract user groups from the decoded token
-    const userGroups = decodedToken?.custom?.groups || []; // Accessing custom.groups
+    const userGroups = decodedToken?.custom?.groups || [];
 
     req.userEmail = userEmail;
     req.userGroups = userGroups; // Set user groups in request

@@ -179,6 +179,7 @@ button:disabled {
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s;
+  text-align: center;
 }
 
 .tracker-switch a.active {
@@ -459,4 +460,22 @@ button:disabled {
   width: 100%;
   border-top: 1px solid var(--border);
   margin-top: 2rem; /* Add some space above the footer */
+}
+
+.footer p {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--muted-foreground);
+  background-color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.footer a {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: bold;
 }

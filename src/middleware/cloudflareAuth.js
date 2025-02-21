@@ -1,12 +1,13 @@
+import jwt from "jsonwebtoken";
+
 const getCloudflareUser = async (req, res, next) => {
   try {
-    const jwt = req.headers["cf-access-jwt-assertion"];
+    const jwtToken = req.headers["cf-access-jwt-assertion"];
     const userEmail = req.headers["cf-access-authenticated-user-email"];
-    const userGroups = req.headers["cf-access-authenticated-user-groups"] || []; // Get user groups
 
-    if (userEmail) {
+    if (!jwtToken || !userEmail) {
       // If running in development, use a mock email and group
-      if (process.env.NODE_ENV === "production") {
+      if (process.env.NODE_ENV === "development") {
         req.userEmail = "dev@example.com";
         req.userGroups = ["global-admins"]; // Mock group for development
         return next();
@@ -16,12 +17,11 @@ const getCloudflareUser = async (req, res, next) => {
         .send("Unauthorized - No valid Cloudflare Access credentials");
     }
 
-    // Verify the JWT token with Cloudflare's JWKS endpoint
-    // Your team domain should be something like: https://your-team-name.cloudflareaccess.com
-    const certsUrl = `${process.env.CF_TEAM_DOMAIN}/cdn-cgi/access/certs`;
+    // Decode the JWT token
+    const decodedToken = jwt.decode(jwtToken);
 
-    // TODO: Implement JWT verification here
-    // For production, you should verify the JWT token using the public keys from the certs endpoint
+    // Extract user groups from the decoded token
+    const userGroups = decodedToken?.groups || []; // Adjust this based on your JWT structure
 
     req.userEmail = userEmail;
     req.userGroups = userGroups; // Set user groups in request

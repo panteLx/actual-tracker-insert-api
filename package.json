@@ -23,7 +23,7 @@
   "name": "actual-tracker-insert-api",
   "version": "1.0.0",
   "description": "Actual Transaction Manager",
-  "main": "index.js",
+  "main": "src/app.js",
   "keywords": [],
   "author": "",
   "license": "ISC"

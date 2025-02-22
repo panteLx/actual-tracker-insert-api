@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import fetch from "node-fetch";
+import { config } from "../config/config.js";
 
 const getCloudflareUser = async (req, res, next) => {
   try {
@@ -8,7 +9,7 @@ const getCloudflareUser = async (req, res, next) => {
 
     if (!jwtToken || !userEmail) {
       // If running in development, use a mock email and group
-      if (process.env.NODE_ENV === "development") {
+      if (config.NODE_ENV === "development") {
         req.userEmail = "dev@example.com";
         req.userGroups = ["global-admins"]; // Mock group for development
         return next();
@@ -19,7 +20,7 @@ const getCloudflareUser = async (req, res, next) => {
     }
 
     // Verify the JWT token
-    const certsUrl = `${process.env.CF_TEAM_DOMAIN}/cdn-cgi/access/certs`;
+    const certsUrl = `${config.CF_TEAM_DOMAIN}/cdn-cgi/access/certs`;
     const response = await fetch(certsUrl);
     const certs = await response.json();
 

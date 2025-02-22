@@ -11,6 +11,8 @@ dotenv.config({ path: path.resolve(__dirname, "../../", envFile) });
 export const config = {
   port: process.env.PORT || 3000,
   host: process.env.HOST || "127.0.0.1",
+  NODE_ENV: process.env.NODE_ENV || "development",
+  CF_TEAM_DOMAIN: process.env.CF_TEAM_DOMAIN,
   actual: {
     dataDir: process.env.ACTUAL_DATA_DIR,
     serverURL: process.env.ACTUAL_URL,

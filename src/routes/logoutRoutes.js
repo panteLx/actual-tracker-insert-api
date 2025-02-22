@@ -1,15 +1,15 @@
 import express from "express";
-
+import { config } from "../config/config.js";
 const router = express.Router();
 
 // Logout route
 router.get("/logout", (req, res) => {
   // Redirect to Cloudflare logout URL
-  if (process.env.NODE_ENV === "development") {
+  if (config.NODE_ENV === "development") {
     res.redirect("/");
   } else {
     res.clearCookie("CF_Authorization");
-    const logoutUrl = `${process.env.CF_TEAM_DOMAIN}/cdn-cgi/access/logout`;
+    const logoutUrl = `${config.CF_TEAM_DOMAIN}/cdn-cgi/access/logout`;
     res.redirect(logoutUrl);
   }
 });

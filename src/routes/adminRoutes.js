@@ -44,6 +44,7 @@ router.get("/admin", cloudflareAuth, checkAdminGroup, async (req, res) => {
     userEmail: req.userEmail,
     userGroups: req.userGroups,
     isDebugMode: config.debug,
+    NODE_ENV: config.NODE_ENV,
     cssVersion,
     jsVersion,
     successMessage,

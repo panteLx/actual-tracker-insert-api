@@ -45,7 +45,7 @@ const startServer = async () => {
 
     app.listen(config.port, config.host, () => {
       console.log(
-        `${process.env.NODE_ENV} - Server running at http://${config.host}:${config.port}`
+        `${config.NODE_ENV} - Server running at http://${config.host}:${config.port}`
       );
     });
   } catch (error) {

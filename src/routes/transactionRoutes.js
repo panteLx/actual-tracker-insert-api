@@ -135,7 +135,7 @@ router.post("/", transactionLimiter, async (req, res) => {
         transaction: { ...transaction, amount: displayAmount },
         budgetId,
         accountId,
-        env: process.env.NODE_ENV,
+        env: config.NODE_ENV,
       },
       null,
       2

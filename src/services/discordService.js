@@ -35,7 +35,7 @@ class DiscordService {
       footer: {
         text: `${
           trackerType.charAt(0).toUpperCase() + trackerType.slice(1)
-        } Tracker - ${process.env.NODE_ENV}`,
+        } Tracker - ${config.NODE_ENV}`,
       },
     };
 

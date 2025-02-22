@@ -15,6 +15,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - User Attribution: All transactions are tagged with the user's email for accountability.
 - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 - Admin Panel: A panel to view logs and system settings.
+- Date Formatting: Formats the date and time of the transactions and logs to the configured locale and timezone.
 
 ## Security
 
@@ -115,7 +116,7 @@ Start the development server by running:
 pnpm run dev
 ```
 
-Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.
+Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) to view the application.
 
 ## How It Works
 

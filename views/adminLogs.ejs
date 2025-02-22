@@ -79,7 +79,7 @@
         >
           <div class="log-entry-header">
             <span class="log-timestamp"
-              ><%= new Date(entry.timestamp).toLocaleString() %></span
+              ><%= formatDateTime(entry.timestamp) %></span
             >
             <span class="log-level <%= entry.level %>"><%= entry.level %></span>
           </div>

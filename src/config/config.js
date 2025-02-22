@@ -12,6 +12,8 @@ export const config = {
   port: process.env.PORT || 3000,
   host: process.env.HOST || "127.0.0.1",
   NODE_ENV: process.env.NODE_ENV || "development",
+  locale: process.env.LOCALE || "de-DE",
+  timezone: process.env.TIMEZONE || "Europe/Berlin",
   CF_TEAM_DOMAIN: process.env.CF_TEAM_DOMAIN,
   actual: {
     dataDir: process.env.ACTUAL_DATA_DIR,

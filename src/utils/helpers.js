@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import { exec } from "child_process";
+import { config } from "../config/config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -117,4 +118,16 @@ export const getNavigationItems = (currentPage) => {
         currentSection: "tracker",
       };
   }
+};
+
+export const formatDateTime = (date) => {
+  return new Date(date).toLocaleString(config.locale, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: config.timezone,
+  });
 };

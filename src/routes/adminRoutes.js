@@ -3,7 +3,11 @@ import fs from "fs";
 import path from "path";
 import { config } from "../config/config.js";
 import cloudflareAuth from "../middleware/cloudflareAuth.js";
-import { getFileVersion, getNavigationItems } from "../utils/helpers.js";
+import {
+  getFileVersion,
+  getNavigationItems,
+  formatDateTime,
+} from "../utils/helpers.js";
 import { promises as fsPromises } from "fs";
 
 const router = express.Router();
@@ -92,6 +96,7 @@ router.get("/admin/logs", cloudflareAuth, checkAdminGroup, async (req, res) => {
       debug,
       navItems: getNavigationItems("admin"),
       currentPage: "logs",
+      formatDateTime,
     });
   });
 });

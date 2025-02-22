@@ -14,10 +14,10 @@ const minifyJS = (inputFile, outputFile) => {
   fs.writeFileSync(outputFile, output);
 };
 
-// Example usage
 minifyCSS("public/css/style.css", "public/css/style.min.css");
 minifyJS("public/js/adminPanel.js", "public/js/adminPanel.min.js");
 minifyJS("public/js/adminLogs.js", "public/js/adminLogs.min.js");
+minifyJS("public/js/userPanel.js", "public/js/userPanel.min.js");
 minifyJS(
   "public/js/transactionTracker.js",
   "public/js/transactionTracker.min.js"

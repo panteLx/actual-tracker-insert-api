@@ -10,6 +10,7 @@ import { limiter } from "./middleware/rateLimiter.js";
 import { requestLogger } from "./middleware/logger.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import logoutRoutes from "./routes/logoutRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import { getLatestCommitHashMiddleware } from "./middleware/getLatestCommitHash.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,6 +37,7 @@ app.set("views", path.join(__dirname, "../views"));
 app.use("/", transactionRoutes);
 app.use("/", adminRoutes);
 app.use("/", logoutRoutes);
+app.use("/", userRoutes);
 
 const startServer = async () => {
   try {

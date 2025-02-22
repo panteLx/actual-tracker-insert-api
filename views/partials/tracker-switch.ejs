@@ -9,9 +9,23 @@
   </a>
   <% }); %> <% if (navItems.currentSection === 'admin') { %>
   <a href="/" class="section-link">Tracker</a>
+  <a href="/user" class="section-link">User</a>
+
+  <% } %> <% if (navItems.currentSection === 'tracker') { %>
+  <a href="/user" class="section-link">User</a>
+
   <% } %> <% if (navItems.currentSection === 'tracker' &&
   userGroups.includes('global-admins')) { %>
-  <a href="/admin" class="section-link">Admin Panel</a>
-  <% } %> <% } %>
+  <a href="/admin" class="section-link">Admin</a>
+
+  <% } %> <% if (navItems.currentSection === 'user') { %>
+  <a href="/" class="section-link">Tracker</a>
+
+  <% } %> <% if (navItems.currentSection === 'user' &&
+  userGroups.includes('global-admins')) { %>
+  <a href="/admin" class="section-link">Admin</a>
+
+  <% } } %>
+
   <a href="/logout">Logout</a>
 </div>

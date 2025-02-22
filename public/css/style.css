@@ -165,21 +165,46 @@ button:disabled {
 
 .tracker-switch {
   display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-bottom: 1.5rem;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.5rem;
+  margin: 1rem 0;
+  white-space: nowrap;
 }
 
 .tracker-switch a {
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
+  text-decoration: none;
+  text-align: center;
   text-decoration: none;
   color: var(--muted-foreground);
   background-color: var(--muted);
   font-size: 0.875rem;
   font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
   transition: all 0.2s;
-  text-align: center;
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+}
+
+.tracker-switch a:last-child {
+  margin-right: 0;
+}
+
+.tracker-switch a:hover {
+  background-color: var(--hover-background);
+  color: var(--hover-foreground);
+}
+
+@media (min-width: 768px) {
+  .tracker-switch {
+    justify-content: center;
+  }
+
+  .tracker-switch a {
+    width: auto;
+  }
 }
 
 .tracker-switch a.active {

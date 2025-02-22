@@ -9,4 +9,5 @@ logs/*
 /public/js/adminPanel.min.js
 /public/js/adminLogs.min.js
 /public/js/transactionTracker.min.js
+/public/js/userPanel.min.js
 /public/css/style.min.css

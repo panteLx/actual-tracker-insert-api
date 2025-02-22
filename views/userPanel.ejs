@@ -1,0 +1,25 @@
+<%- include('partials/header', { title: 'User Panel', jsFile: 'userPanel' }) %>
+<body>
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+  </div>
+  <div class="container">
+    <h1>User Panel</h1>
+
+    <%- include('partials/user-info') %> <%- include('partials/tracker-switch',
+    { navItems: navItems, currentPage: "panel" }) %><%-
+    include('partials/alerts') %>
+    <div class="user-panel">
+      <% if (userEmail) { %>
+      <div class="user-info">
+        Eingeloggt als: <%= userEmail %> (<%= userGroups %>)
+      </div>
+
+      <% } %>
+    </div>
+    <div class="alert error">
+      Leider ist diese Seite noch nicht fertiggestellt! Komme später wieder.
+    </div>
+    <%- include('partials/footer') %>
+  </div>
+</body>

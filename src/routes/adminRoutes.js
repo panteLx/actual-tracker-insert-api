@@ -28,7 +28,8 @@ const getAssetVersions = async () => {
   try {
     [cssVersion, jsVersion] = await Promise.all([
       getFileVersion("/css/style.min.css"),
-      getFileVersion("/js/transactionTracker.min.js"),
+      getFileVersion("/js/adminLogs.min.js"),
+      getFileVersion("/js/adminPanel.min.js"),
     ]);
   } catch (error) {
     console.error("Error getting file versions:", error);

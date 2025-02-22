@@ -1,14 +1,14 @@
 <%- include('partials/header', { title: 'Logs', jsFile: 'adminLogs' }) %>
-<body data-debug-mode="<%= isDebugMode %>">
+<body>
   <div id="loading" class="loading">
     <div class="spinner"></div>
   </div>
   <div class="container">
     <h1>Logs</h1>
 
-    <%- include('partials/alerts') %> <%- include('partials/user-info') %> <%-
-    include('partials/tracker-switch', { navItems: navItems, currentPage: "logs"
-    }) %>
+    <%- include('partials/user-info') %> <%- include('partials/tracker-switch',
+    { navItems: navItems, currentPage: "logs" }) %><%-
+    include('partials/alerts') %>
 
     <div class="log-controls">
       <button class="log-controls-mobile-toggle">

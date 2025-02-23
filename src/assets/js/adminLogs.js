@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const logEntries = document.querySelectorAll(".log-entry");
   const logEntriesContainer = document.getElementById("logEntries");
 
+  const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+  // Update all fetch requests to include the token
+  const headers = {
+    "Content-Type": "application/json",
+    "CSRF-Token": csrfToken,
+  };
+
   function filterLogs() {
     const searchTerm = searchInput.value.toLowerCase();
     const level = levelSelect.value;
@@ -59,9 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch("/admin/logs/clear", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify({ level }),
       });
 

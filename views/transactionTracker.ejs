@@ -12,6 +12,7 @@
     include('partials/alerts') %>
 
     <form action="/" method="POST" id="transactionForm">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
       <input type="hidden" name="trackerType" value="<%= trackerType %>" />
       <!-- Formularfelder -->
       <div class="form-group">

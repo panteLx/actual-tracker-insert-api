@@ -11,13 +11,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const saveTimezoneButton = document.getElementById("saveTimezone");
   const timezoneInput = document.getElementById("timezone");
 
+  const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+  // Update all fetch requests to include the token
+  const headers = {
+    "Content-Type": "application/json",
+    "CSRF-Token": csrfToken,
+  };
+
   toggleDebugButton.addEventListener("click", async () => {
     try {
       const response = await fetch("/admin/debug/toggle", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
       });
 
       if (response.ok) {
@@ -37,9 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch("/admin/debug/discord/toggle", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
       });
 
       if (response.ok) {
@@ -61,9 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch("/admin/discord/webhook", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify({ webhookUrl }),
       });
 
@@ -86,9 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch("/admin/locale", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify({ locale }),
       });
 
@@ -111,9 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch("/admin/timezone", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify({ timezone }),
       });
 

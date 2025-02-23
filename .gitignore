@@ -11,4 +11,3 @@ logs/*
 /public/js/transactionTracker.min.js
 /public/js/userPanel.min.js
 /public/css/style.min.css
-/src/config/settings.json

@@ -15,4 +15,7 @@
     <script defer src="/js/<%= jsFile %>.min.js?v=<%= jsVersion %>"></script>
   </head>
   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+  </div>
 </html>

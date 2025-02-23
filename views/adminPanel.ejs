@@ -17,13 +17,27 @@
         <p>
           Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %>
         </p>
+        <p>
+          Discord Debug: <%= isDiscordDebug ? 'Eingeschaltet' : 'Ausgeschaltet'
+          %>
+        </p>
         <p>Environment: <%= NODE_ENV %></p>
       </div>
     </div>
 
     <div class="admin-controls">
-      <button id="toggleDebugMode" class="button">
-        <%= isDebugMode ? 'Debug Mode Auschalten' : 'Debug Mode Einschalten' %>
+      <button
+        id="toggleDebugMode"
+        class="<%= isDebugMode ? 'button button-turn-off' : 'button' %>"
+      >
+        <%= isDebugMode ? 'Debug Mode Ausschalten' : 'Debug Mode Einschalten' %>
+      </button>
+      <button
+        id="toggleDiscordDebug"
+        class="<%= isDiscordDebug ? 'button button-turn-off' : 'button' %>"
+      >
+        <%= isDiscordDebug ? `Discord Debug Mode Ausschalten` : `Discord Debug
+        Mode Einschalten` %>
       </button>
     </div>
     <%- include('partials/footer') %>

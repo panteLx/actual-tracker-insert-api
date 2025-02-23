@@ -49,6 +49,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     userGroups: req.userGroups,
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
+    isDiscordDebug: config.discord.debug,
     cssVersion,
     jsVersion,
     successMessage,
@@ -148,6 +149,17 @@ router.post("/admin/debug/toggle", checkAdminGroup, (req, res) => {
   res
     .status(200)
     .json({ message: "Debug mode toggled", debugMode: !currentMode });
+});
+
+router.post("/admin/debug/discord/toggle", checkAdminGroup, (req, res) => {
+  const currentDiscordDebug = config.discord.debug;
+  config.discord.debug = !currentDiscordDebug; // Toggle the Discord debug mode
+  res
+    .status(200)
+    .json({
+      message: "Discord debug mode toggled",
+      discordDebugMode: !currentDiscordDebug,
+    });
 });
 
 export default router;

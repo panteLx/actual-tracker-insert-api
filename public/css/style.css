@@ -132,7 +132,7 @@ button {
 }
 
 button:hover {
-  opacity: 0.9;
+  opacity: 0.7;
 }
 
 button:disabled {
@@ -513,4 +513,16 @@ button:disabled {
   text-decoration: none;
   color: var(--primary);
   font-weight: bold;
+}
+
+.admin-controls {
+  display: flex;
+  flex-direction: row; /* Stack buttons vertically */
+  gap: 1rem; /* Space between buttons */
+  margin: 2rem 0; /* Margin above and below the controls */
+}
+
+.button-turn-off {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
 }

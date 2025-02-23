@@ -38,14 +38,38 @@
 
     <div class="admin-settings">
       <label for="discordWebhookUrl">Discord Webhook URL:</label>
-      <input
-        type="text"
-        id="discordWebhookUrl"
-        value="<%= discordWebhookUrl %>"
-        class="form-input"
-        placeholder="Enter Discord Webhook URL"
-      />
-      <button id="saveWebhookUrl" class="button">Save Webhook URL</button>
+      <div class="admin-settings-input">
+        <input
+          type="text"
+          id="discordWebhookUrl"
+          value="<%= discordWebhookUrl %>"
+          class="form-input"
+          placeholder="Enter Discord Webhook URL"
+        />
+        <button id="saveWebhookUrl" class="button">Speichern</button>
+      </div>
+      <label for="locale">Sprache (nur Logs):</label>
+      <div class="admin-settings-input">
+        <input
+          type="text"
+          id="locale"
+          value="<%= locale %>"
+          class="form-input"
+          placeholder="Enter Locale"
+        />
+        <button id="saveLocale" class="button">Speichern</button>
+      </div>
+      <label for="timezone">Zeitzone (nur Logs):</label>
+      <div class="admin-settings-input">
+        <input
+          type="text"
+          id="timezone"
+          value="<%= timezone %>"
+          class="form-input"
+          placeholder="Enter Timezone"
+        />
+        <button id="saveTimezone" class="button">Speichern</button>
+      </div>
     </div>
     <%- include('partials/footer') %>
   </div>

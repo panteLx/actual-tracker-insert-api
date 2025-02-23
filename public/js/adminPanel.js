@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("toggleDiscordDebug");
   const saveWebhookUrlButton = document.getElementById("saveWebhookUrl");
   const discordWebhookUrlInput = document.getElementById("discordWebhookUrl");
+  const saveLocaleButton = document.getElementById("saveLocale");
+  const localeInput = document.getElementById("locale");
+  const saveTimezoneButton = document.getElementById("saveTimezone");
+  const timezoneInput = document.getElementById("timezone");
 
   toggleDebugButton.addEventListener("click", async () => {
     try {
@@ -66,13 +70,63 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         const data = await response.json();
         console.log(data.message); // Show success message
-        alert("Webhook URL updated successfully.");
+        window.location.reload(); // Reload the page to reflect changes
       } else {
         alert("Error updating webhook URL.");
       }
     } catch (error) {
       console.error("Error updating webhook URL:", error);
       alert("Error updating webhook URL.");
+    }
+  });
+
+  saveLocaleButton.addEventListener("click", async () => {
+    const locale = localeInput.value;
+
+    try {
+      const response = await fetch("/admin/locale", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ locale }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Show success message
+        window.location.reload(); // Reload the page to reflect changes
+      } else {
+        alert("Error updating locale.");
+      }
+    } catch (error) {
+      console.error("Error updating locale:", error);
+      alert("Error updating locale.");
+    }
+  });
+
+  saveTimezoneButton.addEventListener("click", async () => {
+    const timezone = timezoneInput.value;
+
+    try {
+      const response = await fetch("/admin/timezone", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ timezone }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Show success message
+        window.location.reload(); // Reload the page to reflect changes
+      } else {
+        alert("Error updating timezone.");
+      }
+    } catch (error) {
+      console.error("Error updating timezone:", error);
+      alert("Error updating timezone.");
     }
   });
 });

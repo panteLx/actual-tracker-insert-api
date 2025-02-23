@@ -519,3 +519,10 @@ button:disabled {
   background-color: var(--destructive);
   color: var(--destructive-foreground);
 }
+
+.admin-settings-input {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}

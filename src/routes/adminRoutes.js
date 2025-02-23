@@ -8,6 +8,7 @@ import {
   formatDateTime,
 } from "../utils/helpers.js";
 import { promises as fsPromises } from "fs";
+import { configService } from "../services/configService.js";
 
 const router = express.Router();
 
@@ -51,6 +52,8 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     NODE_ENV: config.NODE_ENV,
     isDiscordDebug: config.discord.debug,
     discordWebhookUrl: config.discord.webhookUrl,
+    locale: config.locale,
+    timezone: config.timezone,
     cssVersion,
     jsVersion,
     successMessage,
@@ -144,32 +147,61 @@ router.post("/admin/logs/clear", checkAdminGroup, async (req, res) => {
   }
 });
 
-router.post("/admin/debug/toggle", checkAdminGroup, (req, res) => {
+router.post("/admin/debug/toggle", checkAdminGroup, async (req, res) => {
   const currentMode = config.debug;
-  config.debug = !currentMode; // Toggle the debug mode
+  config.debug = !currentMode;
+  await configService.updateSetting("debug", !currentMode);
   res
     .status(200)
     .json({ message: "Debug mode toggled", debugMode: !currentMode });
 });
 
-router.post("/admin/debug/discord/toggle", checkAdminGroup, (req, res) => {
-  const currentDiscordDebug = config.discord.debug;
-  config.discord.debug = !currentDiscordDebug; // Toggle the Discord debug mode
-  res.status(200).json({
-    message: "Discord debug mode toggled",
-    discordDebugMode: !currentDiscordDebug,
-  });
-});
+router.post(
+  "/admin/debug/discord/toggle",
+  checkAdminGroup,
+  async (req, res) => {
+    const currentDiscordDebug = config.discord.debug;
+    config.discord.debug = !currentDiscordDebug;
+    await configService.updateSetting("discord.debug", !currentDiscordDebug);
+    res.status(200).json({
+      message: "Discord debug mode toggled",
+      discordDebugMode: !currentDiscordDebug,
+    });
+  }
+);
 
-router.post("/admin/discord/webhook", checkAdminGroup, (req, res) => {
+router.post("/admin/discord/webhook", checkAdminGroup, async (req, res) => {
   const { webhookUrl } = req.body;
   if (webhookUrl) {
-    config.discord.webhookUrl = webhookUrl; // Update the webhook URL
+    config.discord.webhookUrl = webhookUrl;
+    await configService.updateSetting("discord.webhookUrl", webhookUrl);
     res
       .status(200)
       .json({ message: "Discord webhook URL updated successfully." });
   } else {
     res.status(400).json({ message: "Invalid webhook URL." });
+  }
+});
+
+router.post("/admin/locale", checkAdminGroup, async (req, res) => {
+  const { locale } = req.body;
+  if (locale) {
+    config.locale = locale;
+    await configService.updateSetting("locale", locale);
+    res.status(200).json({ message: "Locale updated successfully." });
+  } else {
+    res.status(400).json({ message: "Invalid locale." });
+  }
+});
+
+router.post("/admin/timezone", checkAdminGroup, async (req, res) => {
+  const { timezone } = req.body;
+  if (timezone) {
+    config.timezone = timezone;
+    await configService.updateSetting("timezone", timezone);
+    res.status(200).json({ message: "Timezone updated successfully." });
+  } else {
+    res.status(400).json({ message: "Invalid timezone." });
   }
 });
 

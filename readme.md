@@ -121,6 +121,9 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
    - View, filter, search trought and clear logs
    - Toggle debug mode
    - Toggle Discord debug mode
+   - Update Discord webhook URL
+   - Update locale (currently only for logs)
+   - Update timezone (currently only for logs)
    - View system information
 
 7. **User Panel (WIP)**

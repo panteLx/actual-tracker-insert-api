@@ -50,6 +50,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
     isDiscordDebug: config.discord.debug,
+    discordWebhookUrl: config.discord.webhookUrl,
     cssVersion,
     jsVersion,
     successMessage,
@@ -154,12 +155,22 @@ router.post("/admin/debug/toggle", checkAdminGroup, (req, res) => {
 router.post("/admin/debug/discord/toggle", checkAdminGroup, (req, res) => {
   const currentDiscordDebug = config.discord.debug;
   config.discord.debug = !currentDiscordDebug; // Toggle the Discord debug mode
-  res
-    .status(200)
-    .json({
-      message: "Discord debug mode toggled",
-      discordDebugMode: !currentDiscordDebug,
-    });
+  res.status(200).json({
+    message: "Discord debug mode toggled",
+    discordDebugMode: !currentDiscordDebug,
+  });
+});
+
+router.post("/admin/discord/webhook", checkAdminGroup, (req, res) => {
+  const { webhookUrl } = req.body;
+  if (webhookUrl) {
+    config.discord.webhookUrl = webhookUrl; // Update the webhook URL
+    res
+      .status(200)
+      .json({ message: "Discord webhook URL updated successfully." });
+  } else {
+    res.status(400).json({ message: "Invalid webhook URL." });
+  }
 });
 
 export default router;

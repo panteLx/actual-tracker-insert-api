@@ -12,17 +12,12 @@
     include('partials/alerts') %>
 
     <div class="admin-stats">
-      <div class="stat-card">
-        <h3>System Status</h3>
-        <p>
-          Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %>
-        </p>
-        <p>
-          Discord Debug: <%= isDiscordDebug ? 'Eingeschaltet' : 'Ausgeschaltet'
-          %>
-        </p>
-        <p>Environment: <%= NODE_ENV %></p>
-      </div>
+      <h3>System Status</h3>
+      <p>Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %></p>
+      <p>
+        Discord Debug: <%= isDiscordDebug ? 'Eingeschaltet' : 'Ausgeschaltet' %>
+      </p>
+      <p>Environment: <%= NODE_ENV %></p>
     </div>
 
     <div class="admin-controls">
@@ -39,6 +34,18 @@
         <%= isDiscordDebug ? `Discord Debug Mode Ausschalten` : `Discord Debug
         Mode Einschalten` %>
       </button>
+    </div>
+
+    <div class="admin-settings">
+      <label for="discordWebhookUrl">Discord Webhook URL:</label>
+      <input
+        type="text"
+        id="discordWebhookUrl"
+        value="<%= discordWebhookUrl %>"
+        class="form-input"
+        placeholder="Enter Discord Webhook URL"
+      />
+      <button id="saveWebhookUrl" class="button">Save Webhook URL</button>
     </div>
     <%- include('partials/footer') %>
   </div>

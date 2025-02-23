@@ -2,7 +2,6 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import { config } from "../config/config.js";
-import cloudflareAuth from "../middleware/cloudflareAuth.js";
 import {
   getFileVersion,
   getNavigationItems,
@@ -39,7 +38,7 @@ const getAssetVersions = async () => {
   return { cssVersion, jsVersion };
 };
 // Admin panel route
-router.get("/admin", cloudflareAuth, checkAdminGroup, async (req, res) => {
+router.get("/admin", checkAdminGroup, async (req, res) => {
   // Get asset versions for cache busting first
   const { cssVersion, jsVersion } = await getAssetVersions();
   const successMessage = req.query.success;
@@ -61,7 +60,7 @@ router.get("/admin", cloudflareAuth, checkAdminGroup, async (req, res) => {
 });
 
 // Logs route
-router.get("/admin/logs", cloudflareAuth, checkAdminGroup, async (req, res) => {
+router.get("/admin/logs", checkAdminGroup, async (req, res) => {
   const logFilePath = path.join(process.cwd(), "logs/combined.log");
   const { cssVersion, jsVersion } = await getAssetVersions();
   const successMessage = req.query.success;
@@ -103,62 +102,52 @@ router.get("/admin/logs", cloudflareAuth, checkAdminGroup, async (req, res) => {
 });
 
 // Add this route handler for clearing logs
-router.post(
-  "/admin/logs/clear",
-  cloudflareAuth,
-  checkAdminGroup,
-  async (req, res) => {
-    const { level } = req.body;
-    const logFilePath = path.join(process.cwd(), "logs/combined.log");
-    const errorLogPath = path.join(process.cwd(), "logs/error.log");
+router.post("/admin/logs/clear", checkAdminGroup, async (req, res) => {
+  const { level } = req.body;
+  const logFilePath = path.join(process.cwd(), "logs/combined.log");
+  const errorLogPath = path.join(process.cwd(), "logs/error.log");
 
-    try {
-      // Read the combined log file
-      const data = await fsPromises.readFile(logFilePath, "utf8");
-      const logs = data.split("\n").filter(Boolean);
+  try {
+    // Read the combined log file
+    const data = await fsPromises.readFile(logFilePath, "utf8");
+    const logs = data.split("\n").filter(Boolean);
 
-      // Filter logs based on level
-      const filteredLogs = logs.filter((log) => {
-        try {
-          const entry = JSON.parse(log);
-          // If level is 'all', remove everything
-          if (level === "all") {
-            return false;
-          }
-          // Keep logs that don't match the selected level
-          return entry.level !== level;
-        } catch {
-          return true; // Keep invalid JSON entries
+    // Filter logs based on level
+    const filteredLogs = logs.filter((log) => {
+      try {
+        const entry = JSON.parse(log);
+        // If level is 'all', remove everything
+        if (level === "all") {
+          return false;
         }
-      });
-
-      // Write filtered logs back to combined.log
-      await fsPromises.writeFile(logFilePath, filteredLogs.join("\n") + "\n");
-
-      // If clearing error logs or all logs, clear error.log file
-      if (level === "error" || level === "all") {
-        await fsPromises.writeFile(errorLogPath, "");
+        // Keep logs that don't match the selected level
+        return entry.level !== level;
+      } catch {
+        return true; // Keep invalid JSON entries
       }
+    });
 
-      res.status(200).json({ message: "Logs successfully cleared" });
-    } catch (error) {
-      console.error("Error clearing logs:", error);
-      res.status(500).json({ error: "Failed to clear logs" });
+    // Write filtered logs back to combined.log
+    await fsPromises.writeFile(logFilePath, filteredLogs.join("\n") + "\n");
+
+    // If clearing error logs or all logs, clear error.log file
+    if (level === "error" || level === "all") {
+      await fsPromises.writeFile(errorLogPath, "");
     }
-  }
-);
 
-router.post(
-  "/admin/debug/toggle",
-  cloudflareAuth,
-  checkAdminGroup,
-  (req, res) => {
-    const currentMode = config.debug;
-    config.debug = !currentMode; // Toggle the debug mode
-    res
-      .status(200)
-      .json({ message: "Debug mode toggled", debugMode: !currentMode });
+    res.status(200).json({ message: "Logs successfully cleared" });
+  } catch (error) {
+    console.error("Error clearing logs:", error);
+    res.status(500).json({ error: "Failed to clear logs" });
   }
-);
+});
+
+router.post("/admin/debug/toggle", checkAdminGroup, (req, res) => {
+  const currentMode = config.debug;
+  config.debug = !currentMode; // Toggle the debug mode
+  res
+    .status(200)
+    .json({ message: "Debug mode toggled", debugMode: !currentMode });
+});
 
 export default router;

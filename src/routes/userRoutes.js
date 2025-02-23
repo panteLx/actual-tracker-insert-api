@@ -1,6 +1,5 @@
 import express from "express";
 import { config } from "../config/config.js";
-import cloudflareAuth from "../middleware/cloudflareAuth.js";
 import { getFileVersion, getNavigationItems } from "../utils/helpers.js";
 
 const router = express.Router();
@@ -20,7 +19,7 @@ const getAssetVersions = async () => {
   return { cssVersion, jsVersion };
 };
 // Admin panel route
-router.get("/user", cloudflareAuth, async (req, res) => {
+router.get("/user", async (req, res) => {
   // Get asset versions for cache busting first
   const { cssVersion, jsVersion } = await getAssetVersions();
   const successMessage = req.query.success;

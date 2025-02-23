@@ -15,6 +15,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - User Attribution: All transactions are tagged with the user's email for accountability.
 - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 - Admin Panel: A panel to view logs and system settings.
+- User Panel: A panel to view settings and preferences.
 - Date Formatting: Formats the date and time of the transactions and logs to the configured locale and timezone.
 
 ## Security
@@ -35,46 +36,6 @@ When DEBUG=true:
 - Detailed transaction information is shown in the UI
 - Extended debug information is sent to Discord (if DISCORD_DEBUG=true)
 - Auto refresh is disabled on the transaction tracker page
-
-## Folder Structure
-
-```
-
-/project-root
-├── src/
-│ ├── app.js # Main application entry point
-│ ├── config/
-│ │ └── config.js # Configuration management
-│ ├── middleware/
-│ │ ├── cloudflareAuth.js # Authentication middleware
-│ │ ├── logger.js # Logging middleware
-│ │ └── rateLimiter.js # Rate limiting middleware
-│ ├── routes/
-│ │ ├── adminRoutes.js # Admin panel routes
-│ │ ├── logoutRoutes.js # Logout routes
-│ │ └── transactionRoutes.js # Transaction routes
-│ ├── services/
-│ │ ├── actualService.js # Actual API integration
-│ │ └── discordService.js # Discord webhook service
-│ └── utils/
-│ └── helpers.js # Utility functions
-├── views/
-│ ├── adminLogs.ejs # Admin logs template
-│ ├── adminPanel.ejs # Admin panel template
-│ └── transactionTracker.ejs # Transaction tracker template
-├── public/
-│ ├── css/
-│ │ └── style.min.css # Minified styles
-│ └── js/
-│ ├── adminLogs.min.js # Admin logs JavaScript
-│ ├── adminPanel.min.js # Admin panel JavaScript
-│ └── transactionTracker.min.js # Transaction tracker JavaScript
-├── logs/ # Application logs (auto created on first run)
-├── data/ # Data folder (auto created on first run)
-├── package.json # Dependency file
-├── minify.js # Minification script
-└── .env.example # Environment variables template
-```
 
 ## Getting Started
 
@@ -156,8 +117,15 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
    - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 
 6. **Admin Panel (WIP)**
-   - View logs and system settings
+
+   - View, filter, search trought and clear logs
    - Toggle debug mode
+   - Toggle Discord debug mode
+   - View system information
+
+7. **User Panel (WIP)**
+
+   - Settings Not implemented yet
 
 ## TODO / Future Enhancements
 

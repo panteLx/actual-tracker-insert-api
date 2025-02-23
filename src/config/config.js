@@ -25,7 +25,7 @@ export const config = {
     moneyAccountId: process.env.MONEY_ACCOUNT_ID,
   },
   discord: {
-    webhookUrl: process.env.DISCORD_WEBHOOK_URL,
+    webhookUrl: process.env.DISCORD_WEBHOOK_URL || "",
     debug: process.env.DISCORD_DEBUG === "true",
   },
   debug: process.env.DEBUG === "true",

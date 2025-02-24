@@ -12,6 +12,7 @@ class ConfigService {
       return JSON.parse(data);
     } catch (error) {
       // If file doesn't exist or is invalid, return empty object
+      await this.saveSettings({});
       return {};
     }
   }

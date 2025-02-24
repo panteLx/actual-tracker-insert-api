@@ -50,6 +50,7 @@ router.get("/", async (req, res) => {
     ]);
 
     res.render("transactionTracker", {
+      NODE_ENV: config.NODE_ENV,
       trackerType,
       payees,
       categories,

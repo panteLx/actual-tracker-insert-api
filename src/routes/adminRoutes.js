@@ -93,6 +93,7 @@ router.get("/admin/logs", checkAdminGroup, async (req, res) => {
       logs,
       userEmail: req.userEmail,
       userGroups: req.userGroups,
+      NODE_ENV: config.NODE_ENV,
       isDebugMode: config.debug,
       cssVersion,
       jsVersion,

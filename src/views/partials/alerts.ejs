@@ -9,4 +9,8 @@
   <strong>Debug Nachricht:</strong>
   <pre><%= debug %></pre>
 </div>
+<% } %> <% if (NODE_ENV === "development") { %>
+<div class="alert error">
+  <strong>ENVIRONMENT: DEVELOPMENT</strong>
+</div>
 <% } %>

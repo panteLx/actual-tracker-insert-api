@@ -20,6 +20,7 @@ try {
 export const config = {
   port: process.env.PORT || 3000,
   host: process.env.HOST || "127.0.0.1",
+  appUrl: process.env.APP_URL || "http://127.0.0.1:3000",
   NODE_ENV: process.env.NODE_ENV || "development",
   locale: persistedSettings.locale?.locale || process.env.LOCALE || "de-DE",
   timezone:

@@ -9,7 +9,7 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
   } else {
     res.clearCookie("CF_Authorization");
-    const logoutUrl = `${config.CF_TEAM_DOMAIN}/cdn-cgi/access/logout`;
+    const logoutUrl = `${config.CF_TEAM_DOMAIN}/cdn-cgi/access/logout?returnTo=${config.appUrl}`;
     res.redirect(logoutUrl);
   }
 });

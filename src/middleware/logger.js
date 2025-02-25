@@ -54,19 +54,21 @@ export const requestLogger = (req, res, next) => {
     const duration = Date.now() - start;
     const logLevel = res.statusCode >= 400 ? "warn" : "info";
 
-    logger[logLevel](
-      `${req.method} ${req.url} ${res.statusCode} ${duration}ms`,
-      {
-        method: req.method,
-        url: req.url,
-        status: res.statusCode,
-        duration: duration,
-        ip: req.ip,
-        userAgent: req.get("User-Agent"),
-        userEmail: req.session?.userEmail,
-        referrer: req.get("Referrer"),
-      }
-    );
+    if (req.ip !== config.host) {
+      logger[logLevel](
+        `${req.method} ${req.url} ${res.statusCode} ${duration}ms`,
+        {
+          method: req.method,
+          url: req.url,
+          status: res.statusCode,
+          duration: duration,
+          ip: req.ip,
+          userAgent: req.get("User-Agent"),
+          userEmail: req.session?.userEmail,
+          referrer: req.get("Referrer"),
+        }
+      );
+    }
   });
 
   next();

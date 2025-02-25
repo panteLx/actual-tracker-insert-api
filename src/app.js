@@ -4,17 +4,19 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { config } from "./config/config.js";
 import { actualService } from "./services/actualService.js";
-import transactionRoutes from "./routes/transactionRoutes.js";
-import { limiter } from "./middleware/rateLimiter.js";
-import { requestLogger } from "./middleware/logger.js";
-import adminRoutes from "./routes/adminRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import { getLatestCommitHashMiddleware } from "./middleware/getLatestCommitHash.js";
-import { csrfProtection, csrfErrorHandler } from "./middleware/csrf.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import authRoutes from "./routes/authRoutes.js";
+
+import { limiter } from "./middleware/rateLimiter.js";
+import { requestLogger } from "./middleware/logger.js";
+import { getLatestCommitHashMiddleware } from "./middleware/getLatestCommitHash.js";
+import { csrfProtection, csrfErrorHandler } from "./middleware/csrf.js";
 import { isAuthenticated } from "./middleware/authMiddleware.js";
+
+import transactionRoutes from "./routes/transactionRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

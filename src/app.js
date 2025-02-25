@@ -40,7 +40,6 @@ app.use(cookieParser());
 app.use(requestLogger);
 app.use(express.json());
 app.use(getLatestCommitHashMiddleware);
-
 // Apply rate limiting to all requests
 app.use(limiter);
 

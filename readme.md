@@ -158,7 +158,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 5. **System Enhancements**
 
    - ~~Add request rate limiting~~
-   - Implement proper error logging system
+   - ~~Implement proper error logging system~~
    - ~~Add transaction validation rules per tracker type~~
 
 6. **Integration Improvements**

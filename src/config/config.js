@@ -22,6 +22,9 @@ export const config = {
   host: process.env.HOST || "127.0.0.1",
   appUrl: process.env.APP_URL || "http://127.0.0.1:3000",
   NODE_ENV: process.env.NODE_ENV || "development",
+  debug: persistedSettings.debug ?? process.env.DEBUG === "true",
+  sessionSecret: process.env.SESSION_SECRET,
+  serverIp: persistedSettings?.serverIp || process.env.SERVER_IP || "127.0.0.1",
   locale: persistedSettings.locale?.locale || process.env.LOCALE || "de-DE",
   timezone:
     persistedSettings.timezone?.timezone ||
@@ -50,6 +53,4 @@ export const config = {
     appUrl: process.env.OIDC_APP_URL,
     issuer: process.env.OIDC_ISSUER,
   },
-  debug: persistedSettings.debug ?? process.env.DEBUG === "true",
-  sessionSecret: process.env.SESSION_SECRET,
 };

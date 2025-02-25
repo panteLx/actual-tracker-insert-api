@@ -67,6 +67,19 @@
         />
         <button id="saveTimezone" class="button">Speichern</button>
       </div>
+      <label for="serverIp"
+        >Server IP (Logs von dieser IP werden ausgeblendet):</label
+      >
+      <div class="admin-settings-input">
+        <input
+          type="text"
+          id="serverIp"
+          value="<%= serverIp %>"
+          class="form-input"
+          placeholder="Enter Server IP"
+        />
+        <button id="saveServerIp" class="button">Speichern</button>
+      </div>
     </div>
     <%- include('partials/footer') %>
   </div>

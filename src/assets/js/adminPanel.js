@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const localeInput = document.getElementById("locale");
   const saveTimezoneButton = document.getElementById("saveTimezone");
   const timezoneInput = document.getElementById("timezone");
+  const saveServerIpButton = document.getElementById("saveServerIp");
+  const serverIpInput = document.getElementById("serverIp");
 
   const csrfToken = document.querySelector('input[name="_csrf"]').value;
 
@@ -127,6 +129,29 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("Error updating timezone:", error);
       alert("Error updating timezone.");
+    }
+  });
+
+  saveServerIpButton.addEventListener("click", async () => {
+    const serverIp = serverIpInput.value;
+
+    try {
+      const response = await fetch("/admin/serverIp", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({ serverIp }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Show success message
+        window.location.reload(); // Reload the page to reflect changes
+      } else {
+        alert("Error updating server IP.");
+      }
+    } catch (error) {
+      console.error("Error updating server IP:", error);
+      alert("Error updating server IP.");
     }
   });
 });

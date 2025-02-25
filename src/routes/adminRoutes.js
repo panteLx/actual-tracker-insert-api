@@ -42,6 +42,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     discordWebhookUrl: config.discord.webhookUrl,
     locale: config.locale,
     timezone: config.timezone,
+    serverIp: config.serverIp,
     versions,
     successMessage,
     errorMessage,
@@ -192,6 +193,17 @@ router.post("/admin/timezone", checkAdminGroup, async (req, res) => {
     res.status(200).json({ message: "Timezone updated successfully." });
   } else {
     res.status(400).json({ message: "Invalid timezone." });
+  }
+});
+
+router.post("/admin/serverIp", checkAdminGroup, async (req, res) => {
+  const { serverIp } = req.body;
+  if (serverIp) {
+    config.serverIp = serverIp;
+    await configService.updateSetting("serverIp", serverIp);
+    res.status(200).json({ message: "Server IP updated successfully." });
+  } else {
+    res.status(400).json({ message: "Invalid server IP." });
   }
 });
 

@@ -54,7 +54,7 @@ export const requestLogger = (req, res, next) => {
     const duration = Date.now() - start;
     const logLevel = res.statusCode >= 400 ? "warn" : "info";
 
-    if (req.ip !== config.host) {
+    if (req.ip !== config.serverIp) {
       logger[logLevel](
         `${req.method} ${req.url} ${res.statusCode} ${duration}ms`,
         {

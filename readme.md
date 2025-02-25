@@ -10,7 +10,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - Dynamic Asset Versioning: Automatically appends a version query parameter based on each asset's last modified timestamp.
 - User Feedback: Displays success and debug messages that disappear after 5 seconds (unless in debug mode).
 - Discord Notifications: Sends a Discord webhook notification when a new transaction is added, including user attribution.
-- Security: Uses Helmet for basic security enhancements and Cloudflare Access authentication.
+- Security: Uses Helmet for basic security enhancements and OIDC authentication.
 - DEBUG Mode: Provides detailed debug information via frontend and Discord webhook when enabled.
 - User Attribution: All transactions are tagged with the user's email for accountability.
 - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
@@ -23,7 +23,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 This application uses:
 
 - Helmet for basic security headers
-- Cloudflare Access for authentication
+- OIDC for authentication
 - Input sanitization for all user inputs
 - Environment-based configuration
 - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
@@ -83,7 +83,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 1. **Authentication**
 
-   - Uses Cloudflare Access for user authentication (verified JWT token)
+   - Uses OIDC for user authentication (session cookie)
    - Development mode uses a mock email for testing
    - Production mode uses the user's actual email
    - User groups are checked to determine access to the admin panel
@@ -113,7 +113,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
    - Input sanitization for all user data
    - Environment-based configuration
    - Comprehensive error handling with user feedback
-   - Secure authentication via Cloudflare Access (verified JWT token)
+   - Secure authentication via OIDC (session cookie)
    - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 
 6. **Admin Panel (WIP)**
@@ -140,7 +140,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 2. **Enhanced Authentication**
 
-   - ~~Implement full JWT verification for Cloudflare Access~~
+   - ~~Implement full JWT verification for Cloudflare Access (now implemented with OIDC)~~
    - ~~Add role-based access control~~
    - Add user preferences and settings
 

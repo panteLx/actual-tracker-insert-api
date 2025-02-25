@@ -59,8 +59,8 @@ router.get("/", async (req, res) => {
       errorMessage,
       cssVersion,
       jsVersion,
-      userEmail: req.userEmail,
-      userGroups: req.userGroups,
+      userEmail: req.session.userEmail,
+      userGroups: req.session.userGroups,
       currentDate: getCurrentDate(),
       debug,
       navItems: getNavigationItems("tracker"),
@@ -109,7 +109,7 @@ router.post("/", transactionLimiter, async (req, res) => {
       payee_name:
         payee_id === "new" ? sanitizeString(new_payee) : selectedPayee?.name,
       category,
-      notes: `${sanitizeString(notes)} (${req.userEmail})`,
+      notes: `${sanitizeString(notes)} (${req.session.userEmail})`,
       imported_id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
 
@@ -146,7 +146,7 @@ router.post("/", transactionLimiter, async (req, res) => {
     await discordService.sendTransactionNotification(
       { ...transaction, amount: displayAmount },
       trackerType,
-      req.userEmail,
+      req.session.userEmail,
       debugMessage
     );
 

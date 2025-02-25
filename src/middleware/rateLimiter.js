@@ -13,8 +13,7 @@ export const limiter = rateLimit({
       method: req.method,
       url: req.url,
       ip: req.ip,
-      userEmail: req.userEmail,
-      userGroups: req.userGroups,
+      userEmail: req.session.userEmail,
     });
     res.status(429).send("Zu viele Anfragen. Bitte versuche es später erneut.");
   },
@@ -31,8 +30,7 @@ export const transactionLimiter = rateLimit({
       method: req.method,
       url: req.url,
       ip: req.ip,
-      userEmail: req.userEmail,
-      userGroups: req.userGroups,
+      userEmail: req.session.userEmail,
     });
     res.redirect(
       `/?tracker=${trackerType}&error=${encodeURIComponent(

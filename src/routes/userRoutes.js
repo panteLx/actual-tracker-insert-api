@@ -26,8 +26,8 @@ router.get("/user", async (req, res) => {
   const errorMessage = req.query.error;
   const debug = req.query.debug || null;
   res.render("userPanel", {
-    userEmail: req.userEmail,
-    userGroups: req.userGroups,
+    userEmail: req.session.userEmail,
+    userGroups: req.session.userGroups,
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
     cssVersion,

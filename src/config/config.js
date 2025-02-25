@@ -27,7 +27,6 @@ export const config = {
     persistedSettings.timezone?.timezone ||
     process.env.TIMEZONE ||
     "Europe/Berlin",
-  CF_TEAM_DOMAIN: process.env.CF_TEAM_DOMAIN,
   actual: {
     dataDir: process.env.ACTUAL_DATA_DIR,
     serverURL: process.env.ACTUAL_URL,
@@ -45,5 +44,12 @@ export const config = {
     debug:
       persistedSettings.discord?.debug ?? process.env.DISCORD_DEBUG === "true",
   },
+  oidc: {
+    clientId: process.env.OIDC_CLIENT_ID,
+    clientSecret: process.env.OIDC_CLIENT_SECRET,
+    appUrl: process.env.OIDC_APP_URL,
+    issuer: process.env.OIDC_ISSUER,
+  },
   debug: persistedSettings.debug ?? process.env.DEBUG === "true",
+  sessionSecret: process.env.SESSION_SECRET,
 };

@@ -14,7 +14,7 @@ const router = express.Router();
 
 // Middleware to check if the user is in the "global-admins" group
 const checkAdminGroup = (req, res, next) => {
-  const userGroups = req.userGroups || [];
+  const userGroups = req.session.userGroups || [];
   if (userGroups.includes("global-admins")) {
     return next();
   }
@@ -46,8 +46,8 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
   const errorMessage = req.query.error;
   const debug = req.query.debug || null;
   res.render("adminPanel", {
-    userEmail: req.userEmail,
-    userGroups: req.userGroups,
+    userEmail: req.session.userEmail,
+    userGroups: req.session.userGroups,
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
     isDiscordDebug: config.discord.debug,
@@ -91,8 +91,8 @@ router.get("/admin/logs", checkAdminGroup, async (req, res) => {
 
     res.render("adminLogs", {
       logs,
-      userEmail: req.userEmail,
-      userGroups: req.userGroups,
+      userEmail: req.session.userEmail,
+      userGroups: req.session.userGroups,
       NODE_ENV: config.NODE_ENV,
       isDebugMode: config.debug,
       cssVersion,

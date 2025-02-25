@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   toggleDebugButton.addEventListener("click", async () => {
     try {
-      const response = await fetch("/admin/debug/toggle", {
+      const response = await fetch("/api/admin/debug/toggle", {
         method: "POST",
         headers: headers,
       });
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   toggleDiscordDebugButton.addEventListener("click", async () => {
     try {
-      const response = await fetch("/admin/debug/discord/toggle", {
+      const response = await fetch("/api/admin/debug/discord/toggle", {
         method: "POST",
         headers: headers,
       });
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const webhookUrl = discordWebhookUrlInput.value;
 
     try {
-      const response = await fetch("/admin/discord/webhook", {
+      const response = await fetch("/api/admin/discord/webhook", {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ webhookUrl }),
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locale = localeInput.value;
 
     try {
-      const response = await fetch("/admin/locale", {
+      const response = await fetch("/api/admin/locale", {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ locale }),
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const timezone = timezoneInput.value;
 
     try {
-      const response = await fetch("/admin/timezone", {
+      const response = await fetch("/api/admin/timezone", {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ timezone }),
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const serverIp = serverIpInput.value;
 
     try {
-      const response = await fetch("/admin/serverIp", {
+      const response = await fetch("/api/admin/serverIp", {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ serverIp }),

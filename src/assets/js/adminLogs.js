@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const level = clearLogLevelSelect.value;
 
     try {
-      const response = await fetch("/admin/logs/clear", {
+      const response = await fetch("/api/admin/logs/clear", {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ level }),

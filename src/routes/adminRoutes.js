@@ -98,7 +98,7 @@ router.get("/admin/logs", checkAdminGroup, async (req, res) => {
 });
 
 // Add this route handler for clearing logs
-router.post("/admin/logs/clear", checkAdminGroup, async (req, res) => {
+router.post("/api/admin/logs/clear", checkAdminGroup, async (req, res) => {
   const { level } = req.body;
   const logFilePath = path.join(process.cwd(), "logs/combined.log");
   const errorLogPath = path.join(process.cwd(), "logs/error.log");
@@ -138,7 +138,7 @@ router.post("/admin/logs/clear", checkAdminGroup, async (req, res) => {
   }
 });
 
-router.post("/admin/debug/toggle", checkAdminGroup, async (req, res) => {
+router.post("/api/admin/debug/toggle", checkAdminGroup, async (req, res) => {
   const currentMode = config.debug;
   config.debug = !currentMode;
   await configService.updateSetting("debug", !currentMode);
@@ -148,7 +148,7 @@ router.post("/admin/debug/toggle", checkAdminGroup, async (req, res) => {
 });
 
 router.post(
-  "/admin/debug/discord/toggle",
+  "/api/admin/debug/discord/toggle",
   checkAdminGroup,
   async (req, res) => {
     const currentDiscordDebug = config.discord.debug;
@@ -161,7 +161,7 @@ router.post(
   }
 );
 
-router.post("/admin/discord/webhook", checkAdminGroup, async (req, res) => {
+router.post("/api/admin/discord/webhook", checkAdminGroup, async (req, res) => {
   const { webhookUrl } = req.body;
   if (webhookUrl) {
     config.discord.webhookUrl = webhookUrl;
@@ -174,7 +174,7 @@ router.post("/admin/discord/webhook", checkAdminGroup, async (req, res) => {
   }
 });
 
-router.post("/admin/locale", checkAdminGroup, async (req, res) => {
+router.post("/api/admin/locale", checkAdminGroup, async (req, res) => {
   const { locale } = req.body;
   if (locale) {
     config.locale = locale;
@@ -185,7 +185,7 @@ router.post("/admin/locale", checkAdminGroup, async (req, res) => {
   }
 });
 
-router.post("/admin/timezone", checkAdminGroup, async (req, res) => {
+router.post("/api/admin/timezone", checkAdminGroup, async (req, res) => {
   const { timezone } = req.body;
   if (timezone) {
     config.timezone = timezone;
@@ -196,7 +196,7 @@ router.post("/admin/timezone", checkAdminGroup, async (req, res) => {
   }
 });
 
-router.post("/admin/serverIp", checkAdminGroup, async (req, res) => {
+router.post("/api/admin/serverIp", checkAdminGroup, async (req, res) => {
   const { serverIp } = req.body;
   if (serverIp) {
     config.serverIp = serverIp;

@@ -138,3 +138,30 @@ export const formatDateTime = (date) => {
     timeZone: config.timezone,
   });
 };
+
+/**
+ * Gets asset versions for cache busting
+ * @param {Array<string>} files - Array of file paths relative to public directory
+ * @returns {Promise<Object>} Object with file versions
+ */
+export const getAssetVersions = async (files) => {
+  try {
+    const versionPromises = files.map((file) => getFileVersion(file));
+    const versions = await Promise.all(versionPromises);
+
+    // Create an object with file names as keys and versions as values
+    return files.reduce((acc, file, index) => {
+      const key = file.split("/").pop().split(".")[0] + "Version";
+      acc[key] = versions[index];
+      return acc;
+    }, {});
+  } catch (error) {
+    console.error("Error getting file versions:", error);
+    // Fallback to current timestamp
+    return files.reduce((acc, file) => {
+      const key = file.split("/").pop().split(".")[0] + "Version";
+      acc[key] = Date.now();
+      return acc;
+    }, {});
+  }
+};

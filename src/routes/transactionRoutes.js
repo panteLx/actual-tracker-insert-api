@@ -5,10 +5,10 @@ import { config } from "../config/config.js";
 import { transactionLimiter } from "../middleware/rateLimiter.js";
 import {
   getCurrentDate,
-  getFileVersion,
   validateTransaction,
   sanitizeString,
   getNavigationItems,
+  getAssetVersions,
 } from "../utils/helpers.js";
 
 const router = express.Router();
@@ -28,17 +28,10 @@ router.get("/", async (req, res) => {
         : config.actual.moneyBudgetId;
 
     // Get asset versions for cache busting first
-    let cssVersion, jsVersion;
-    try {
-      [cssVersion, jsVersion] = await Promise.all([
-        getFileVersion("/css/style.min.css"),
-        getFileVersion("/js/transactionTracker.min.js"),
-      ]);
-    } catch (error) {
-      console.error("Error getting file versions:", error);
-      cssVersion = Date.now();
-      jsVersion = Date.now();
-    }
+    const versions = await getAssetVersions([
+      "/css/style.min.css",
+      "/js/transactionTracker.min.js",
+    ]);
 
     // Initialize the correct budget
     await actualService.initializeWithBudget(budgetId);
@@ -57,8 +50,7 @@ router.get("/", async (req, res) => {
       isDebugMode,
       successMessage,
       errorMessage,
-      cssVersion,
-      jsVersion,
+      versions,
       userEmail: req.session.userEmail,
       userGroups: req.session.userGroups,
       currentDate: getCurrentDate(),

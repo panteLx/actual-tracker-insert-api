@@ -169,11 +169,12 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 7. **Performance**
 
-   - Optimize budget switching logic
+   - ~~Optimize budget switching logic~~
    - Add performance monitoring
 
 8. **Security**
-   - Add CSRF protection
+
+   - ~~Add CSRF protection~~
    - ~~Add audit logging for all actions~~
 
 ## Contributing

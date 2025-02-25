@@ -7,12 +7,18 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
     <title><%= title %></title>
-    <link rel="stylesheet" href="/css/style.min.css?v=<%= cssVersion %>" />
+    <link
+      rel="stylesheet"
+      href="/css/style.min.css?v=<%= versions.styleVersion %>"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <script defer src="/js/<%= jsFile %>.min.js?v=<%= jsVersion %>"></script>
+    <script
+      defer
+      src="/js/<%= jsFile %>.min.js?v=<%= versions[jsFile + 'Version'] %>"
+    ></script>
   </head>
   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
   <div id="loading" class="loading">

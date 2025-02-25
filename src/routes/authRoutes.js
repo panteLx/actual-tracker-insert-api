@@ -3,34 +3,21 @@ import { client } from "../config/oidcConfig.js";
 import { randomBytes } from "crypto"; // Import crypto for generating random state
 import { allowUnauthorized } from "../middleware/authMiddleware.js";
 import { config } from "../config/config.js";
-import { getFileVersion } from "../utils/helpers.js";
+import { getAssetVersions } from "../utils/helpers.js";
 
 const router = express.Router();
-
-const getAssetVersions = async () => {
-  let cssVersion, jsVersion;
-  try {
-    [cssVersion, jsVersion] = await Promise.all([
-      getFileVersion("/css/style.min.css"),
-      getFileVersion("/js/authLogin.min.js"),
-    ]);
-  } catch (error) {
-    console.error("Error getting file versions:", error);
-    cssVersion = Date.now();
-    jsVersion = Date.now();
-  }
-  return { cssVersion, jsVersion };
-};
 
 router.get("/auth/login", allowUnauthorized, async (req, res) => {
   if (req.session.tokenSet) {
     return res.redirect("/");
   }
-  const { cssVersion, jsVersion } = await getAssetVersions();
+  const versions = await getAssetVersions([
+    "/css/style.min.css",
+    "/js/authLogin.min.js",
+  ]);
 
   res.render("login", {
-    cssVersion,
-    jsVersion,
+    versions,
     successMessage: req.query.success,
     errorMessage: req.query.error,
     debug: req.query.debug,

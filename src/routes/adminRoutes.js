@@ -3,9 +3,9 @@ import fs from "fs";
 import path from "path";
 import { config } from "../config/config.js";
 import {
-  getFileVersion,
   getNavigationItems,
   formatDateTime,
+  getAssetVersions,
 } from "../utils/helpers.js";
 import { promises as fsPromises } from "fs";
 import { configService } from "../services/configService.js";
@@ -23,25 +23,13 @@ const checkAdminGroup = (req, res, next) => {
     .send("Forbidden - You do not have access to this resource.");
 };
 
-const getAssetVersions = async () => {
-  let cssVersion, jsVersion;
-  try {
-    [cssVersion, jsVersion] = await Promise.all([
-      getFileVersion("/css/style.min.css"),
-      getFileVersion("/js/adminLogs.min.js"),
-      getFileVersion("/js/adminPanel.min.js"),
-    ]);
-  } catch (error) {
-    console.error("Error getting file versions:", error);
-    cssVersion = Date.now();
-    jsVersion = Date.now();
-  }
-  return { cssVersion, jsVersion };
-};
 // Admin panel route
 router.get("/admin", checkAdminGroup, async (req, res) => {
   // Get asset versions for cache busting first
-  const { cssVersion, jsVersion } = await getAssetVersions();
+  const versions = await getAssetVersions([
+    "/css/style.min.css",
+    "/js/adminPanel.min.js",
+  ]);
   const successMessage = req.query.success;
   const errorMessage = req.query.error;
   const debug = req.query.debug || null;
@@ -54,8 +42,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     discordWebhookUrl: config.discord.webhookUrl,
     locale: config.locale,
     timezone: config.timezone,
-    cssVersion,
-    jsVersion,
+    versions,
     successMessage,
     errorMessage,
     debug,
@@ -67,7 +54,10 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
 // Logs route
 router.get("/admin/logs", checkAdminGroup, async (req, res) => {
   const logFilePath = path.join(process.cwd(), "logs/combined.log");
-  const { cssVersion, jsVersion } = await getAssetVersions();
+  const versions = await getAssetVersions([
+    "/css/style.min.css",
+    "/js/adminLogs.min.js",
+  ]);
   const successMessage = req.query.success;
   const errorMessage = req.query.error;
   const debug = req.query.debug || null;
@@ -95,8 +85,7 @@ router.get("/admin/logs", checkAdminGroup, async (req, res) => {
       userGroups: req.session.userGroups,
       NODE_ENV: config.NODE_ENV,
       isDebugMode: config.debug,
-      cssVersion,
-      jsVersion,
+      versions,
       successMessage,
       errorMessage,
       debug,

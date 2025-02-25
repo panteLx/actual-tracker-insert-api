@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   const loadingSpinner = document.getElementById("loading");
-  loadingSpinner.style.display = "none";
+  setTimeout(() => {
+    loadingSpinner.classList.add("hidden");
+  }, 300);
   const isDebugMode = document.body.dataset.debugMode === "true";
   const payeeSelect = document.getElementById("payeeSelect");
   const newPayeeDiv = document.getElementById("newPayeeDiv");

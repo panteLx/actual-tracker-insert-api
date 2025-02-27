@@ -1,8 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
   const loadingSpinner = document.getElementById("loading");
-  setTimeout(() => {
+
+  // Function to hide spinner with fade out
+  const hideSpinner = () => {
     loadingSpinner.classList.add("hidden");
-  }, 300);
+    // Remove from DOM after animation completes
+    setTimeout(() => {
+      loadingSpinner.style.display = "none";
+    }, 300);
+  };
+
+  // Hide spinner when all resources are loaded
+  if (document.readyState === "complete") {
+    hideSpinner();
+  } else {
+    window.addEventListener("load", hideSpinner);
+  }
+
+  // Fallback: Hide spinner after 2 seconds maximum
+  setTimeout(hideSpinner, 2000);
 
   // Theme toggle functionality
   const themeSwitch = document.getElementById("themeSwitch");

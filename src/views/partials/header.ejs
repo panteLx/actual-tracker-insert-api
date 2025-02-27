@@ -17,11 +17,11 @@
     />
     <script
       defer
-      src="/js/<%= jsFile %>.min.js?v=<%= versions[jsFile + 'Version'] %>"
+      src="/js/global.min.js?v=<%= versions.globalVersion %>"
     ></script>
     <script
       defer
-      src="/js/global.min.js?v=<%= versions.globalVersion %>"
+      src="/js/<%= jsFile %>.min.js?v=<%= versions[jsFile + 'Version'] %>"
     ></script>
   </head>
   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />

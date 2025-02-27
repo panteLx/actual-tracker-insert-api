@@ -29,10 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Set initial theme based on saved preference or device setting
   if (savedTheme === "dark" || (savedTheme === null && prefersDark)) {
-    document.documentElement.classList.add("dark-theme");
     themeSwitch.checked = true;
   } else {
-    document.documentElement.classList.remove("dark-theme");
     themeSwitch.checked = false;
   }
 

@@ -146,7 +146,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 3. **UI Improvements**
 
-   - Add dark/light theme toggle
+   - ~~Add dark/light theme toggle~~
    - Implement transaction history view (without beeing able to edit them - otherwise you can just use the actual tracker itself)
 
 4. **Data Management**

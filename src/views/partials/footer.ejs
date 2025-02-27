@@ -1,11 +1,21 @@
 <footer class="footer">
-  <p>
-    Version:
-    <a
-      href="https://github.com/pantelx/actual-tracker-insert-api/commit/<%= fullCommitHash %>"
-      target="_blank"
-    >
-      <%= commitHash %>
-    </a>
-  </p>
+  <div class="footer-content">
+    <div class="footer-version">
+      Version:
+      <a
+        href="https://github.com/pantelx/actual-tracker-insert-api/commit/<%= fullCommitHash %>"
+        target="_blank"
+      >
+        <%= commitHash %>
+      </a>
+    </div>
+    <div class="theme-toggle">
+      <label for="themeSwitch" class="theme-toggle-label">
+        <span class="theme-toggle-light">☀️</span>
+        <span class="theme-toggle-dark">🌙</span>
+        <input type="checkbox" id="themeSwitch" class="theme-toggle-input" />
+        <span class="theme-toggle-slider"></span>
+      </label>
+    </div>
+  </div>
 </footer>

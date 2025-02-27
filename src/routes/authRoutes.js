@@ -14,6 +14,7 @@ router.get("/auth/login", allowUnauthorized, async (req, res) => {
   const versions = await getAssetVersions([
     "/css/style.min.css",
     "/js/authLogin.min.js",
+    "/js/global.min.js",
   ]);
 
   res.render("login", {

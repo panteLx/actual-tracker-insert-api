@@ -9,6 +9,7 @@ router.get("/user", async (req, res) => {
   const versions = await getAssetVersions([
     "/css/style.min.css",
     "/js/userPanel.min.js",
+    "/js/global.min.js",
   ]);
   const successMessage = req.query.success;
   const errorMessage = req.query.error;

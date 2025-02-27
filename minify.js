@@ -15,6 +15,7 @@ const minifyJS = (inputFile, outputFile) => {
 };
 
 minifyCSS("src/assets/css/style.css", "public/css/style.min.css");
+minifyJS("src/assets/js/global.js", "public/js/global.min.js");
 minifyJS("src/assets/js/adminPanel.js", "public/js/adminPanel.min.js");
 minifyJS("src/assets/js/adminLogs.js", "public/js/adminLogs.min.js");
 minifyJS("src/assets/js/userPanel.js", "public/js/userPanel.min.js");

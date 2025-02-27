@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const loadingSpinner = document.getElementById("loading");
-  setTimeout(() => {
-    loadingSpinner.classList.add("hidden");
-  }, 300);
   const toggleDebugButton = document.getElementById("toggleDebugMode");
   const toggleDiscordDebugButton =
     document.getElementById("toggleDiscordDebug");

@@ -29,6 +29,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
   const versions = await getAssetVersions([
     "/css/style.min.css",
     "/js/adminPanel.min.js",
+    "/js/global.min.js",
   ]);
   const successMessage = req.query.success;
   const errorMessage = req.query.error;
@@ -58,6 +59,7 @@ router.get("/admin/logs", checkAdminGroup, async (req, res) => {
   const versions = await getAssetVersions([
     "/css/style.min.css",
     "/js/adminLogs.min.js",
+    "/js/global.min.js",
   ]);
   const successMessage = req.query.success;
   const errorMessage = req.query.error;

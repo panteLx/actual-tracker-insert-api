@@ -31,6 +31,7 @@ router.get("/", async (req, res) => {
     const versions = await getAssetVersions([
       "/css/style.min.css",
       "/js/transactionTracker.min.js",
+      "/js/global.min.js",
     ]);
 
     // Initialize the correct budget

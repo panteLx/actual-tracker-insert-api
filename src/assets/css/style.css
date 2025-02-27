@@ -58,7 +58,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root.dark-theme {
     --background: #09090b;
     --foreground: #fafafa;
     --card: #09090b;
@@ -102,10 +102,20 @@ body {
   line-height: 1.5;
 }
 
+body.dark {
+  background-color: #09090b; /* Dark background */
+  color: #fafafa; /* Light text */
+}
+
 .container {
   max-width: 600px;
   margin: var(--spacing-xl) auto;
   padding: var(--spacing-lg);
+}
+
+.container.dark {
+  background-color: #18181b; /* Dark container background */
+  color: #fafafa; /* Light text */
 }
 
 h1 {
@@ -190,13 +200,11 @@ button:disabled {
 .alert.success {
   background-color: #dcfce7;
   color: #166534;
-  border: 1px solid #86efac;
 }
 
 .alert.error {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border: 1px solid #fca5a5;
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
 }
 
 .alert.debug {
@@ -543,7 +551,7 @@ button:disabled {
   margin-top: 2rem; /* Add some space above the footer */
 }
 
-.footer p {
+.footer .footer-content {
   padding: 0.5rem 1rem;
   border-radius: var(--radius);
   text-decoration: none;
@@ -553,6 +561,9 @@ button:disabled {
   font-weight: 500;
   transition: all 0.2s;
   text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .footer a {
@@ -586,4 +597,73 @@ a,
 input,
 select {
   transition: all 0.2s ease;
+}
+
+/* Add these styles for the theme toggle */
+.theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-toggle-label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+  margin-bottom: 0rem !important;
+}
+
+.theme-toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--primary);
+  border-radius: 30px;
+  transition: 0.4s;
+}
+
+.theme-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--background);
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.theme-toggle-input:checked + .theme-toggle-slider {
+  background-color: var(--primary);
+}
+
+.theme-toggle-input:checked + .theme-toggle-slider:before {
+  transform: translateX(30px);
+}
+
+.theme-toggle-light,
+.theme-toggle-dark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  font-size: 14px;
+}
+
+.theme-toggle-light {
+  left: 8px;
+}
+
+.theme-toggle-dark {
+  right: 8px;
 }

@@ -57,7 +57,7 @@ app.use((req, res, next) => {
   res.locals.nonce = nonce; // Make it available in your templates
   res.setHeader(
     "Content-Security-Policy",
-    `script-src 'self' 'nonce-${nonce}'`
+    `script-src 'self' 'unsafe-inline' 'nonce-${nonce}'`
   );
   next();
 });

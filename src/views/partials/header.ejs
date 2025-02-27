@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
+    <script src="/js/global.min.js?v=<%= versions.globalVersion %>"></script>
+
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -15,7 +17,6 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <script src="/js/global.min.js?v=<%= versions.globalVersion %>"></script>
     <script
       defer
       src="/js/<%= jsFile %>.min.js?v=<%= versions[jsFile + 'Version'] %>"

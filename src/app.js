@@ -6,6 +6,7 @@ import { config } from "./config/config.js";
 import { actualService } from "./services/actualService.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import crypto from "crypto";
 
 import { limiter } from "./middleware/rateLimiter.js";
 import { requestLogger } from "./middleware/logger.js";
@@ -52,6 +53,12 @@ app.use(csrfErrorHandler);
 // Make csrf token available to all views
 app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
+  const nonce = crypto.randomBytes(16).toString("base64"); // Generate a nonce
+  res.locals.nonce = nonce; // Make it available in your templates
+  res.setHeader(
+    "Content-Security-Policy",
+    `script-src 'self' 'nonce-${nonce}'`
+  );
   next();
 });
 

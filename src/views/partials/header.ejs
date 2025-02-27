@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <script src="/js/global.min.js?v=<%= versions.globalVersion %>"></script>
-
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
+    <script nonce="<%= nonce %>">
+      // Immediately restore dark mode preference to prevent flickering
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (savedTheme === "dark" || (savedTheme === null && prefersDark)) {
+        document.documentElement.classList.add("dark-theme");
+      }
+    </script>
+
     <title><%= title %></title>
     <link
       rel="stylesheet"
@@ -17,6 +26,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <script src="/js/global.min.js?v=<%= versions.globalVersion %>"></script>
+
     <script
       defer
       src="/js/<%= jsFile %>.min.js?v=<%= versions[jsFile + 'Version'] %>"

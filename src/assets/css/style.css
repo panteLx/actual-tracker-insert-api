@@ -27,6 +27,34 @@
   --input: #e4e4e7;
   --ring: #18181b;
   --radius: 0.5rem;
+
+  /* Add spacing system */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Add typography system */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.875rem;
+
+  /* Add consistent box-shadow values */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Fix missing variable */
+  --ring-opacity: rgba(24, 24, 27, 0.2);
+  --hover-background: var(--accent);
+  --hover-foreground: var(--accent-foreground);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,6 +79,18 @@
     --border: #27272a;
     --input: #27272a;
     --ring: #fafafa;
+
+    /* Update dark mode shadow values */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3),
+      0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+    /* Fix missing variable */
+    --ring-opacity: rgba(250, 250, 250, 0.2);
+    --hover-background: var(--accent);
+    --hover-foreground: var(--accent-foreground);
   }
 }
 
@@ -64,26 +104,26 @@ body {
 
 .container {
   max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
+  margin: var(--spacing-xl) auto;
+  padding: var(--spacing-lg);
 }
 
 h1 {
-  font-size: 1.875rem;
+  font-size: var(--font-size-2xl);
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-lg);
   text-align: center;
 }
 
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--spacing-md);
 }
 
 label {
   display: block;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-sm);
   color: var(--foreground);
 }
 
@@ -128,7 +168,7 @@ button {
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
 }
 
 button:hover {
@@ -193,7 +233,7 @@ button:disabled {
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: var(--radius);
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   flex: 0 0 auto;
   margin-right: 0.5rem;
 }
@@ -203,8 +243,8 @@ button:disabled {
 }
 
 .tracker-switch a:hover {
-  background-color: var(--hover-background);
-  color: var(--hover-foreground);
+  background-color: var(--accent);
+  color: var(--accent-foreground);
 }
 
 @media (min-width: 768px) {
@@ -303,12 +343,13 @@ button:disabled {
   background: var(--card);
   padding: 15px;
   margin: 5px 0;
-  border-radius: 8px;
+  border-radius: var(--radius);
   display: flex;
   flex-direction: column;
   gap: 12px;
   word-wrap: break-word;
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .log-entry-header {
@@ -537,4 +578,12 @@ button:disabled {
   flex-direction: row;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+/* Add consistent transition for all interactive elements */
+button,
+a,
+input,
+select {
+  transition: all 0.2s ease;
 }

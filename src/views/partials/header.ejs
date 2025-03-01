@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
 
-    <script nonce="<%= nonce %>">
+    <script data-cfasync="false" nonce="<%= nonce %>">
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"

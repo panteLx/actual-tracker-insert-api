@@ -56,12 +56,12 @@ app.use(csrfErrorHandler);
 // Make csrf token available to all views
 app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
-  const nonce = crypto.randomBytes(16).toString("base64"); // Generate a nonce
-  res.locals.nonce = nonce; // Make it available in your templates
-  res.setHeader(
-    "Content-Security-Policy",
-    `script-src 'self' 'nonce-${nonce}'`
-  );
+  // const nonce = crypto.randomBytes(16).toString("base64"); // Generate a nonce
+  // res.locals.nonce = nonce; // Make it available in your templates
+  // res.setHeader(
+  //   "Content-Security-Policy",
+  //   `script-src 'self' 'nonce-${nonce}'`
+  // );
   console.log("Session:", req.session); // Log the session object
   next();
 });

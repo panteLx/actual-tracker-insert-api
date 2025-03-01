@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Trust all proxies
-app.set("trust proxy", true);
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 
 app.use(
   session({

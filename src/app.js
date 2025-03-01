@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Trust only Cloudflare IPs
-app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
+app.set("trust proxy", 1);
 
 app.use(
   session({
@@ -35,7 +35,9 @@ app.use(
     cookie: {
       secure: config.NODE_ENV === "production",
       httpOnly: true,
+      sameSite: "lax",
     },
+    rolling: true,
   })
 );
 
@@ -62,7 +64,6 @@ app.use((req, res, next) => {
   //   "Content-Security-Policy",
   //   `script-src 'self' 'nonce-${nonce}'`
   // );
-  console.log("Session:", req.session); // Log the session object
   next();
 });
 

@@ -33,7 +33,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
     },
   })
@@ -62,7 +62,6 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     `script-src 'self' 'nonce-${nonce}'`
   );
-  console.log("Session:", req.session); // Log the session object
   next();
 });
 

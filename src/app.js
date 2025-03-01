@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Trust only Cloudflare IPs
-app.set("trust proxy", 1);
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 
 app.use(
   session({
@@ -35,9 +35,7 @@ app.use(
     cookie: {
       secure: false,
       httpOnly: true,
-      sameSite: "lax",
     },
-    rolling: true,
   })
 );
 

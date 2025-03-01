@@ -30,6 +30,7 @@ router.get("/auth/login", allowUnauthorized, async (req, res) => {
 router.get("/auth/start", allowUnauthorized, (req, res) => {
   const state = randomBytes(16).toString("hex");
   req.session.state = state;
+  console.log("Generated state:", state);
 
   const authorizationUrl = client.authorizationUrl({
     scope: "openid profile email groups",
@@ -41,6 +42,7 @@ router.get("/auth/start", allowUnauthorized, (req, res) => {
 });
 
 router.get("/auth/callback", allowUnauthorized, async (req, res) => {
+  console.log("Received state from session:", req.session.state);
   try {
     const params = client.callbackParams(req);
     const tokenSet = await client.callback(

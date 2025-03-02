@@ -10,6 +10,7 @@ router.get("/schedules", async (req, res) => {
   res.redirect("/schedules/7");
 });
 
+// FIXME: Remove this after testing
 router.get("/schedules/all", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);

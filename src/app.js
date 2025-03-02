@@ -70,6 +70,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // Auth routes (unprotected)
 app.use("/", authRoutes);
+// FIXME: Remove this after testing
 app.use("/", schedulesRoutes);
 
 // Protected routes

@@ -68,10 +68,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/transactions", async (req, res) => {
-  const budgetId =
-    req.query.tracker === "coffee"
-      ? config.actual.coffeeBudgetId
-      : config.actual.moneyBudgetId;
+  const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
 
   const transactions = await actualService.runQuery("schedules", "*", {

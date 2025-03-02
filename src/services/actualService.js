@@ -210,38 +210,6 @@ class ActualService {
     }
   }
 
-  async getTransactions(accountId, startDate, endDate) {
-    const startTime = logFunctionCall("ActualService.getTransactions", {
-      accountId,
-      startDate,
-      endDate,
-    });
-    try {
-      this.lastUsedTime = Date.now();
-      logger.debug("Fetching transactions from Actual API");
-
-      const transactions = await api.getTransactions(
-        accountId,
-        startDate,
-        endDate
-      );
-
-      logger.debug(
-        `Retrieved ${transactions.length} transactions from Actual API`
-      );
-      logFunctionCall(
-        "ActualService.getTransactions",
-        { count: transactions.length },
-        startTime
-      );
-
-      return transactions;
-    } catch (error) {
-      logFunctionError("ActualService.getTransactions", error, startTime);
-      throw error;
-    }
-  }
-
   async shutdown() {
     const startTime = logFunctionCall("ActualService.shutdown");
     try {

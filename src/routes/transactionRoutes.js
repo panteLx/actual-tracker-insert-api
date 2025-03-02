@@ -67,6 +67,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/transactions", async (req, res) => {
+  try {
+    const accountId = req.query.accountId || config.actual.coffeeAccountId;
+    const transactions = await actualService.getTransactions(
+      accountId,
+      "2025-01-01",
+      "2025-01-31"
+    );
+    res.json(transactions);
+  } catch (error) {
+    console.error("Error in GET route:", error);
+    res.redirect(
+      "/?error=" + encodeURIComponent("Ein Fehler ist aufgetreten.")
+    );
+  }
+});
+
 router.post("/", transactionLimiter, async (req, res) => {
   try {
     const trackerType = req.body.trackerType || "coffee";

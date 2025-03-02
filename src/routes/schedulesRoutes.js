@@ -2,6 +2,7 @@ import express from "express";
 import { actualService } from "../services/actualService.js";
 import { config } from "../config/config.js";
 import { getAssetVersions, getNavigationItems } from "../utils/helpers.js";
+import { formatDateTime } from "../utils/helpers.js";
 
 const router = express.Router();
 
@@ -45,6 +46,7 @@ router.get("/schedules/:days", async (req, res) => {
   const debug = req.query.debug || null;
   res.render("schedulesPanel", {
     schedules: schedules.data,
+    formatDateTime: formatDateTime,
     userEmail: req.session.userEmail || "no user",
     userGroups: req.session.userGroups || "no groups",
     isDebugMode: config.debug,

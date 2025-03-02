@@ -16,10 +16,12 @@
           data-timestamp="<%= schedule.next_date %>"
         >
           <div class="log-entry-header">
-            <span class="log-timestamp"><%= schedule.next_date %></span>
+            <span class="log-timestamp"
+              ><%= (schedule._amount / 100).toFixed(2) %>€</span
+            >
             <span
-              class="log-level <%= schedule._amount < 0 ? 'error' : 'info' %>"
-              ><%= schedule._amount %>€</span
+              class="log-level <%= schedule.next_date <= new Date().toISOString().split('T')[0] ? 'error' : 'info' %>"
+              ><%= formatDateTime(schedule.next_date).split(',')[0] %></span
             >
           </div>
           <div class="log-entry-content">

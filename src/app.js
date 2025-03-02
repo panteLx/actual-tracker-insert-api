@@ -18,7 +18,7 @@ import transactionRoutes from "./routes/transactionRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-
+import schedulesRoutes from "./routes/schedulesRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -70,6 +70,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // Auth routes (unprotected)
 app.use("/", authRoutes);
+app.use("/", schedulesRoutes);
 
 // Protected routes
 app.use(isAuthenticated); // Apply authentication to all routes below this

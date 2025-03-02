@@ -1,0 +1,13 @@
+<%- include('partials/header', { title: 'Schedules Panel', jsFile:
+'schedulesPanel' }) %>
+<body>
+  <div class="container">
+    <h1>Schedules Panel</h1>
+
+    <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
+    "panel" }) %><%- include('partials/alerts') %>
+    <div class="schedules"><%- JSON.stringify(schedules) %></div>
+
+    <%- include('partials/footer') %>
+  </div>
+</body>

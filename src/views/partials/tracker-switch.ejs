@@ -10,9 +10,11 @@
   <% }); %> <% if (navItems.currentSection === 'admin') { %>
   <a href="/" class="section-link">Tracker</a>
   <a href="/user" class="section-link">User</a>
+  <a href="/schedules/999" class="section-link">Schedules</a>
 
   <% } %> <% if (navItems.currentSection === 'tracker') { %>
   <a href="/user" class="section-link">User</a>
+  <a href="/schedules/999" class="section-link">Schedules</a>
 
   <% } %> <% if (navItems.currentSection === 'tracker' &&
   userGroups.includes('global-admins')) { %>
@@ -20,8 +22,15 @@
 
   <% } %> <% if (navItems.currentSection === 'user') { %>
   <a href="/" class="section-link">Tracker</a>
-
+  <a href="/schedules/999" class="section-link">Schedules</a>
   <% } %> <% if (navItems.currentSection === 'user' &&
+  userGroups.includes('global-admins')) { %>
+  <a href="/admin" class="section-link">Admin</a>
+
+  <% } %> <% if (navItems.currentSection === 'schedules') { %>
+  <a href="/" class="section-link">Tracker</a>
+  <a href="/user" class="section-link">User</a>
+  <% } %> <% if (navItems.currentSection === 'schedules' &&
   userGroups.includes('global-admins')) { %>
   <a href="/admin" class="section-link">Admin</a>
 

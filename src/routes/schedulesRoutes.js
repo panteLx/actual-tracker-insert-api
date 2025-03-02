@@ -5,12 +5,16 @@ import { getAssetVersions, getNavigationItems } from "../utils/helpers.js";
 
 const router = express.Router();
 
+router.get("/schedules", async (req, res) => {
+  res.redirect("/schedules/7");
+});
+
 router.get("/schedules/:days", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
 
   const days = Number.isNaN(parseInt(req.params.days))
-    ? 999
+    ? 7
     : parseInt(req.params.days);
 
   const schedules = await actualService.runQuery(
@@ -22,12 +26,12 @@ router.get("/schedules/:days", async (req, res) => {
           $gte: new Date(new Date().setDate(new Date().getDate() - days))
             .toISOString()
             .split("T")[0],
-        }, // 7 days ago
+        }, // x days ago
         {
           $lte: new Date(new Date().setDate(new Date().getDate() + days))
             .toISOString()
             .split("T")[0],
-        }, // 7 days from now
+        }, // x days from now
       ],
     }
   );
@@ -40,7 +44,7 @@ router.get("/schedules/:days", async (req, res) => {
   const errorMessage = req.query.error;
   const debug = req.query.debug || null;
   res.render("schedulesPanel", {
-    schedules,
+    schedules: schedules.data,
     userEmail: req.session.userEmail || "no user",
     userGroups: req.session.userGroups || "no groups",
     isDebugMode: config.debug,

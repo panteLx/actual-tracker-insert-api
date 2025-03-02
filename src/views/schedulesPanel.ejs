@@ -6,7 +6,35 @@
 
     <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
     "panel" }) %><%- include('partials/alerts') %>
-    <div class="schedules"><%- JSON.stringify(schedules) %></div>
+
+    <div class="logs-container">
+      <div id="logEntries">
+        <% schedules.forEach(function(schedule) { %> <% try { %>
+        <div
+          class="log-entry"
+          data-level="<%= schedule.next_date %>"
+          data-timestamp="<%= schedule.next_date %>"
+        >
+          <div class="log-entry-header">
+            <span class="log-timestamp"><%= schedule.next_date %></span>
+            <span
+              class="log-level <%= schedule._amount < 0 ? 'error' : 'info' %>"
+              ><%= schedule._amount %>€</span
+            >
+          </div>
+          <div class="log-entry-content">
+            <span class="log-message"><%= schedule.name %></span>
+          </div>
+        </div>
+        <% } catch(e) { %>
+        <div class="log-entry">
+          <span class="log-message"
+            >Error parsing schedule: <%= e.message %></span
+          >
+        </div>
+        <% } %> <% }); %>
+      </div>
+    </div>
 
     <%- include('partials/footer') %>
   </div>

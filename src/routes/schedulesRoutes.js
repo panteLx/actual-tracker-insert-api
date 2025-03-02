@@ -10,6 +10,14 @@ router.get("/schedules", async (req, res) => {
   res.redirect("/schedules/7");
 });
 
+router.get("/schedules/all", async (req, res) => {
+  const budgetId = config.actual.coffeeBudgetId;
+  await actualService.initializeWithBudget(budgetId);
+
+  const schedules = await actualService.runQuery("schedules", ["*"]);
+  res.json(schedules.data);
+});
+
 router.get("/schedules/:days", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
@@ -34,6 +42,7 @@ router.get("/schedules/:days", async (req, res) => {
             .split("T")[0],
         }, // x days from now
       ],
+      completed: false,
     }
   );
   const versions = await getAssetVersions([

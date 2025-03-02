@@ -67,6 +67,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/transactions", async (req, res) => {
+  const budgetId =
+    req.query.tracker === "coffee"
+      ? config.actual.coffeeBudgetId
+      : config.actual.moneyBudgetId;
+  await actualService.initializeWithBudget(budgetId);
+
+  const transactions = await actualService.runQuery("schedules", "*", {
+    next_date: getCurrentDate(),
+  });
+  res.json(transactions);
+});
+
 router.post("/", transactionLimiter, async (req, res) => {
   try {
     const trackerType = req.body.trackerType || "coffee";

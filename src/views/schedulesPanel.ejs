@@ -1,11 +1,13 @@
-<%- include('partials/header', { title: 'Schedules Panel', jsFile:
-'schedulesPanel' }) %>
+<%- include('partials/header', { title: 'Termin Panel', jsFile: 'schedulesPanel'
+}) %>
 <body>
   <div class="container">
-    <h1>Schedules Panel</h1>
+    <h1>Termin Panel</h1>
 
     <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
     "panel" }) %><%- include('partials/alerts') %>
+
+    <!-- TODO: Add a filter for the schedules -->
 
     <div class="logs-container">
       <div id="logEntries">

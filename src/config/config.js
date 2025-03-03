@@ -52,4 +52,5 @@ export const config = {
     appUrl: process.env.OIDC_APP_URL,
     issuer: process.env.OIDC_ISSUER,
   },
+  directAddSubscriptions: persistedSettings.directAddSubscriptions ?? false,
 };

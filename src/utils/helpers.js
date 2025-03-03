@@ -101,9 +101,7 @@ export const getNavigationItems = (currentPage) => {
 
   const userItems = [{ id: "panel", url: "/user", label: "User" }];
 
-  const schedulesItems = [
-    { id: "panel", url: "/schedules", label: "Schedules" },
-  ];
+  const schedulesItems = [{ id: "panel", url: "/schedules", label: "Termine" }];
 
   // Return different navigation items based on the current page
   switch (currentPage) {

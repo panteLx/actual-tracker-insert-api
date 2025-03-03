@@ -70,14 +70,13 @@ app.set("views", path.join(__dirname, "views"));
 
 // Auth routes (unprotected)
 app.use("/", authRoutes);
-// FIXME: Remove this after testing
-app.use("/", schedulesRoutes);
 
 // Protected routes
 app.use(isAuthenticated); // Apply authentication to all routes below this
 app.use("/", userRoutes);
 app.use("/", transactionRoutes);
 app.use("/", adminRoutes);
+app.use("/", schedulesRoutes);
 
 const startServer = async () => {
   try {

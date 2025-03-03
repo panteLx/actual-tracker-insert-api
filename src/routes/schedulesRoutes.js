@@ -10,15 +10,6 @@ router.get("/schedules", async (req, res) => {
   res.redirect("/schedules/7");
 });
 
-// FIXME: Remove this after testing
-router.get("/schedules/all", async (req, res) => {
-  const budgetId = config.actual.coffeeBudgetId;
-  await actualService.initializeWithBudget(budgetId);
-
-  const schedules = await actualService.runQuery("schedules", ["*"]);
-  res.json(schedules.data);
-});
-
 router.get("/schedules/:days", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
@@ -57,8 +48,8 @@ router.get("/schedules/:days", async (req, res) => {
   res.render("schedulesPanel", {
     schedules: schedules.data,
     formatDateTime: formatDateTime,
-    userEmail: req.session.userEmail || "no user",
-    userGroups: req.session.userGroups || "no groups",
+    userEmail: req.session.userEmail,
+    userGroups: req.session.userGroups,
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
     versions,

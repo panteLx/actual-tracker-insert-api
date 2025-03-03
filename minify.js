@@ -24,3 +24,4 @@ minifyJS(
   "src/assets/js/transactionTracker.js",
   "public/js/transactionTracker.min.js"
 );
+minifyJS("src/assets/js/schedulesPanel.js", "public/js/schedulesPanel.min.js");

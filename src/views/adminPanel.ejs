@@ -4,9 +4,8 @@
   <div class="container">
     <h1>Admin Panel</h1>
 
-    <%- include('partials/user-info') %> <%- include('partials/tracker-switch',
-    { navItems: navItems, currentPage: "panel" }) %><%-
-    include('partials/alerts') %>
+    <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
+    "panel" }) %><%- include('partials/alerts') %>
 
     <div class="admin-stats">
       <h3>System Status</h3>
@@ -30,6 +29,13 @@
       >
         <%= isDiscordDebug ? `Discord Debug Mode Ausschalten` : `Discord Debug
         Mode Einschalten` %>
+      </button>
+      <button
+        id="toggleDirectAddSubscriptions"
+        class="<%= directAddSubscriptions ? 'button button-turn-off' : 'button' %>"
+      >
+        <%= directAddSubscriptions ? `Direktes Hinzufügen von Abos Ausschalten`
+        : `Direktes Hinzufügen von Abos Einschalten` %>
       </button>
     </div>
 

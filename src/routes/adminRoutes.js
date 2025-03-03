@@ -37,6 +37,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
   res.render("adminPanel", {
     userEmail: req.session.userEmail,
     userGroups: req.session.userGroups,
+    directAddSubscriptions: config.directAddSubscriptions,
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
     isDiscordDebug: config.discord.debug,
@@ -208,5 +209,19 @@ router.post("/api/admin/serverIp", checkAdminGroup, async (req, res) => {
     res.status(400).json({ message: "Invalid server IP." });
   }
 });
+
+router.post(
+  "/api/admin/direct-add-subscriptions/toggle",
+  checkAdminGroup,
+  async (req, res) => {
+    const currentMode = config.directAddSubscriptions;
+    config.directAddSubscriptions = !currentMode;
+    await configService.updateSetting("directAddSubscriptions", !currentMode);
+    res.status(200).json({
+      message: "Direktes Hinzufügen von Abos toggled",
+      directAddSubscriptions: !currentMode,
+    });
+  }
+);
 
 export default router;

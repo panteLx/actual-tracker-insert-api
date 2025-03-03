@@ -17,6 +17,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - Admin Panel: A panel to view logs and system settings.
 - User Panel: A panel to view settings and preferences.
 - Date Formatting: Formats the date and time of the transactions and logs to the configured locale and timezone.
+- Schedules: Show schedules for subscriptions and when they need to be payed.
 
 ## Security
 
@@ -95,6 +96,8 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
    - System validates input and converts amount to cents
    - Transaction is tagged with user email for accountability
    - Data is sent to Actual Budget via API
+   - If the category is a subscription, the transaction is not added to Actual Budget but a message is sent to Discord (can be toggled in the admin panel)
+     - Otherwise the transaction won't be added to the schedule if the date doesn't match the schedule
 
 3. **Budget Management**
 
@@ -121,6 +124,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
    - View, filter, search trought and clear logs
    - Toggle debug mode
    - Toggle Discord debug mode
+   - Toggle direct add subscriptions
    - Update Discord webhook URL
    - Update locale (currently only for logs)
    - Update timezone (currently only for logs)
@@ -129,6 +133,10 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 7. **User Panel (WIP)**
 
    - Settings Not implemented yet
+
+8. **Schedules (WIP)**
+
+   - Show schedules for subscriptions and when they need to be payed
 
 ## TODO / Future Enhancements
 
@@ -151,7 +159,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 4. **Data Management**
 
-   - Add transaction search functionality
+   - Add transaction/schedule search functionality and filtering
    - Add basic reporting and statistics
    - Add batch transaction import
 
@@ -163,7 +171,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 6. **Integration Improvements**
 
-   - Add support for multiple Discord channels
+   - Add support for multiple Discord channels (and recreate discord service - currently it's a mess)
    - Add optional email notifications
    - Add webhook support for other platforms
 

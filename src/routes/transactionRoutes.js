@@ -91,6 +91,10 @@ router.post("/", transactionLimiter, async (req, res) => {
     const payees = await actualService.getPayees();
     const selectedPayee = payees.find((p) => p.id === payee_id);
 
+    // Get categories to find the category name
+    const categories = await actualService.getCategories();
+    const selectedCategory = categories.find((c) => c.id === category);
+
     // Format amount properly: convert to cents as integer
     const normalizedAmount = rawAmount.toString().trim().replace(",", ".");
     const amountInCents = Math.round(parseFloat(normalizedAmount) * 100);
@@ -106,6 +110,29 @@ router.post("/", transactionLimiter, async (req, res) => {
       imported_id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
 
+    // Check if category is one of the specified ones
+    const isSubscriptionCategory = [
+      "monatliche einnahmen",
+      "monatliche ausgaben",
+      "jährliche einnahmen",
+    ].includes(selectedCategory.name.toLowerCase());
+    if (isSubscriptionCategory) {
+      if (config.directAddSubscriptions === false) {
+        // Send Discord notification instead of adding the transaction
+        await discordService.sendTransactionNotification(
+          { ...transaction, amount: (amountInCents / 100).toFixed(2) },
+          trackerType,
+          req.session.userEmail,
+          "Eintrag muss manuell mit Terminplan synchronisiert werden."
+        );
+        return res.redirect(
+          `/?tracker=${trackerType}&success=${encodeURIComponent(
+            "Kein passender Terminplan gefunden! Eintrag muss manuell mit Terminplan synchronisiert werden. Sebastian wurde informiert."
+          )}`
+        );
+      }
+    }
+
     // Validate transaction
     const validation = validateTransaction(transaction);
     if (!validation.isValid) {
@@ -120,13 +147,13 @@ router.post("/", transactionLimiter, async (req, res) => {
 
     await actualService.importTransaction(accountId, transaction);
 
-    // For Discord notification, convert amount back to decimal for display
-    const displayAmount = (amountInCents / 100).toFixed(2);
-
     // Create debug message
     const debugMessage = JSON.stringify(
       {
-        transaction: { ...transaction, amount: displayAmount },
+        transaction: {
+          ...transaction,
+          amount: (amountInCents / 100).toFixed(2),
+        },
         budgetId,
         accountId,
         env: config.NODE_ENV,
@@ -137,14 +164,16 @@ router.post("/", transactionLimiter, async (req, res) => {
 
     // Send Discord notification with formatted amount
     await discordService.sendTransactionNotification(
-      { ...transaction, amount: displayAmount },
+      { ...transaction, amount: (amountInCents / 100).toFixed(2) },
       trackerType,
       req.session.userEmail,
       debugMessage
     );
 
     // Redirect with success message
-    const successMessage = `Transaktion über ${displayAmount}€ wurde erfolgreich hinzugefügt.`;
+    const successMessage = `Transaktion über ${(amountInCents / 100).toFixed(
+      2
+    )}€ wurde erfolgreich hinzugefügt.`;
     if (config.debug) {
       const redirectUrl = `/?tracker=${trackerType}&success=${encodeURIComponent(
         successMessage

@@ -18,7 +18,7 @@ import transactionRoutes from "./routes/transactionRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-
+import schedulesRoutes from "./routes/schedulesRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -76,6 +76,7 @@ app.use(isAuthenticated); // Apply authentication to all routes below this
 app.use("/", userRoutes);
 app.use("/", transactionRoutes);
 app.use("/", adminRoutes);
+app.use("/", schedulesRoutes);
 
 const startServer = async () => {
   try {

@@ -8,6 +8,12 @@ const saveTimezoneButton = document.getElementById("saveTimezone");
 const timezoneInput = document.getElementById("timezone");
 const saveServerIpButton = document.getElementById("saveServerIp");
 const serverIpInput = document.getElementById("serverIp");
+const toggleDirectAddSubscriptionsButton = document.getElementById(
+  "toggleDirectAddSubscriptions"
+);
+const directAddSubscriptionsInput = document.getElementById(
+  "directAddSubscriptions"
+);
 
 const csrfToken = document.querySelector('input[name="_csrf"]').value;
 
@@ -54,6 +60,26 @@ toggleDiscordDebugButton.addEventListener("click", async () => {
   } catch (error) {
     console.error("Error toggling Discord debug mode:", error);
     alert("Fehler beim Ändern des Discord Debug-Modus");
+  }
+});
+
+toggleDirectAddSubscriptionsButton.addEventListener("click", async () => {
+  try {
+    const response = await fetch("/api/admin/direct-add-subscriptions/toggle", {
+      method: "POST",
+      headers: headers,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message); // Show success message
+      window.location.reload(); // Reload the page to reflect changes
+    } else {
+      alert("Fehler beim Ändern des Direkten Hinzufügens von Abos");
+    }
+  } catch (error) {
+    console.error("Error toggling direct add subscriptions:", error);
+    alert("Fehler beim Ändern des Direkten Hinzufügens von Abos");
   }
 });
 

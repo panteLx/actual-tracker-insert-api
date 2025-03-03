@@ -1,4 +1,4 @@
-import api from "@actual-app/api";
+import api, { runQuery, q } from "@actual-app/api";
 import { config } from "../config/config.js";
 import logger, {
   logFunctionCall,
@@ -206,6 +206,28 @@ class ActualService {
       });
 
       logFunctionError("ActualService.importTransaction", error, startTime);
+      throw error;
+    }
+  }
+
+  async runQuery(table, select, filter) {
+    const startTime = logFunctionCall("ActualService.runQuery", {
+      table,
+      select,
+      filter,
+    });
+    try {
+      this.lastUsedTime = Date.now();
+      logger.debug("Running query on Actual API", { table, select, filter });
+
+      const result = await runQuery(q(table).filter(filter).select(select));
+
+      logger.debug("Query executed successfully", { result });
+      logFunctionCall("ActualService.runQuery", { success: true }, startTime);
+
+      return result;
+    } catch (error) {
+      logFunctionError("ActualService.runQuery", error, startTime);
       throw error;
     }
   }

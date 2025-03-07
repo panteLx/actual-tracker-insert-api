@@ -7,33 +7,29 @@ import { formatDateTime } from "../utils/helpers.js";
 const router = express.Router();
 
 router.get("/schedules", async (req, res) => {
-  res.redirect("/schedules/7");
-});
-
-router.get("/schedules/:days", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
 
-  const days = Number.isNaN(parseInt(req.params.days))
-    ? 7
-    : parseInt(req.params.days);
+  // const days = Number.isNaN(parseInt(req.params.days))
+  //   ? 7
+  //   : parseInt(req.params.days);
 
   const schedules = await actualService.runQuery(
     "schedules",
     ["next_date", "name", "_amount"],
     {
-      next_date: [
-        {
-          $gte: new Date(new Date().setDate(new Date().getDate() - days))
-            .toISOString()
-            .split("T")[0],
-        }, // x days ago
-        {
-          $lte: new Date(new Date().setDate(new Date().getDate() + days))
-            .toISOString()
-            .split("T")[0],
-        }, // x days from now
-      ],
+      // next_date: [
+      //   {
+      //     $gte: new Date(new Date().setDate(new Date().getDate() - days))
+      //       .toISOString()
+      //       .split("T")[0],
+      //   }, // x days ago
+      //   {
+      //     $lte: new Date(new Date().setDate(new Date().getDate() + days))
+      //       .toISOString()
+      //       .split("T")[0],
+      //   }, // x days from now
+      // ],
       completed: false,
     }
   );

@@ -42,6 +42,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     NODE_ENV: config.NODE_ENV,
     isDiscordDebug: config.discord.debug,
     discordWebhookUrl: config.discord.webhookUrl,
+    discordPingRoleId: config.discord.pingRoleId,
     locale: config.locale,
     timezone: config.timezone,
     serverIp: config.serverIp,
@@ -164,6 +165,20 @@ router.post(
   }
 );
 
+router.post(
+  "/api/admin/direct-add-subscriptions/toggle",
+  checkAdminGroup,
+  async (req, res) => {
+    const currentMode = config.directAddSubscriptions;
+    config.directAddSubscriptions = !currentMode;
+    await configService.updateSetting("directAddSubscriptions", !currentMode);
+    res.status(200).json({
+      message: "Direktes Hinzufügen von Abos toggled",
+      directAddSubscriptions: !currentMode,
+    });
+  }
+);
+
 router.post("/api/admin/discord/webhook", checkAdminGroup, async (req, res) => {
   const { webhookUrl } = req.body;
   if (webhookUrl) {
@@ -176,6 +191,23 @@ router.post("/api/admin/discord/webhook", checkAdminGroup, async (req, res) => {
     res.status(400).json({ message: "Invalid webhook URL." });
   }
 });
+
+router.post(
+  "/api/admin/discord/pingRoleId",
+  checkAdminGroup,
+  async (req, res) => {
+    const { pingRoleId } = req.body;
+    if (pingRoleId) {
+      config.discord.pingRoleId = pingRoleId;
+      await configService.updateSetting("discord.pingRoleId", pingRoleId);
+      res
+        .status(200)
+        .json({ message: "Discord ping role ID updated successfully." });
+    } else {
+      res.status(400).json({ message: "Invalid ping role ID." });
+    }
+  }
+);
 
 router.post("/api/admin/locale", checkAdminGroup, async (req, res) => {
   const { locale } = req.body;
@@ -209,19 +241,5 @@ router.post("/api/admin/serverIp", checkAdminGroup, async (req, res) => {
     res.status(400).json({ message: "Invalid server IP." });
   }
 });
-
-router.post(
-  "/api/admin/direct-add-subscriptions/toggle",
-  checkAdminGroup,
-  async (req, res) => {
-    const currentMode = config.directAddSubscriptions;
-    config.directAddSubscriptions = !currentMode;
-    await configService.updateSetting("directAddSubscriptions", !currentMode);
-    res.status(200).json({
-      message: "Direktes Hinzufügen von Abos toggled",
-      directAddSubscriptions: !currentMode,
-    });
-  }
-);
 
 export default router;

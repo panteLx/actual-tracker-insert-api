@@ -119,12 +119,55 @@ router.post("/", transactionLimiter, async (req, res) => {
     if (isSubscriptionCategory) {
       if (config.directAddSubscriptions === false) {
         // Send Discord notification instead of adding the transaction
-        await discordService.sendTransactionNotification(
-          { ...transaction, amount: (amountInCents / 100).toFixed(2) },
-          trackerType,
+        // await discordService.sendTransactionNotification(
+        //   { ...transaction, amount: (amountInCents / 100).toFixed(2) },
+        //   trackerType,
+        //   req.session.userEmail,
+        //   "Eintrag muss manuell mit Terminplan synchronisiert werden."
+        // );
+        // return res.redirect(
+        //   `/?tracker=${trackerType}&success=${encodeURIComponent(
+        //     "Kein passender Terminplan gefunden! Eintrag muss manuell mit Terminplan synchronisiert werden. Sebastian wurde informiert."
+        //   )}`
+        // );
+
+        await discordService.sendNotification(
+          "Eintrag muss manuell mit Terminplan synchronisiert werden.",
+          "Details:",
+          [
+            {
+              name: "Amount",
+              value: (amountInCents / 100).toFixed(2) + "€",
+              inline: true,
+            },
+            {
+              name: "Date",
+              value: transaction.date,
+              inline: true,
+            },
+            {
+              name: "Payee",
+              value: transaction.payee_name,
+              inline: false,
+            },
+            {
+              name: "Category",
+              value: selectedCategory.name,
+              inline: false,
+            },
+            {
+              name: "Notes",
+              value: transaction.notes,
+              inline: false,
+            },
+          ],
           req.session.userEmail,
-          "Eintrag muss manuell mit Terminplan synchronisiert werden."
+          "No Debug message provided",
+          {
+            content: `<@&${config.discord.pingRoleId}>`,
+          }
         );
+
         return res.redirect(
           `/?tracker=${trackerType}&success=${encodeURIComponent(
             "Kein passender Terminplan gefunden! Eintrag muss manuell mit Terminplan synchronisiert werden. Sebastian wurde informiert."

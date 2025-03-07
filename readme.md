@@ -171,7 +171,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
 6. **Integration Improvements**
 
-   - Add support for multiple Discord channels (and recreate discord service - currently it's a mess)
+   - Add support for multiple Discord channels (~~and recreate discord service - currently it's a mess~~)
    - Add optional email notifications
    - Add webhook support for other platforms
 

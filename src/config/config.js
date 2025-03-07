@@ -43,6 +43,10 @@ export const config = {
       persistedSettings.discord?.webhookUrl ||
       process.env.DISCORD_WEBHOOK_URL ||
       "",
+    pingRoleId:
+      persistedSettings.discord?.pingRoleId ||
+      process.env.DISCORD_PING_ROLE_ID ||
+      "",
     debug:
       persistedSettings.discord?.debug ?? process.env.DISCORD_DEBUG === "true",
   },

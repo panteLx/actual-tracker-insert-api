@@ -10,20 +10,20 @@ class DiscordService {
     logger.debug("DiscordService instance created");
   }
 
-  async sendTransactionNotification(
-    transaction,
-    trackerType,
+  async sendNotification(
+    title,
+    description,
+    fields,
     userEmail,
-    debugMessage
+    debugMessage,
+    ping
   ) {
-    const startTime = logFunctionCall(
-      "DiscordService.sendTransactionNotification",
-      {
-        trackerType,
-        userEmail,
-        transaction: config.debug ? transaction : "hidden in non-debug mode",
-      }
-    );
+    const startTime = logFunctionCall("DiscordService.sendNotification", {
+      title,
+      userEmail,
+      description,
+      fields,
+    });
 
     try {
       if (!config.discord.webhookUrl) {
@@ -31,55 +31,49 @@ class DiscordService {
           "Discord webhook URL not configured, skipping notification"
         );
         logFunctionCall(
-          "DiscordService.sendTransactionNotification",
+          "DiscordService.sendNotification",
           { skipped: true },
           startTime
         );
         return;
       }
 
-      logger.debug(
-        `Sending Discord notification for ${trackerType} transaction`,
-        {
-          amount: transaction.amount,
-          payee: transaction.payee_name,
-          user: userEmail,
-        }
-      );
+      logger.debug(`Sending Discord notification: ${title}`, {
+        user: userEmail,
+      });
 
       const embed = {
-        title: `New ${
-          trackerType.charAt(0).toUpperCase() + trackerType.slice(1)
-        } Transaction Added`,
+        title,
+        description,
         color: 0x00ff00,
         fields: [
-          { name: "Date", value: transaction.date, inline: true },
+          ...fields,
           {
-            name: "Amount",
-            value: `€${transaction.amount}`,
-            inline: true,
+            name: "User",
+            value: userEmail,
+            inline: false,
           },
-          { name: "Payee", value: transaction.payee_name, inline: false },
-          { name: "Notes", value: transaction.notes || "None", inline: false },
           {
             name: "Debug",
             value: config.discord.debug ? debugMessage : "DEBUG DISABLED",
             inline: false,
           },
-          { name: "User", value: userEmail, inline: false },
         ],
         timestamp: new Date(),
         footer: {
-          text: `${
-            trackerType.charAt(0).toUpperCase() + trackerType.slice(1)
-          } Tracker - ${config.NODE_ENV}`,
+          text: `Notification - ${config.NODE_ENV}`,
         },
+      };
+
+      const payload = {
+        embeds: [embed],
+        ...ping,
       };
 
       const response = await fetch(config.discord.webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ embeds: [embed] }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -89,24 +83,45 @@ class DiscordService {
 
       logger.debug("Discord notification sent successfully");
       logFunctionCall(
-        "DiscordService.sendTransactionNotification",
+        "DiscordService.sendNotification",
         { success: true },
         startTime
       );
     } catch (error) {
       logger.error("Failed to send Discord notification", {
         error: error.message,
-        trackerType,
+        title,
         userEmail,
       });
 
-      logFunctionError(
-        "DiscordService.sendTransactionNotification",
-        error,
-        startTime
-      );
-      // Don't rethrow - we don't want to fail the transaction if Discord notification fails
+      logFunctionError("DiscordService.sendNotification", error, startTime);
     }
+  }
+
+  async sendTransactionNotification(
+    transaction,
+    trackerType,
+    userEmail,
+    debugMessage
+  ) {
+    const title = `New ${
+      trackerType.charAt(0).toUpperCase() + trackerType.slice(1)
+    } Transaction Added`;
+    const description = `Details of the transaction:`;
+    const fields = [
+      { name: "Date", value: transaction.date, inline: true },
+      { name: "Amount", value: `€${transaction.amount}`, inline: true },
+      { name: "Payee", value: transaction.payee_name, inline: false },
+      { name: "Notes", value: transaction.notes || "None", inline: false },
+    ];
+
+    await this.sendNotification(
+      title,
+      description,
+      fields,
+      userEmail,
+      debugMessage
+    );
   }
 }
 

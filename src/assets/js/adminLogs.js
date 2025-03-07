@@ -41,7 +41,7 @@ function filterLogs() {
     const showBySearch = text.includes(searchTerm);
 
     entry.style.display =
-      showByLevel && showBySearch && showByTime ? "block" : "none";
+      showByLevel && showBySearch && showByTime ? "flex" : "none";
     return showByLevel && showBySearch && showByTime;
   });
 

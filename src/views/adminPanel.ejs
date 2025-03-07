@@ -8,11 +8,6 @@
     "panel" }) %><%- include('partials/alerts') %>
 
     <div class="admin-stats">
-      <h3>System Status</h3>
-      <p>Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %></p>
-      <p>
-        Discord Debug: <%= isDiscordDebug ? 'Eingeschaltet' : 'Ausgeschaltet' %>
-      </p>
       <p>Environment: <%= NODE_ENV %></p>
     </div>
 
@@ -21,21 +16,21 @@
         id="toggleDebugMode"
         class="<%= isDebugMode ? 'button button-turn-off' : 'button' %>"
       >
-        <%= isDebugMode ? 'Debug Mode Ausschalten' : 'Debug Mode Einschalten' %>
+        <%= isDebugMode ? 'Debug-Mode AN' : 'Debug-Mode AUS' %>
       </button>
       <button
         id="toggleDiscordDebug"
         class="<%= isDiscordDebug ? 'button button-turn-off' : 'button' %>"
       >
-        <%= isDiscordDebug ? `Discord Debug Mode Ausschalten` : `Discord Debug
-        Mode Einschalten` %>
+        <%= isDiscordDebug ? `Discord Debug-Mode AN` : `Discord Debug-Mode AUS`
+        %>
       </button>
       <button
         id="toggleDirectAddSubscriptions"
         class="<%= directAddSubscriptions ? 'button button-turn-off' : 'button' %>"
       >
-        <%= directAddSubscriptions ? `Direktes Hinzufügen von Abos Ausschalten`
-        : `Direktes Hinzufügen von Abos Einschalten` %>
+        <%= directAddSubscriptions ? `Abos direkt hinzufügen AN` : `Abos direkt
+        hinzufügen AUS` %>
       </button>
     </div>
 
@@ -51,6 +46,19 @@
         />
         <button id="saveWebhookUrl" class="button">Speichern</button>
       </div>
+
+      <label for="discordPingRoleId">Discord Ping Role ID:</label>
+      <div class="admin-settings-input">
+        <input
+          type="text"
+          id="discordPingRoleId"
+          value="<%= discordPingRoleId %>"
+          class="form-input"
+          placeholder="Enter Discord Ping Role ID"
+        />
+        <button id="savePingRoleId" class="button">Speichern</button>
+      </div>
+
       <label for="locale">Sprache (nur Logs):</label>
       <div class="admin-settings-input">
         <input

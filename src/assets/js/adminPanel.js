@@ -14,6 +14,8 @@ const toggleDirectAddSubscriptionsButton = document.getElementById(
 const directAddSubscriptionsInput = document.getElementById(
   "directAddSubscriptions"
 );
+const savePingRoleIdButton = document.getElementById("savePingRoleId");
+const pingRoleIdInput = document.getElementById("discordPingRoleId");
 
 const csrfToken = document.querySelector('input[name="_csrf"]').value;
 
@@ -103,6 +105,29 @@ saveWebhookUrlButton.addEventListener("click", async () => {
   } catch (error) {
     console.error("Error updating webhook URL:", error);
     alert("Error updating webhook URL.");
+  }
+});
+
+savePingRoleIdButton.addEventListener("click", async () => {
+  const pingRoleId = pingRoleIdInput.value;
+
+  try {
+    const response = await fetch("/api/admin/discord/pingRoleId", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({ pingRoleId }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message); // Show success message
+      window.location.reload(); // Reload the page to reflect changes
+    } else {
+      alert("Error updating ping role ID.");
+    }
+  } catch (error) {
+    console.error("Error updating ping role ID:", error);
+    alert("Error updating ping role ID.");
   }
 });
 

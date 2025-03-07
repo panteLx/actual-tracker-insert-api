@@ -8,11 +8,6 @@
     "panel" }) %><%- include('partials/alerts') %>
 
     <div class="admin-stats">
-      <h3>System Status</h3>
-      <p>Debug Mode: <%= isDebugMode ? 'Eingeschaltet' : 'Ausgeschaltet' %></p>
-      <p>
-        Discord Debug: <%= isDiscordDebug ? 'Eingeschaltet' : 'Ausgeschaltet' %>
-      </p>
       <p>Environment: <%= NODE_ENV %></p>
     </div>
 
@@ -51,6 +46,19 @@
         />
         <button id="saveWebhookUrl" class="button">Speichern</button>
       </div>
+
+      <label for="discordPingRoleId">Discord Ping Role ID:</label>
+      <div class="admin-settings-input">
+        <input
+          type="text"
+          id="discordPingRoleId"
+          value="<%= discordPingRoleId %>"
+          class="form-input"
+          placeholder="Enter Discord Ping Role ID"
+        />
+        <button id="savePingRoleId" class="button">Speichern</button>
+      </div>
+
       <label for="locale">Sprache (nur Logs):</label>
       <div class="admin-settings-input">
         <input

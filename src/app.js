@@ -14,7 +14,7 @@ import { getLatestCommitHashMiddleware } from "./middleware/getLatestCommitHash.
 import { csrfProtection, csrfErrorHandler } from "./middleware/csrf.js";
 import { isAuthenticated } from "./middleware/authMiddleware.js";
 
-import transactionRoutes from "./routes/transactionRoutes.js";
+import trackerRoutes from "./routes/trackerRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -74,7 +74,7 @@ app.use("/", authRoutes);
 // Protected routes
 app.use(isAuthenticated); // Apply authentication to all routes below this
 app.use("/", userRoutes);
-app.use("/", transactionRoutes);
+app.use("/", trackerRoutes);
 app.use("/", adminRoutes);
 app.use("/", schedulesRoutes);
 

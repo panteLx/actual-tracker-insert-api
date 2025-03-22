@@ -103,6 +103,10 @@ export const getNavigationItems = (currentPage) => {
 
   const schedulesItems = [{ id: "panel", url: "/schedules", label: "Termine" }];
 
+  const transactionsItems = [
+    { id: "panel", url: "/transactions", label: "Transaktionen" },
+  ];
+
   // Return different navigation items based on the current page
   switch (currentPage) {
     case "tracker":
@@ -125,6 +129,11 @@ export const getNavigationItems = (currentPage) => {
       return {
         items: schedulesItems,
         currentSection: "schedules",
+      };
+    case "transactions":
+      return {
+        items: transactionsItems,
+        currentSection: "transactions",
       };
     default:
       return {

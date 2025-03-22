@@ -19,6 +19,8 @@ import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import schedulesRoutes from "./routes/schedulesRoutes.js";
+import transactionsRoutes from "./routes/transactionsRoutes.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -77,6 +79,7 @@ app.use("/", userRoutes);
 app.use("/", trackerRoutes);
 app.use("/", adminRoutes);
 app.use("/", schedulesRoutes);
+app.use("/", transactionsRoutes);
 
 const startServer = async () => {
   try {

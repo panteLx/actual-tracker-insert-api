@@ -1,0 +1,58 @@
+<%- include('partials/header', { title: 'Transaktions Panel', jsFile:
+'transactionsPanel' }) %>
+<body>
+  <div class="container">
+    <h1>Transaktions Panel</h1>
+
+    <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
+    "panel" }) %><%- include('partials/alerts') %>
+
+    <div class="alert debug">
+      Aktuell werden nur Transaktionen aus dem Kaffee Budget angezeigt.
+    </div>
+
+    <div class="log-controls">
+      <input
+        type="text"
+        id="transactionSearch"
+        placeholder="Transaktionen durchsuchen..."
+        class="form-input"
+      />
+    </div>
+
+    <div class="logs-container">
+      <div id="logEntries">
+        <% transactions.forEach(function(transaction) { %> <% try { %>
+        <div
+          class="log-entry"
+          id="transaction-entry"
+          data-timestamp="<%= transaction.date %>"
+        >
+          <div class="log-entry-header">
+            <span id="transaction-amount" class="log-timestamp"
+              ><%= (transaction.amount / 100).toFixed(2) %>€</span
+            >
+            <span id="transaction-date" class="log-level info"
+              ><%= formatDateTime(transaction.date).split(',')[0] %></span
+            >
+          </div>
+          <div class="log-entry-content">
+            <span class="log-message" id="transaction-name"
+              ><%= transaction.imported_payee %> - <%= transaction.notes
+              %></span
+            >
+          </div>
+        </div>
+        <% } catch(e) { %>
+        <div class="log-entry">
+          <span class="log-message"
+            >Error parsing transaction: <%= e.message %></span
+          >
+        </div>
+        <% } %> <% }); %>
+      </div>
+    </div>
+
+    <%- include('partials/footer') %>
+  </div>
+</body>

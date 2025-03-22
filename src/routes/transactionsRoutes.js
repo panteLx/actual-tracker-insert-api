@@ -10,7 +10,11 @@ router.get("/transactions", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
 
-  const transactions = await actualService.runQuery("transactions", ["*"], {});
+  const transactions = await actualService.runQuery(
+    "transactions",
+    ["date", "amount", "payee", "category", "notes"],
+    {}
+  );
 
   const payees = await actualService.getPayees();
 

@@ -10,7 +10,7 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
-    "helmet": "^8.0.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^3.3.2",
     "openid-client": "^5.7.1",
@@ -30,5 +30,10 @@
   "main": "src/app.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
 }

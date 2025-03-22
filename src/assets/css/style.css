@@ -224,11 +224,20 @@ button:disabled {
 .tracker-switch {
   display: flex;
   flex-direction: row;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow-x: scroll; /* Allow horizontal scrolling */
   padding-bottom: 0.5rem;
   margin: 1rem 0;
   white-space: nowrap;
+}
+
+/* Hide scrollbar for WebKit browsers */
+.tracker-switch::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar for Firefox */
+.tracker-switch {
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 
 .tracker-switch a {
@@ -256,9 +265,9 @@ button:disabled {
 }
 
 @media (min-width: 768px) {
-  .tracker-switch {
+  /* .tracker-switch {
     justify-content: center;
-  }
+  } */
 
   .tracker-switch a {
     width: auto;

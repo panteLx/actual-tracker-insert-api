@@ -18,6 +18,7 @@ A simple Node.js application that integrates with the Actual API to manage trans
 - User Panel: A panel to view settings and preferences.
 - Date Formatting: Formats the date and time of the transactions and logs to the configured locale and timezone.
 - Schedules: Show schedules for subscriptions and when they need to be payed.
+- Transactions: Show transactions and filter them.
 
 ## Security
 
@@ -138,6 +139,10 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
    - Show schedules for subscriptions and when they need to be payed
 
+9. **Transactions (WIP)**
+
+   - Show transactions and filter them
+
 ## TODO / Future Enhancements
 
 1. **Dynamic Tracker Types**
@@ -155,11 +160,11 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 3. **UI Improvements**
 
    - ~~Add dark/light theme toggle~~
-   - Implement transaction history view (without beeing able to edit them - otherwise you can just use the actual tracker itself)
+   - ~~Implement transaction history view (without beeing able to edit them - otherwise you can just use the actual tracker itself)~~
 
 4. **Data Management**
 
-   - Add transaction/schedule search functionality and filtering
+   - ~~Add transaction/schedule search functionality and filtering~~
    - Add basic reporting and statistics
    - Add batch transaction import
 

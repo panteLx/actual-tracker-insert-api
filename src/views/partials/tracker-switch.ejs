@@ -9,10 +9,12 @@
   </a>
   <% }); %> <% if (navItems.currentSection === 'admin') { %>
   <a href="/" class="section-link">Tracker</a>
+  <a href="/transactions" class="section-link">Transaktionen</a>
   <a href="/schedules" class="section-link">Termine</a>
   <a href="/user" class="section-link">User</a>
 
   <% } %> <% if (navItems.currentSection === 'tracker') { %>
+  <a href="/transactions" class="section-link">Transaktionen</a>
   <a href="/schedules" class="section-link">Termine</a>
   <a href="/user" class="section-link">User</a>
 
@@ -22,6 +24,7 @@
 
   <% } %> <% if (navItems.currentSection === 'user') { %>
   <a href="/" class="section-link">Tracker</a>
+  <a href="/transactions" class="section-link">Transaktionen</a>
   <a href="/schedules" class="section-link">Termine</a>
   <% } %> <% if (navItems.currentSection === 'user' &&
   userGroups.includes('global-admins')) { %>
@@ -29,8 +32,17 @@
 
   <% } %> <% if (navItems.currentSection === 'schedules') { %>
   <a href="/" class="section-link">Tracker</a>
+  <a href="/transactions" class="section-link">Transaktionen</a>
   <a href="/user" class="section-link">User</a>
   <% } %> <% if (navItems.currentSection === 'schedules' &&
+  userGroups.includes('global-admins')) { %>
+  <a href="/admin" class="section-link">Admin</a>
+
+  <% } %> <% if (navItems.currentSection === 'transactions') { %>
+  <a href="/" class="section-link">Tracker</a>
+  <a href="/schedules" class="section-link">Termine</a>
+  <a href="/user" class="section-link">User</a>
+  <% } %> <% if (navItems.currentSection === 'transactions' &&
   userGroups.includes('global-admins')) { %>
   <a href="/admin" class="section-link">Admin</a>
 

@@ -10,24 +10,11 @@ router.get("/transactions", async (req, res) => {
   const budgetId = config.actual.coffeeBudgetId;
   await actualService.initializeWithBudget(budgetId);
 
-  // const days = Number.isNaN(parseInt(req.params.days))
-  //   ? 7
-  //   : parseInt(req.params.days);
+  const transactions = await actualService.runQuery("transactions", ["*"], {});
 
-  const transactions = await actualService.runQuery("transactions", ["*"], {
-    // next_date: [
-    //   {
-    //     $gte: new Date(new Date().setDate(new Date().getDate() - days))
-    //       .toISOString()
-    //       .split("T")[0],
-    //   }, // x days ago
-    //   {
-    //     $lte: new Date(new Date().setDate(new Date().getDate() + days))
-    //       .toISOString()
-    //       .split("T")[0],
-    //   }, // x days from now
-    // ],
-  });
+  const payees = await actualService.getPayees();
+
+  const categories = await actualService.getCategories();
 
   const versions = await getAssetVersions([
     "/css/style.min.css",
@@ -39,6 +26,8 @@ router.get("/transactions", async (req, res) => {
   const debug = req.query.debug || null;
   res.render("transactionsPanel", {
     transactions: transactions.data,
+    payees,
+    categories,
     formatDateTime: formatDateTime,
     userEmail: req.session.userEmail,
     userGroups: req.session.userGroups,

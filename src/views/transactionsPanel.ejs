@@ -30,17 +30,28 @@
         >
           <div class="log-entry-header">
             <span id="transaction-amount" class="log-timestamp"
-              ><%= (transaction.amount / 100).toFixed(2) %>€</span
-            >
-            <span id="transaction-date" class="log-level info"
               ><%= formatDateTime(transaction.date).split(',')[0] %></span
             >
+            <span
+              id="transaction-date"
+              class="log-level <%= transaction.amount < 0 ? 'error' : 'info' %>"
+            >
+              <%= (transaction.amount / 100).toFixed(2) %>€
+            </span>
           </div>
+
           <div class="log-entry-content">
             <span class="log-message" id="transaction-name"
-              ><%= transaction.imported_payee %> - <%= transaction.notes
-              %></span
+              ><%= payees.find(payee => payee.id === transaction.payee)?.name ||
+              'Unknown Payee' %></span
             >
+            <div class="log-details">
+              <span
+                ><%= categories.find(category => category.id ===
+                transaction.category)?.name || 'Unknown Category' %></span
+              >
+              <span><%= transaction.notes %></span>
+            </div>
           </div>
         </div>
         <% } catch(e) { %>

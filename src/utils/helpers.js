@@ -90,8 +90,8 @@ export const getLatestCommitHash = () => {
 
 export const getNavigationItems = (currentPage) => {
   const trackerItems = [
-    { id: "coffee", url: "/?tracker=coffee", label: "Kaffee" },
-    { id: "money", url: "/?tracker=money", label: "Geld" },
+    { id: "coffee", url: "/?tracker=coffee", label: "Kaffee Tracker" },
+    { id: "money", url: "/?tracker=money", label: "Geld Tracker" },
   ];
 
   const adminItems = [
@@ -104,7 +104,16 @@ export const getNavigationItems = (currentPage) => {
   const schedulesItems = [{ id: "panel", url: "/schedules", label: "Termine" }];
 
   const transactionsItems = [
-    { id: "panel", url: "/transactions", label: "Transaktionen" },
+    {
+      id: "coffee",
+      url: "/transactions?tracker=coffee",
+      label: "Kaffee Transaktionen",
+    },
+    {
+      id: "money",
+      url: "/transactions?tracker=money",
+      label: "Geld Transaktionen",
+    },
   ];
 
   // Return different navigation items based on the current page

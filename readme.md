@@ -120,7 +120,7 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
    - Secure authentication via OIDC (session cookie)
    - Rate Limiting: Limits the number of requests and transactions per minute to prevent abuse.
 
-6. **Admin Panel (WIP)**
+6. **Admin Panel**
 
    - View, filter, search trought and clear logs
    - Toggle debug mode
@@ -135,13 +135,15 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 
    - Settings Not implemented yet
 
-8. **Schedules (WIP)**
+8. **Schedules**
 
-   - Show schedules for subscriptions and when they need to be payed
+   - Show schedules for subscriptions and when they need to be payed (only for coffee tracker - the money tracker doesn't have any subscriptions)
+   - TODO: extended filtering and sorting options
 
-9. **Transactions (WIP)**
+9. **Transactions**
 
-   - Show transactions and filter them
+   - Show transactions by tracker type and filter them
+   - TODO: extened filtering and sorting options
 
 ## TODO / Future Enhancements
 

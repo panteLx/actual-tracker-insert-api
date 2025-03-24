@@ -2,7 +2,7 @@
 'transactionTracker' }) %>
 <body data-debug-mode="<%= isDebugMode %>">
   <div class="container">
-    <h1>Transaktionstracker</h1>
+    <h1><%= trackerType === 'coffee' ? 'Kaffee' : 'Geld' %> Tracker</h1>
 
     <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
     trackerType }) %> <%- include('partials/alerts') %>

@@ -2,14 +2,10 @@
 'transactionsPanel' }) %>
 <body>
   <div class="container">
-    <h1>Transaktions Panel</h1>
+    <h1><%= trackerType === 'coffee' ? 'Kaffee' : 'Geld' %> Transaktionen</h1>
 
     <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
-    "panel" }) %><%- include('partials/alerts') %>
-
-    <div class="alert debug">
-      Aktuell werden nur Transaktionen aus dem Kaffee Budget angezeigt.
-    </div>
+    trackerType }) %><%- include('partials/alerts') %>
 
     <div class="log-controls">
       <input

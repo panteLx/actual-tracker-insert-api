@@ -7,7 +7,15 @@ import { formatDateTime } from "../utils/helpers.js";
 const router = express.Router();
 
 router.get("/transactions", async (req, res) => {
-  const budgetId = config.actual.coffeeBudgetId;
+  // Get tracker type from query parameter, default to coffee
+  const trackerType = req.query.tracker || "coffee";
+
+  // Get budget ID based on tracker type
+  const budgetId =
+    trackerType === "coffee"
+      ? config.actual.coffeeBudgetId
+      : config.actual.moneyBudgetId;
+
   await actualService.initializeWithBudget(budgetId);
 
   const transactions = await actualService.runQuery(
@@ -17,7 +25,6 @@ router.get("/transactions", async (req, res) => {
   );
 
   const payees = await actualService.getPayees();
-
   const categories = await actualService.getCategories();
 
   const versions = await getAssetVersions([
@@ -42,7 +49,8 @@ router.get("/transactions", async (req, res) => {
     errorMessage,
     debug,
     navItems: getNavigationItems("transactions"),
-    currentPage: "panel",
+    currentPage: trackerType,
+    trackerType,
   });
 });
 

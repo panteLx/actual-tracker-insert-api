@@ -1,52 +1,46 @@
-<div class="tracker-switch">
-  <% if (typeof navItems === 'object' && navItems.items) { %> <%
-  navItems.items.forEach(function(item) { %>
-  <a
-    href="<%= item.url %>"
-    class="<%= currentPage === item.id ? 'active' : '' %>"
-  >
-    <%= item.label %>
-  </a>
-  <% }); %> <% if (navItems.currentSection === 'admin') { %>
-  <a href="/" class="section-link">Tracker</a>
-  <a href="/transactions" class="section-link">Transaktionen</a>
-  <a href="/schedules" class="section-link">Termine</a>
-  <a href="/user" class="section-link">User</a>
+<nav class="navbar">
+  <div class="main-nav">
+    <a
+      href="/"
+      class="<%= navItems.currentSection === 'tracker' ? 'active' : '' %>"
+      >Tracker</a
+    >
+    <a
+      href="/transactions"
+      class="<%= navItems.currentSection === 'transactions' ? 'active' : '' %>"
+      >Transaktionen</a
+    >
+    <a
+      href="/schedules"
+      class="<%= navItems.currentSection === 'schedules' ? 'active' : '' %>"
+      >Termine</a
+    >
+    <a
+      href="/user"
+      class="<%= navItems.currentSection === 'user' ? 'active' : '' %>"
+      >User</a
+    >
+    <% if (userGroups.includes('global-admins')) { %>
+    <a
+      href="/admin"
+      class="<%= navItems.currentSection === 'admin' ? 'active' : '' %>"
+      >Admin</a
+    >
+    <% } %>
+    <a href="/auth/logout">Logout</a>
+  </div>
 
-  <% } %> <% if (navItems.currentSection === 'tracker') { %>
-  <a href="/transactions" class="section-link">Transaktionen</a>
-  <a href="/schedules" class="section-link">Termine</a>
-  <a href="/user" class="section-link">User</a>
-
-  <% } %> <% if (navItems.currentSection === 'tracker' &&
-  userGroups.includes('global-admins')) { %>
-  <a href="/admin" class="section-link">Admin</a>
-
-  <% } %> <% if (navItems.currentSection === 'user') { %>
-  <a href="/" class="section-link">Tracker</a>
-  <a href="/transactions" class="section-link">Transaktionen</a>
-  <a href="/schedules" class="section-link">Termine</a>
-  <% } %> <% if (navItems.currentSection === 'user' &&
-  userGroups.includes('global-admins')) { %>
-  <a href="/admin" class="section-link">Admin</a>
-
-  <% } %> <% if (navItems.currentSection === 'schedules') { %>
-  <a href="/" class="section-link">Tracker</a>
-  <a href="/transactions" class="section-link">Transaktionen</a>
-  <a href="/user" class="section-link">User</a>
-  <% } %> <% if (navItems.currentSection === 'schedules' &&
-  userGroups.includes('global-admins')) { %>
-  <a href="/admin" class="section-link">Admin</a>
-
-  <% } %> <% if (navItems.currentSection === 'transactions') { %>
-  <a href="/" class="section-link">Tracker</a>
-  <a href="/schedules" class="section-link">Termine</a>
-  <a href="/user" class="section-link">User</a>
-  <% } %> <% if (navItems.currentSection === 'transactions' &&
-  userGroups.includes('global-admins')) { %>
-  <a href="/admin" class="section-link">Admin</a>
-
-  <% } } %>
-
-  <a href="/auth/logout">Logout</a>
-</div>
+  <% if (navItems.items && navItems.items.length > 0 && !(navItems.items.length
+  === 1 && navItems.items[0].id === "panel")) { %>
+  <div class="secondary-nav">
+    <% navItems.items.forEach(function(item) { %>
+    <a
+      href="<%= item.url %>"
+      class="<%= currentPage === item.id ? 'active' : '' %>"
+    >
+      <%= item.label %>
+    </a>
+    <% }); %>
+  </div>
+  <% } %>
+</nav>

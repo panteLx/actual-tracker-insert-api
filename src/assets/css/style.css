@@ -221,64 +221,6 @@ button:disabled {
   white-space: pre-wrap; /* Preserves whitespace and wraps text */
 }
 
-.tracker-switch {
-  display: flex;
-  flex-direction: row;
-  overflow-x: scroll; /* Allow horizontal scrolling */
-  padding-bottom: 0.5rem;
-  margin: 1rem 0;
-  white-space: nowrap;
-}
-
-/* Hide scrollbar for WebKit browsers */
-.tracker-switch::-webkit-scrollbar {
-  display: none; /* Hide scrollbar */
-}
-
-/* Hide scrollbar for Firefox */
-.tracker-switch {
-  scrollbar-width: none; /* Hide scrollbar for Firefox */
-}
-
-.tracker-switch a {
-  text-decoration: none;
-  text-align: center;
-  text-decoration: none;
-  color: var(--muted-foreground);
-  background-color: var(--muted);
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  transition: all 0.2s ease;
-  flex: 0 0 auto;
-  margin-right: 0.5rem;
-}
-
-.tracker-switch a:last-child {
-  margin-right: 0;
-}
-
-.tracker-switch a:hover {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
-}
-
-@media (min-width: 768px) {
-  /* .tracker-switch {
-    justify-content: center;
-  } */
-
-  .tracker-switch a {
-    width: auto;
-  }
-}
-
-.tracker-switch a.active {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-}
-
 #newPayeeDiv {
   display: none;
 }
@@ -676,4 +618,80 @@ select {
 
 .theme-toggle-dark {
   right: 8px;
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  gap: 0.75rem;
+}
+
+.main-nav {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.main-nav::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+.secondary-nav {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.secondary-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.navbar a {
+  text-decoration: none;
+  text-align: center;
+  color: var(--muted-foreground);
+  background-color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+}
+
+.navbar a:last-child {
+  margin-right: 0;
+}
+
+.navbar a:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.navbar a.active {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .main-nav,
+  .secondary-nav {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .navbar a {
+    margin-right: 0; /* Remove right margin since we're using gap */
+  }
 }

@@ -232,6 +232,28 @@ class ActualService {
     }
   }
 
+  async getAccountBalance(accountId) {
+    const startTime = logFunctionCall("ActualService.getAccountBalance", {
+      accountId,
+    });
+    try {
+      this.lastUsedTime = Date.now();
+      const accountBalance = await api.getAccountBalance(accountId);
+      logger.debug("Account balance retrieved successfully", {
+        accountBalance,
+      });
+      logFunctionCall(
+        "ActualService.getAccountBalance",
+        { success: true },
+        startTime
+      );
+      return accountBalance;
+    } catch (error) {
+      logFunctionError("ActualService.getAccountBalance", error, startTime);
+      throw error;
+    }
+  }
+
   async shutdown() {
     const startTime = logFunctionCall("ActualService.shutdown");
     try {

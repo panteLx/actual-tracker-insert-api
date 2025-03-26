@@ -7,6 +7,17 @@
     <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
     trackerType }) %><%- include('partials/alerts') %>
 
+    <div class="overview-container">
+      <div class="overview-item">
+        <span class="overview-item-label">Account Balance</span>
+        <span
+          class="overview-item-value <%= accountBalance >= 0 ? 'positive' : 'negative' %>"
+        >
+          <%= (accountBalance / 100).toFixed(2) %>€
+        </span>
+      </div>
+    </div>
+
     <div class="log-controls">
       <input
         type="text"

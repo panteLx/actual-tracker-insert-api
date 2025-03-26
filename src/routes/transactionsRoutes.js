@@ -24,6 +24,12 @@ router.get("/transactions", async (req, res) => {
     {}
   );
 
+  const accountBalance = await actualService.getAccountBalance(
+    trackerType === "coffee"
+      ? config.actual.coffeeAccountId
+      : config.actual.moneyAccountId
+  );
+
   const payees = await actualService.getPayees();
   const categories = await actualService.getCategories();
 
@@ -51,6 +57,7 @@ router.get("/transactions", async (req, res) => {
     navItems: getNavigationItems("transactions"),
     currentPage: trackerType,
     trackerType,
+    accountBalance,
   });
 });
 

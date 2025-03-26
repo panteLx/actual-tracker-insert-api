@@ -43,6 +43,18 @@ router.get("/", async (req, res) => {
       actualService.getCategories(),
     ]);
 
+    const accountBalance = await actualService.getAccountBalance(
+      trackerType === "coffee"
+        ? config.actual.coffeeAccountId
+        : config.actual.moneyAccountId
+    );
+
+    const transactions = await actualService.runQuery(
+      "transactions",
+      ["amount"],
+      {}
+    );
+
     res.render("transactionTracker", {
       NODE_ENV: config.NODE_ENV,
       trackerType,
@@ -58,6 +70,8 @@ router.get("/", async (req, res) => {
       debug,
       navItems: getNavigationItems("tracker"),
       currentPage: trackerType,
+      accountBalance,
+      transactions,
     });
   } catch (error) {
     console.error("Error in GET route:", error);

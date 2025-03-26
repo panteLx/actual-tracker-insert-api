@@ -167,9 +167,9 @@ Open your browser and navigate to [http://<host>:<port>](http://<host>:<port>) t
 4. **Data Management**
 
    - ~~Add transaction/schedule search functionality and filtering~~
-   - Add basic reporting and statistics
+   - ~~Add basic reporting and statistics~~
    - Add batch transaction import
-   - Add overview container (total income, total expenses)
+   - ~~Add overview container (total income, total expenses)~~
 
 5. **System Enhancements**
 

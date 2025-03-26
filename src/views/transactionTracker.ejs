@@ -12,7 +12,7 @@
         <span class="overview-item-label">Letzte Transaktion</span>
         <span
           class="overview-item-value <%= transactions.data[0].amount < 0 ? 'negative' : 'positive' %>"
-          ><%= transactions.data[0].amount / 100 %>€</span
+          ><%= (transactions.data[0].amount / 100).toFixed(2) %>€</span
         >
       </div>
 

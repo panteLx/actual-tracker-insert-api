@@ -695,3 +695,44 @@ select {
     margin-right: 0; /* Remove right margin since we're using gap */
   }
 }
+
+.overview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  background-color: var(--card);
+}
+
+.overview-item {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--background);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.overview-item-label {
+  font-size: var(--font-size-sm);
+  color: var(--muted-foreground);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.overview-item-value {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.overview-item-value.positive {
+  color: #10b981; /* Green for positive values */
+}
+
+.overview-item-value.negative {
+  color: var(--destructive); /* Red for negative values */
+}

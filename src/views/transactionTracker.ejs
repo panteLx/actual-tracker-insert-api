@@ -7,17 +7,29 @@
     <%- include('partials/tracker-switch', { navItems: navItems, currentPage:
     trackerType }) %> <%- include('partials/alerts') %>
 
-    <!-- TODO: Add overview container -->
-    <!-- <div class="overview-container">
+    <div class="overview-container">
       <div class="overview-item">
-        <span class="overview-item-label">Gesamteinnahmen</span>
-        <span class="overview-item-value">10€</span>
+        <span class="overview-item-label">Letzte Transaktion</span>
+        <span
+          class="overview-item-value <%= transactions.data[0].amount < 0 ? 'negative' : 'positive' %>"
+          ><%= (transactions.data[0].amount / 100).toFixed(2) %>€</span
+        >
       </div>
+
       <div class="overview-item">
-        <span class="overview-item-label">Gesamtausgaben</span>
-        <span class="overview-item-value">10€</span>
+        <span class="overview-item-label">Transaktionen</span>
+        <span class="overview-item-value"><%= transactions.data.length %></span>
       </div>
-    </div> -->
+
+      <div class="overview-item">
+        <span class="overview-item-label">Account Balance</span>
+        <span
+          class="overview-item-value <%= accountBalance >= 0 ? 'positive' : 'negative' %>"
+        >
+          <%= (accountBalance / 100).toFixed(2) %>€
+        </span>
+      </div>
+    </div>
 
     <form action="/" method="POST" id="transactionForm">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>" />

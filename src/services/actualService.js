@@ -4,6 +4,8 @@ import logger, {
   logFunctionCall,
   logFunctionError,
 } from "../middleware/logger.js";
+import fs from "fs";
+import path from "path";
 
 class ActualService {
   constructor() {
@@ -11,7 +13,24 @@ class ActualService {
     this.currentBudgetId = null;
     this.lastUsedTime = null;
     this.reconnectTimeout = null;
-    logger.debug("ActualService instance created");
+    this.apiVersion = this._getApiVersion();
+    logger.debug("ActualService instance created", {
+      apiVersion: this.apiVersion,
+    });
+  }
+
+  _getApiVersion() {
+    try {
+      const packagePath = path.resolve(
+        process.cwd(),
+        "node_modules/@actual-app/api/package.json"
+      );
+      const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+      return packageJson.version;
+    } catch (error) {
+      logger.error("Error reading Actual API version:", error);
+      return "unknown";
+    }
   }
 
   async init() {
@@ -21,6 +40,7 @@ class ActualService {
         logger.debug("Initializing Actual API connection", {
           serverURL: config.actual.serverURL,
           dataDir: config.actual.dataDir,
+          apiVersion: this.apiVersion,
         });
 
         await api.init({
@@ -33,9 +53,16 @@ class ActualService {
         this.lastUsedTime = Date.now();
         this._scheduleReconnectCheck();
 
-        logger.debug("Actual API connection initialized successfully");
+        logger.debug("Actual API connection initialized successfully", {
+          apiVersion: this.apiVersion,
+        });
       } else {
-        logger.debug("Actual API already initialized, skipping initialization");
+        logger.debug(
+          "Actual API already initialized, skipping initialization",
+          {
+            apiVersion: this.apiVersion,
+          }
+        );
       }
       logFunctionCall("ActualService.init", {}, startTime);
       return true;

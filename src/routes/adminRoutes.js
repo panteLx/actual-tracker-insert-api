@@ -9,7 +9,7 @@ import {
 } from "../utils/helpers.js";
 import { promises as fsPromises } from "fs";
 import { configService } from "../services/configService.js";
-
+import { actualService } from "../services/actualService.js";
 const router = express.Router();
 
 // Middleware to check if the user is in the "global-admins" group
@@ -40,6 +40,7 @@ router.get("/admin", checkAdminGroup, async (req, res) => {
     directAddSubscriptions: config.directAddSubscriptions,
     isDebugMode: config.debug,
     NODE_ENV: config.NODE_ENV,
+    actualApiVersion: actualService.apiVersion,
     isDiscordDebug: config.discord.debug,
     discordWebhookUrl: config.discord.webhookUrl,
     discordPingRoleId: config.discord.pingRoleId,

@@ -91,6 +91,7 @@ const startServer = async () => {
       console.log(
         `${config.NODE_ENV} - Server running at http://${config.host}:${config.port}`
       );
+      console.log(`Actual API version: ${actualService.apiVersion}`);
     });
   } catch (error) {
     console.error("Error starting server:", error);

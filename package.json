@@ -1,7 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "@actual-app/api": "^25.4.0",
+    "@actual-app/api": "^25.5.0",
     "clean-css": "^5.3.3",
     "cookie-parser": "^1.4.7",
     "csurf": "^1.11.0",

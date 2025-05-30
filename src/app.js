@@ -29,6 +29,11 @@ const app = express();
 // Trust all proxies
 app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 
+const getDomainFromUrl = (url) => {
+  if (!url) return "";
+  return url.replace(/^https?:\/\//, "");
+};
+
 app.use(
   session({
     secret: config.sessionSecret,
@@ -37,6 +42,7 @@ app.use(
     cookie: {
       secure: config.NODE_ENV === "production",
       httpOnly: true,
+      domain: getDomainFromUrl(config.OIDC_APP_URL),
     },
   })
 );

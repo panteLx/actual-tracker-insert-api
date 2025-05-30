@@ -42,7 +42,7 @@ app.use(
     cookie: {
       secure: config.NODE_ENV === "production",
       httpOnly: true,
-      domain: getDomainFromUrl(config.OIDC_APP_URL),
+      domain: ".sebastianstahl.net",
     },
   })
 );

@@ -32,15 +32,11 @@ app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 app.use(
   session({
     secret: config.sessionSecret,
-    name: "actual.sid", // Custom session cookie name
-    resave: true, // Required for MemoryStore
-    saveUninitialized: true, // Required for auth flow
-    rolling: true, // Reset maxAge on every response
+    resave: false,
+    saveUninitialized: true,
     cookie: {
       secure: config.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: "lax",
     },
   })
 );

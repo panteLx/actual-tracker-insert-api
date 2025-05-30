@@ -42,7 +42,7 @@ app.use(
     cookie: {
       secure: config.NODE_ENV === "production",
       httpOnly: true,
-      domain: ".sebastianstahl.net",
+      // domain: ".sebastianstahl.net",
     },
   })
 );

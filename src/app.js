@@ -29,20 +29,18 @@ const app = express();
 // Trust all proxies
 app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 
-const getDomainFromUrl = (url) => {
-  if (!url) return "";
-  return url.replace(/^https?:\/\//, "");
-};
-
 app.use(
   session({
     secret: config.sessionSecret,
     resave: false,
     saveUninitialized: true,
+    proxy: true, // Trust proxy
     cookie: {
       secure: config.NODE_ENV === "production",
       httpOnly: true,
-      // domain: ".sebastianstahl.net",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },
   })
 );

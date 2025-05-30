@@ -36,9 +36,9 @@ app.use(
     saveUninitialized: true,
     proxy: true, // Trust proxy
     cookie: {
-      secure: config.NODE_ENV === "production",
+      secure: true, // Always use secure cookies with Cloudflare Tunnels
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "strict",
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },

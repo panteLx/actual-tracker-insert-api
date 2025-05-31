@@ -21,6 +21,8 @@ export const config = {
   port: process.env.PORT || 3000,
   host: process.env.HOST || "127.0.0.1",
   NODE_ENV: process.env.NODE_ENV || "development",
+  MONGODB_URI:
+    process.env.MONGODB_URI || "mongodb://localhost:27017/actual-tracker",
   debug: persistedSettings.debug ?? process.env.DEBUG === "true",
   sessionSecret: process.env.SESSION_SECRET,
   serverIp: persistedSettings?.serverIp || process.env.SERVER_IP || "127.0.0.1",

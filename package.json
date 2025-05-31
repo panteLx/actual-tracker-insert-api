@@ -3,6 +3,7 @@
   "dependencies": {
     "@actual-app/api": "^25.5.0",
     "clean-css": "^5.3.3",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "csurf": "^1.11.0",
     "dotenv": "^16.5.0",

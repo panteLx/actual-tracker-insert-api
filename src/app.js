@@ -6,6 +6,7 @@ import { config } from "./config/config.js";
 import { actualService } from "./services/actualService.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import crypto from "crypto";
 
 import { limiter } from "./middleware/rateLimiter.js";
@@ -33,15 +34,19 @@ app.use(
   session({
     secret: config.sessionSecret,
     resave: false,
-    saveUninitialized: true,
-    proxy: true, // Trust proxy
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      ttl: 24 * 60 * 60, // 1 day
+      autoRemove: "native",
+    }),
     cookie: {
-      secure: true, // Always use secure cookies with Cloudflare Tunnels
+      secure: "auto",
       httpOnly: true,
-      sameSite: "strict",
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
+    proxy: true,
   })
 );
 

@@ -33,8 +33,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       express-rate-limit:
-        specifier: ^7.5.0
-        version: 7.5.0(express@5.1.0)
+        specifier: ^7.5.1
+        version: 7.5.1(express@5.1.0)
       express-session:
         specifier: ^1.18.1
         version: 1.18.1
@@ -77,8 +77,8 @@ packages:
   '@dabh/diagnostics@2.0.3':
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
 
-  '@mongodb-js/saslprep@1.2.2':
-    resolution: {integrity: sha512-EB0O3SCSNRUFk66iRCpI+cXzIjdswfCs7F6nOC3RAGJ7xr5YhaicvsRwJ9eyzYvYRlCSDUO/c7g4yNulxKC1WA==}
+  '@mongodb-js/saslprep@1.3.0':
+    resolution: {integrity: sha512-zlayKCsIjYb7/IdfqxorK5+xUMyi4vOKcFy10wKJYc63NSdKI8mNME+uJqfatkPmOSMMUiojrL58IePKBm3gvQ==}
 
   '@types/triple-beam@1.3.5':
     resolution: {integrity: sha512-6WaYesThRMCl19iryMYP7/x2OVgCtbIVflDGFpWnb9irXI3UjYE4AzmYuiUKY1AJstGijoY+MgUszMgRxIYTYw==}
@@ -340,11 +340,11 @@ packages:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
     engines: {node: '>=6'}
 
-  express-rate-limit@7.5.0:
-    resolution: {integrity: sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==}
+  express-rate-limit@7.5.1:
+    resolution: {integrity: sha512-7iN8iPMDzOMHPUYllBEsQdWVB6fPDMPqwjBaFrgr4Jgr/+okjvzAy+UHlYYL/Vs0OsOrMkwS6PJDkFlJwoxUnw==}
     engines: {node: '>= 16'}
     peerDependencies:
-      express: ^4.11 || 5 || ^5.0.0-beta.1
+      express: '>= 4.11'
 
   express-session@1.18.1:
     resolution: {integrity: sha512-a5mtTqEaZvBCL9A9aqkrtfz+3SMDhOVUnjafjo+s7A9Txkq+SVX2DLvSp1Zrv4uCXa3lMSK3viWnh9Gg07PBUA==}
@@ -920,7 +920,7 @@ snapshots:
       enabled: 2.0.0
       kuler: 2.0.0
 
-  '@mongodb-js/saslprep@1.2.2':
+  '@mongodb-js/saslprep@1.3.0':
     dependencies:
       sparse-bitfield: 3.0.3
 
@@ -1172,7 +1172,7 @@ snapshots:
 
   expand-template@2.0.3: {}
 
-  express-rate-limit@7.5.0(express@5.1.0):
+  express-rate-limit@7.5.1(express@5.1.0):
     dependencies:
       express: 5.1.0
 
@@ -1432,7 +1432,7 @@ snapshots:
 
   mongodb@6.16.0:
     dependencies:
-      '@mongodb-js/saslprep': 1.2.2
+      '@mongodb-js/saslprep': 1.3.0
       bson: 6.10.4
       mongodb-connection-string-url: 3.0.2
 

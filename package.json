@@ -19,7 +19,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^10.0.0"
   },
   "scripts": {
     "dev": "node minify.js && cross-env NODE_ENV=development node src/app.js",

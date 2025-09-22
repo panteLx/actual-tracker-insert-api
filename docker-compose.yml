@@ -1,0 +1,56 @@
+services:
+  app:
+    build: .
+    container_name: actual-insert
+    ports:
+      - "3000:3000"
+    # environment:
+    # Add your environment variables here, or use env_file
+    # - NODE_ENV=production
+    env_file:
+      - .env.production
+    # volumes:
+    #   - .:/app
+    restart: unless-stopped
+    networks:
+      - actual-network
+      - proxy-network
+    depends_on:
+      - actual_server
+      - mongo-db
+
+  actual_server:
+    container_name: actual-server
+    image: docker.io/actualbudget/actual-server:latest
+    ports:
+      - "5006:5006"
+    environment:
+      - ACTUAL_LOGIN_METHOD=openid
+      - DEBUG
+      - ACTUAL_ALLOWED_LOGIN_METHODS=password,openid
+      - ACTUAL_TRUSTED_PROXIES=195.14.217.253,2a0a:a547:14ba:0:3c50:bfaf:1d21:4f79,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fc00::/7,::1/128,152.53.46.238
+    volumes:
+      - actual-server_actual-data:/data
+    restart: unless-stopped
+    networks:
+      - actual-network
+      - proxy-network
+
+  mongo-db:
+    container_name: actual-insert-db
+    image: mongo:5.0
+    volumes:
+      - mongodata:/data/db
+    restart: unless-stopped
+    networks:
+      - actual-network
+
+volumes:
+  actual-server_actual-data:
+    external: true
+  mongodata:
+
+networks:
+  actual-network:
+  proxy-network:
+    external: true

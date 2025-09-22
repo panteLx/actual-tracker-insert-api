@@ -7,4 +7,3 @@ logs/*
 !public/js/.gitkeep
 /public/css/*
 !public/css/.gitkeep
-/src/config/settings.json

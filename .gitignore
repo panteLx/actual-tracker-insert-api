@@ -2,7 +2,9 @@
 .env.development
 node_modules
 data/*
+!data/.gitkeep
 logs/*
+!logs/.gitkeep
 /public/js/*
 !public/js/.gitkeep
 /public/css/*

@@ -2,8 +2,8 @@ services:
   app:
     build: .
     container_name: actual-insert
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     # environment:
     # Add your environment variables here, or use env_file
     # - NODE_ENV=production
@@ -22,8 +22,8 @@ services:
   actual_server:
     container_name: actual-server
     image: docker.io/actualbudget/actual-server:latest
-    ports:
-      - "5006:5006"
+    # ports:
+    #   - "5006:5006"
     environment:
       - ACTUAL_LOGIN_METHOD=openid
       - DEBUG

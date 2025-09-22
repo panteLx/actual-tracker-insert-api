@@ -1,10 +1,1 @@
-{
-  "debug": false,
-  "locale": "de-DE",
-  "timezone": "Europe/Berlin",
-  "discord": {
-    "webhookUrl": "https://discord.com/api/webhooks/xxxx/xx-xx-xx",
-    "debug": false
-  },
-  "serverIp": "0.0.0.0"
-}
+{}

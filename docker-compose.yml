@@ -20,7 +20,7 @@ services:
       - mongo-db
 
   actual_server:
-    container_name: actual-server
+    container_name: actual-insert-server
     image: docker.io/actualbudget/actual-server:latest
     # ports:
     #   - "5006:5006"

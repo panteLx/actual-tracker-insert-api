@@ -2,13 +2,13 @@ services:
   app:
     build: .
     container_name: actual-insert
+    # Not exposing ports, as the service is behind a reverse proxy - uncomment if needed
     # ports:
     #   - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     env_file:
-      #  - .env.development
-      - .env.production
-    # volumes:
-    #   - .:/app
+      - ${ENV_FILE:-.env.production}
     restart: unless-stopped
     networks:
       - actual-network

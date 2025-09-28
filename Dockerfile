@@ -4,6 +4,9 @@ FROM node:20-slim
 # Set working directory
 WORKDIR /app
 
+# Install git
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 # Copy package.json and pnpm-lock.yaml
 COPY package.json pnpm-lock.yaml ./
 
@@ -19,8 +22,12 @@ COPY . .
 # Expose port (change if your app uses a different port)
 EXPOSE 3000
 
-# Set environment variable for production (optional)
-# ENV NODE_ENV=production
+# Set environment variable with a default value
+ENV NODE_ENV=production
 
-# Start the application
-CMD ["pnpm", "run", "start"]
+# Start the application based on NODE_ENV
+CMD if [ "$NODE_ENV" = "production" ] ; then \
+        pnpm run start ; \
+    else \
+        pnpm run dev ; \
+    fi

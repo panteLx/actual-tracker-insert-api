@@ -7,9 +7,9 @@ WORKDIR /app
 # Install git
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
-# Get commit hash during build
-ARG GIT_COMMIT
-ENV GIT_COMMIT=$GIT_COMMIT
+# Set build argument for commit hash
+ARG COMMIT_HASH=unknown
+ENV GIT_COMMIT=$COMMIT_HASH
 
 # Copy package.json and pnpm-lock.yaml
 COPY package.json pnpm-lock.yaml ./

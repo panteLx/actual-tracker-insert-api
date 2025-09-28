@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        - GIT_COMMIT=${COMMIT_HASH:-$(git rev-parse HEAD)}
+        COMMIT_HASH: ${COMMIT_HASH:-unknown}
     container_name: actual-insert
     # Not exposing ports, as the service is behind a reverse proxy - uncomment if needed
     # ports:

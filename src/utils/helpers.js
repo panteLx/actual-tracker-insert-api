@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
-import { exec } from "child_process";
 import { config } from "../config/config.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +11,16 @@ const __dirname = path.dirname(__filename);
  * @returns {string} Current date in YYYY-MM-DD format
  */
 export const getCurrentDate = () => new Date().toISOString().split("T")[0];
+
+/**
+ * Gets the latest commit hash from environment variable or returns 'unknown'
+ * @returns {Object} Object containing full and short commit hash
+ */
+export const getLatestCommitHash = async () => {
+  const fullHash = process.env.GIT_COMMIT || "unknown";
+  const shortHash = fullHash.substring(0, 7);
+  return { fullHash, shortHash };
+};
 
 /**
  * Gets the file version based on last modified timestamp
@@ -73,19 +82,6 @@ export const validateTransaction = (transaction) => {
  */
 export const createDebugMessage = (data) => {
   return JSON.stringify(data, null, 2);
-};
-
-export const getLatestCommitHash = () => {
-  return new Promise((resolve, reject) => {
-    exec("git rev-parse HEAD", (error, stdout) => {
-      if (error) {
-        return reject(error);
-      }
-      const fullHash = stdout.trim();
-      const shortHash = fullHash.substring(0, 7); // Get the first 7 characters
-      resolve({ fullHash, shortHash });
-    });
-  });
 };
 
 export const getNavigationItems = (currentPage) => {

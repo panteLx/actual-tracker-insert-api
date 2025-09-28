@@ -3,8 +3,8 @@ import { getLatestCommitHash } from "../utils/helpers.js";
 export const getLatestCommitHashMiddleware = async (req, res, next) => {
   try {
     const { fullHash, shortHash } = await getLatestCommitHash();
-    res.locals.commitHash = shortHash; // Make the short hash available in all views
-    res.locals.fullCommitHash = fullHash; // Keep the full hash for linking
+    res.locals.commitHash = shortHash === "unknow" ? "dev" : shortHash; // Use 'dev' when no hash available
+    res.locals.fullCommitHash = fullHash === "unknown" ? "" : fullHash; // Empty string when no hash available
     next();
   } catch (error) {
     console.error("Error getting commit hash:", error);

@@ -1,7 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "@actual-app/api": "^25.9.0",
+    "@actual-app/api": "^25.10.0",
     "clean-css": "^5.3.3",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
